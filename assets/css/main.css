@@ -1,0 +1,17 @@
+:root {
+  --primary: #D99873;
+  --secondary: #73685F;
+  --tertiary: #40352C;
+  --light: #F2E3D5;
+  --dark: #0D0000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--light);
+}
