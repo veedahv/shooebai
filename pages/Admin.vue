@@ -96,27 +96,41 @@
         </div>
         <div class="form-group">
           <label for="product-sale">Flash Sale:</label>
-          <select
+          <input
+            type="checkbox"
             name="product-sale"
-            class="border-2 border-red-500"
             id="product-sale"
-            v-model="flashSale"
+            class="border-2 border-red-500"
+            :checked="flashSale"
+          />
+          <!-- <select
+            name=""
+           
+            id=""
+            v-model=""
           >
             <option value="1">False</option>
             <option value="2">True</option>
-          </select>
+          </select> -->
         </div>
         <div class="form-group">
           <label for="product-new">new:</label>
-          <select
+          <input
+            type="checkbox"
             name="product-new"
             id="product-new"
             class="border-2 border-red-500"
-            v-model="newProduct"
+            :checked="newProduct"
+          />
+          <!-- <select
+            name=""
+            id=""
+           
+            v-model=""
           >
             <option value="1">False</option>
             <option value="2">True</option>
-          </select>
+          </select> -->
         </div>
         <div class="form-group">
           <label for="product-rating">rating:</label>
@@ -179,8 +193,8 @@ export default {
       discount: "",
       productImage: "",
       descripion: "",
-      flashSale: "",
-      newProduct: "",
+      flashSale: false,
+      newProduct: false,
       rating: 0,
       tags: [],
       // newProduct: {
@@ -222,20 +236,20 @@ export default {
       this.generateId();
       const ref = this.$fire.firestore.collection("products").doc("product");
       console.log(ref);
-      const newProduct =  {
-          productId: this.productId,
-          productName: this.productName,
-          productPrice: this.productPrice,
-          availableQuantity: this.availableQuantity,
-          discount: this.discount,
-          productImage: this.productImage,
-          descripion: this.descripion,
-          flashSale: this.flashSale,
-          newProduct: this.newProduct,
-          rating: this.rating,
-          tags: this.tags,
-        };
-        this.products.push(newProduct);
+      const newProduct = {
+        productId: this.productId,
+        productName: this.productName,
+        productPrice: this.productPrice,
+        availableQuantity: this.availableQuantity,
+        discount: this.discount,
+        productImage: this.productImage,
+        descripion: this.descripion,
+        flashSale: this.flashSale,
+        newProduct: this.newProduct,
+        rating: this.rating,
+        tags: this.tags,
+      };
+      this.products.push(newProduct);
       // const document = {
       //   text: "This is a test message.",
       // };
@@ -267,7 +281,7 @@ export default {
       this.$refs.imageFile.click();
     },
     uploadImageFile(files) {
-      console.log('affgf');
+      console.log("affgf");
       const storage = this.$fire.storage;
       if (!files.length) {
         return;

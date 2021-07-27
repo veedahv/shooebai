@@ -2,7 +2,7 @@
   <div>
     <div class="product">
       <span class="flash-sale" v-if="product.flashSale">Flash sale</span>
-      <span class="new-sale" v-if="product.new">New</span>
+      <span class="new-sale" v-if="product.newProduct">New</span>
       <div class="product-img">
         <img :src="product.productImage" alt="" />
       </div>
