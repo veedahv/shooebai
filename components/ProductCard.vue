@@ -1,6 +1,11 @@
 <template>
   <div>
     <div class="product">
+      <nuxt-link
+        :to="{ name: 'ProductDetailsCard', params: { id: product.id } }"
+      >
+        Details
+      </nuxt-link>
       <span class="flash-sale" v-if="product.flashSale">Flash sale</span>
       <span class="new-sale" v-if="product.newProduct">New</span>
       <div class="product-img">
@@ -14,20 +19,20 @@
         <div class="product-btn-box">
           <button class="product-btn">
             <span v-if="product.fav">
-            <i class="fa fa-heart" aria-hidden="true"></i>
+              <i class="fa fa-heart" aria-hidden="true"></i>
             </span>
             <span v-else>
-            <i class="fa fa-heart-o" aria-hidden="true"></i>
+              <i class="fa fa-heart-o" aria-hidden="true"></i>
             </span>
           </button>
           <button class="product-btn">
-              <span class="in" v-if="product.inShop">
+            <span class="in" v-if="product.inShop">
               <i class="fa fa-cart-plus" aria-hidden="true"></i>
-              </span>
-              <span class="minus" v-else>
-                  <span class="minus">-</span>
-                  <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-              </span>
+            </span>
+            <span class="minus" v-else>
+              <span class="minus">-</span>
+              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+            </span>
           </button>
         </div>
       </div>
