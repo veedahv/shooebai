@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Navigation></Navigation>
+    <!-- <Navigation></Navigation> -->
     <Carousel></Carousel>
     <section>
       <div class="container py-25 mx-auto">
@@ -40,14 +40,14 @@
 // import Signin from "../components/signin";
 // import Signup from "../components/signup";
 import ProductCard from "../components/ProductCard";
-import Navigation from '../components/Navigation';
+// import Navigation from '../components/Navigation';
 import Carousel from "../components/Carousel";
 export default {
   components: {
     // Signin,
     // Signup,
     ProductCard,
-    Navigation,
+    // Navigation,
     Carousel,
   },
   data() {

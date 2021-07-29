@@ -3,8 +3,13 @@
     <div class="container p-5 mx-auto">
       <div class="max-w-screen-sm mx-auto h-full">
         <div class="flex justify-center w-full">
-          <Signup></Signup>
-          <Signin></Signin>
+          <!-- <Signup></Signup> -->
+          <!-- <Signin></Signin> -->
+          <!-- <Signin v-on:signInUp="viewSignInUp = !viewSignInUp" v-if="viewSignInUp"></Signin> -->
+          <!-- <Signin v-on:signInUp="signInUp" :signUp="signUp" v-if="viewSignIn"></Signin> -->
+          <!-- <Signin v-on:signInUp="signInOut" v-if="viewSignIn"></Signin> -->
+          <Signin v-on:signInUp="signInOut" @signUp="viewSignIn = !viewSignIn" v-if="viewSignIn"></Signin>
+          <Signup v-on:signInUp="signInOut" @signIn="viewSignIn = !viewSignIn"  v-else></Signup>
         </div>
       </div>
     </div>
@@ -12,39 +17,45 @@
 </template>
 
 <script>
-
-import Signin from './signin'
-import Signup from './signup'
+import Signin from "./signin";
+import Signup from "./signup";
 export default {
   components: {
-    Signin, Signup },
+    Signin,
+    Signup,
+  },
   data() {
     return {
-      signIn: true
+      viewSignIn: true,
     };
   },
   methods: {
-    updateSignInOut() {
-    //   this.$emit('update', this.viewSignInUp);
-      this.$emit('signInUp');
+    signInOut() {
+      //   this.$emit('update', this.viewSignInUp);
+      this.$emit("signInUp");
     },
-    signIn() {
-        console.log(this.password);
-      this.$fire.auth
-        .signInWithEmailAndPassword(this.email, this.password)
-        .then((userCredential) => {
-          // Signed in
-          var user = userCredential.user;
-          // ...
-          console.log(user);
-          this.updateSignInOut();
-        })
-        .catch((error) => {
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // ..
-        });
-    },
+    // updateSignInUp() {
+    //   this.viewSignIn = false;
+    //   //   this.$emit('update', this.viewSignInUp);
+    //   // this.$emit("signInUp");
+    // },
+    // signIn() {
+    //   console.log(this.password);
+    //   this.$fire.auth
+    //     .signInWithEmailAndPassword(this.email, this.password)
+    //     .then((userCredential) => {
+    //       // Signed in
+    //       var user = userCredential.user;
+    //       // ...
+    //       console.log(user);
+    //       this.updateSignInOut();
+    //     })
+    //     .catch((error) => {
+    //       var errorCode = error.code;
+    //       var errorMessage = error.message;
+    //       // ..
+    //     });
+    // },
     //     firebase.auth().signInWithEmailAndPassword(email, password)
     //   .then((userCredential) => {
     //     // Signed in

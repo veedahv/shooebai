@@ -15,18 +15,21 @@
       </div>
     </div>
     <!-- <Signin v-on:signInUp="signInUp" v-if="viewSignInUp"></Signin> -->
-    <Signin v-on:signInUp="viewSignInUp = !viewSignInUp" v-if="viewSignInUp"></Signin>
+    <!-- <Signin v-on:signInUp="viewSignInUp = !viewSignInUp" v-if="viewSignInUp"></Signin> -->
+    <SignInOut v-on:signInUp="viewSignInUp = !viewSignInUp" v-if="viewSignInUp"></SignInOut>
     <!-- <Signup v-on:update="viewSignInUp" v-if="viewSignInUp"></Signup> -->
   </div>
 </template>
 
 <script>
+import SignInOut from './SignInOut'
 // import Signup from './signup'
-import Signin from './signin'
+// import Signin from './signin'
 export default {
   components: {
+    SignInOut,
     // Signup, 
-    Signin 
+    // Signin 
     },
   data() {
     return {

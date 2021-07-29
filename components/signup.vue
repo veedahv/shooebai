@@ -5,11 +5,11 @@
         <div class="flex justify-center w-full">
           <form
             @submit.prevent="createUser"
-            class="rounded-md color-dark bg-white w-full px-16 py-10"
+            class=" color-dark bg-white w-full px-16 py-10"
           >
             <div class="sub-heading-box text-center py-2">
-              <!-- <h2 class="sub-heading color-primary font-bold text-4xl py-2">Welcome Back</h2> -->
-              <h2 class="sub-heading color-primary font-bold text-4xl py-2">Sho_oebai</h2>
+              <h2 class="sub-heading color-primary font-bold text-xl py-2">Sho_oebai</h2>
+              <h3 class="sub-heading color-primary font-bold capitalize text-4xl py-2">create account</h3>
             </div>
             <div class="form-group my-4">
               <label for="email" class="capitalize font-medium">email</label>
@@ -17,7 +17,7 @@
                 type="email"
                 name="email"
                 id="email"
-                class="rounded-md border px-4 py-2 block w-full"
+                class="border px-4 py-2 block w-full"
                 placeholder="email"
                 v-model="email"
               />
@@ -30,15 +30,16 @@
                 type="password"
                 name="password"
                 id="password"
-                class="rounded-md border px-4 py-2 block w-full"
+                class="border px-4 py-2 block w-full"
                 placeholder="Password"
                 v-model="password"
               />
             </div>
             <div class="form-group my-4">
+              <!-- rounded-md -->
               <button
                 type="submit"
-                class="rounded-md color-dark bg-primary w-full capitalize font-medium px-4 py-2"
+                class=" color-dark bg-primary w-full capitalize font-medium px-4 py-2"
               >
                 Sign up
               </button>
@@ -55,8 +56,9 @@
               <button
                 type="button"
                 class="color-dark capitalize font-medium"
+                @click="goToSignIn"
               >
-                create account
+                login account
               </button>
             </div>
           </form>
@@ -73,12 +75,23 @@ export default {
     return {
       email: "",
       password: "",
-      viewSignInUp: false
+      // viewSignInUp: false
     };
   },
   methods: {
     updateSignInOut() {
-      this.$emit('update', this.viewSignInUp);
+    //   this.$emit('update', this.viewSignInUp);
+      this.$emit('signInUp'); 
+    },
+    updateSignIn() {
+      // console.log('hmm');
+    //   this.$emit('update', this.viewSignInUp);
+      this.$emit('signIn'); 
+    },
+    goToSignIn() {
+      console.log('hmm');
+    //   this.$emit('update', this.viewSignInUp);
+      this.updateSignIn();
     },
     createUser() {
       this.$fire.auth
