@@ -3,13 +3,14 @@
     <!-- <Navigation></Navigation> -->
     <Carousel></Carousel>
     <section>
-      <div class="container py-25 mx-auto">
+      <div class="container py-10 px-4 mx-auto">
         <div class="">
           <div class="sub-heading-box text-center py-5 relative">
+              <!-- class="border-0 bg-black w-full h-px inset-y-1/2 left-0 absolute" -->
             <hr
-              class="border-0 bg-black w-full h-px inset-y-1/2 left-0 absolute"
+              class="border-0 bg-white w-full h-px inset-y-1/2 left-0 absolute"
             />
-            <h2 class="sub-heading bg-white mx-auto py-2 w-min relative">
+            <h2 class="sub-heading bg-white mx-auto py-2 px-1 w-min relative">
               Trending
             </h2>
           </div>

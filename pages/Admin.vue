@@ -101,7 +101,7 @@
             name="product-sale"
             id="product-sale"
             class="border-2 border-red-500"
-            :checked="flashSale"
+            v-model="flashSale"
           />
           <!-- <select
             name=""
@@ -120,7 +120,7 @@
             name="product-new"
             id="product-new"
             class="border-2 border-red-500"
-            :checked="newProduct"
+            v-model="newProduct"
           />
           <!-- <select
             name=""
@@ -142,7 +142,7 @@
           >
             <option value="1">1</option>
             <option value="2">2</option>
-            <option value="2">2</option>
+            <option value="3">3</option>
             <option value="4">4</option>
             <option value="5">5</option>
           </select>
@@ -163,7 +163,6 @@
     </div>
     <section class="container">
       <div>
-        <h2>Write to Firestore.</h2>
         <div>
           <button @click="writeToFirestore" :disabled="writeSuccessful">
             <span v-if="!writeSuccessful">Write now</span>
@@ -197,9 +196,8 @@ export default {
       newProduct: false,
       rating: 0,
       tags: [],
-      // newProduct: {
-      // },
-      blog: {},
+      colors: [],
+      sizes: [],
       isUploadingImage: false,
       isDeletingImage: false,
       writeSuccessful: false,
@@ -231,28 +229,25 @@ export default {
       // });
     },
     async writeToFirestore() {
-      // console.log("hfgh");
-      // const ref = fireDb.collection("test").doc("test");
       this.generateId();
       const ref = this.$fire.firestore.collection("products").doc("product");
       console.log(ref);
       const newProduct = {
         productId: this.productId,
         productName: this.productName,
-        productPrice: this.productPrice,
-        availableQuantity: this.availableQuantity,
-        discount: this.discount,
+        productPrice: +this.productPrice,
+        availableQuantity: +this.availableQuantity,
+        discount: +this.discount,
         productImage: this.productImage,
         descripion: this.descripion,
         flashSale: this.flashSale,
         newProduct: this.newProduct,
-        rating: this.rating,
+        rating: +this.rating,
         tags: this.tags,
+        colors: this.colors,
+        sizes: this.sizes,
       };
       this.products.push(newProduct);
-      // const document = {
-      //   text: "This is a test message.",
-      // };
       const document = {
         products: this.products,
       };
@@ -319,36 +314,19 @@ export default {
       });
     },
     deleteImage() {
-      // this.$firebase
-      //   .storage()
-      //   .refFromURL(this.blog.imageUrl)
-      //   .delete()
-      //   .then(() => {
-      //     this.blog.imageUrl = "";
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error deleting image", error);
-      //   });
+      this.$fire.storage
+        .refFromURL(this.productImage)
+        .delete()
+        .then(() => {
+          this.productImage = "";
+        })
+        .catch((error) => {
+          console.error("Error deleting image", error);
+        });
     },
   },
   mounted() {
     this.readFromFirestore();
-    //   const ref = this.$fire.firestore.collection("products").doc("product");
-    // // const messagesRef = db.database().ref("messages");
-    // console.log(this.groups);
-    // messagesRef.on("value", (snapshot) => {
-    //   const data = snapshot.val();
-    //   let groupsArr = [];
-    //   Object.keys(data).forEach((key) => {
-    //     groupsArr.push({
-    //       id: key,
-    //       groupId: data[key].groupId,
-    //       hostname: data[key].hostname,
-    //       groupName: data[key].groupName,
-    //       groupMessages: data[key].groupMessages,
-    //     });
-    //   });
-    // });
   },
 };
 </script>

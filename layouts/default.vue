@@ -5,13 +5,15 @@
     </nav>
     <Nuxt />
     <footer>
-      <div>My footer</div>
+      <Footer></Footer>
     </footer>
   </div>
 </template>
 
 <script>
+import Footer from '../components/footer'
 import Navigation from '../components/Navigation'
 export default {
-  components: { Navigation },}
+  components: {
+    Footer, Navigation },}
 </script>

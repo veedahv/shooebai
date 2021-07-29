@@ -1,6 +1,19 @@
 <template>
   <div>
     <div class="product">
+      <!-- productId: "",
+      productName: "",
+      productPrice: "",
+      availableQuantity: "",
+      discount: "",
+      productImage: "",
+      descripion: "",
+      flashSale: false,
+      newProduct: false,
+      rating: 0,
+      tags: [],
+      colors: [],
+      sizes: [], -->
       <span class="flash-sale" v-if="product.flashSale">Flash sale</span>
       <span class="new-sale" v-if="product.newProduct">New</span>
       <div class="product-img">
