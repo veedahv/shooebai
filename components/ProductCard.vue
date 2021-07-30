@@ -19,21 +19,23 @@
         </span>
       </div>
       <div class="product-img">
-        <img :src="product.productImage" alt="" />
+        <nuxt-link
+          :to="{ name: 'ProductDetailsCard', params: { id: product.id } }"
+        >
+          <img :src="product.productImage" alt="" />
+        </nuxt-link>
       </div>
       <!-- <div class="product-info flex justify-between py-5 px-4 w-full items-center"> -->
-      <div class="product-info flex justify-between py-5 px-4 w-full items-start">
+      <div
+        class="product-info flex justify-between py-5 px-4 w-full items-start"
+      >
         <div class="product-details">
           <nuxt-link
             :to="{ name: 'ProductDetailsCard', params: { id: product.id } }"
           >
-          <p class="product-name font-bold">{{ product.productName }}</p>
+            <p class="product-name font-bold">{{ product.productName }}</p>
           </nuxt-link>
-          <nuxt-link
-            :to="{ name: 'ProductDetailsCard', params: { id: product.id } }"
-          >
           <p class="product-price font-medium">{{ product.productPrice }}</p>
-          </nuxt-link>
           <!-- <nuxt-link
             :to="{ name: 'ProductDetailsCard', params: { id: product.id } }"
           >
