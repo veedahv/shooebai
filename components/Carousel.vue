@@ -14,20 +14,21 @@
           :checked="slide.check"
         />
         <div class="carousel-item absolute opacity-0" style="height: 90vh">
+            <!-- class="block h-full w-full text-white bg-blend-overlay text-5xl text-center" -->
           <div
-            class="block h-full w-full text-white bg-blend-overlay text-5xl text-center"
+            class="block h-full w-full text-white bg-blend-overlay"
             :class="slide.id"
           >
-            <div class="container mx-auto">
-              <h1>
-                {{ slide.id }}
-              </h1>
-              <p>
-                {{ slide.id }}
-              </p>
-              <small>
+            <div class="container py-16 px-6 mx-auto">
+              <small class="font-medium">
                 {{ slide.id }}
               </small>
+              <h1 class="text-8xl font-extrabold color-primary">
+                {{ slide.id }}
+              </h1>
+              <p class="text-xl">
+                <em>{{ slide.id }}</em>
+              </p>
               Slide 1
             </div>
           </div>
