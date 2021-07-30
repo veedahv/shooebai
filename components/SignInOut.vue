@@ -1,8 +1,8 @@
 <template>
-  <div class="inset-0 fixed bg-black bg-opacity-30 z-20">
-    <div class="container p-5 mx-auto">
-      <div class="max-w-screen-sm mx-auto h-full">
-        <div class="flex justify-center w-full">
+  <div class="inset-0 fixed bg-black bg-opacity-30 z-20" @click.self="signInOut">
+    <div class="container p-5 mx-auto" @click.self="signInOut">
+      <div class="max-w-screen-sm mx-auto h-full" @click.self="signInOut">
+        <div class="flex justify-center w-full" @click.self="signInOut">
           <!-- <Signup></Signup> -->
           <!-- <Signin></Signin> -->
           <!-- <Signin v-on:signInUp="viewSignInUp = !viewSignInUp" v-if="viewSignInUp"></Signin> -->

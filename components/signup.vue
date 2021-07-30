@@ -79,6 +79,7 @@
 </template>
 
 <script>
+// import * as admin from "firebase-admin";
 export default {
   data() {
     return {
@@ -108,7 +109,6 @@ export default {
         userId: userId,
         displayName: this.displayName,
         email: this.email,
-        password: this.password,
         country: this.country,
         cart: this.cart,
         fav: this.fav
@@ -120,6 +120,25 @@ export default {
     },
     createUser() {
       // displayName
+      // admin.auth
+      //   .createUser(this.email, this.password)
+      //   .then((userCredential) => {
+      //     // Signed in
+      //     var user = userCredential.user;
+      //     user.updateProfile({
+      //       displayName: this.displayName,
+      //     });
+
+      //     // ...
+      //     console.log(user);
+      //     this.storeUser(user.uid);
+      //     this.updateSignInOut();
+      //   })
+      //   .catch((error) => {
+      //     var errorCode = error.code;
+      //     var errorMessage = error.message;
+      //     // ..
+      //   });
       this.$fire.auth
         .createUserWithEmailAndPassword(this.email, this.password)
         .then((userCredential) => {

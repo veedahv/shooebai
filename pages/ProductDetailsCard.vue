@@ -1,21 +1,7 @@
 <template>
   <div>
     <div class="product">
-      <!-- productId: "",
-      productName: "",
-      productPrice: "",
-      availableQuantity: "",
-      discount: "",
-      productImage: "",
-      descripion: "",
-      flashSale: false,
-      newProduct: false,
-      rating: 0,
-      tags: [],
-      colors: [],
-      sizes: [], -->
-      <span class="flash-sale" v-if="product.flashSale">Flash sale</span>
-      <span class="new-sale" v-if="product.newProduct">New</span>
+      <div class="flex justify-between py-2 absolute left-0 w-full top items-center">
       <div class="product-img">
         <img :src="product.productImage" alt="" />
       </div>
@@ -23,6 +9,7 @@
         <div class="product-details">
           <p class="product-name">{{ product.productName }}</p>
           <p class="product-price">{{ product.productPrice }}</p>
+          <p class="product-descripion">{{ product.descripion }}</p>
         </div>
         <div class="product-btn-box">
           <button class="product-btn">
@@ -38,12 +25,27 @@
               <i class="fa fa-cart-plus" aria-hidden="true"></i>
               </span>
               <span class="minus" v-else>
-                  <span class="minus">-</span>
                   <i class="fa fa-shopping-cart" aria-hidden="true"></i>
               </span>
           </button>
         </div>
       </div>
+      </div>
+      <!-- productId: "",
+      productName: "",
+      productPrice: "",
+      availableQuantity: "",
+      discount: "",
+      productImage: "",
+      descripion: "",
+      flashSale: false,
+      newProduct: false,
+      rating: 0,
+      tags: [],
+      colors: [],
+      sizes: [], -->
+      <span class="flash-sale" v-if="product.flashSale">Flash sale</span>
+      <span class="new-sale" v-if="product.newProduct">New</span>
     </div>
   </div>
 </template>

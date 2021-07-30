@@ -95,6 +95,119 @@
           />
         </div>
         <div class="form-group">
+          <h4 class="">colors</h4>
+          <div class="form-group">
+            <input
+              type="checkbox"
+              name="black"
+              id="black"
+              value="black"
+              class="colors"
+              v-model="colors"
+            />
+            <label for="black" class="capitalize">black:</label>
+          </div>
+          <div class="form-group">
+            <input
+              type="checkbox"
+              name="white"
+              id="white"
+              value="white"
+              class="colors"
+              v-model="colors"
+            />
+            <label for="white" class="capitalize">white:</label>
+          </div>
+          <div class="form-group">
+            <input
+              type="checkbox"
+              name="gray"
+              id="gray"
+              value="gray"
+              class="colors"
+              v-model="colors"
+            />
+            <label for="gray" class="capitalize">gray</label>
+          </div>
+          <div class="form-group">
+            <input
+              type="checkbox"
+              name="pink"
+              id="pink"
+              value="pink"
+              class="colors"
+              v-model="colors"
+            />
+            <label for="pink" class="capitalize">pink</label>
+          </div>
+          <div class="form-group">
+            <input
+              type="checkbox"
+              name="red"
+              id="red"
+              value="red"
+              class="colors"
+              v-model="colors"
+            />
+            <label for="red" class="capitalize">red</label>
+          </div>
+          <div class="form-group">
+            <input
+              type="checkbox"
+              name="yellow"
+              id="yellow"
+              value="yellow"
+              class="colors"
+              v-model="colors"
+            />
+            <label for="yellow" class="capitalize">yellow</label>
+          </div>
+          <div class="form-group">
+            <input
+              type="checkbox"
+              name="blue"
+              id="blue"
+              value="blue"
+              class="colors"
+              v-model="colors"
+            />
+            <label for="blue" class="capitalize">blue</label>
+          </div>
+          <div class="form-group">
+            <input
+              type="checkbox"
+              name="purple"
+              id="purple"
+              value="purple"
+              class="colors"
+              v-model="colors"
+            />
+            <label for="purple" class="capitalize">purple</label>
+          </div>
+          <div class="form-group">
+            <input
+              type="checkbox"
+              name="indigo"
+              id="indigo"
+              value="indigo"
+              class="colors"
+              v-model="colors"
+            />
+            <label for="indigo" class="capitalize">indigo</label>
+          </div>
+          <div class="form-group">
+            <input
+              type="checkbox"
+              name="green"
+              id="green"
+              value="green"
+              class="colors"
+              v-model="colors"
+            />
+            <label for="green" class="capitalize">green</label>
+          </div>
+        </div>
+        <div class="form-group">
           <label for="product-sale">Flash Sale:</label>
           <input
             type="checkbox"
@@ -103,15 +216,6 @@
             class="border-2 border-red-500"
             v-model="flashSale"
           />
-          <!-- <select
-            name=""
-           
-            id=""
-            v-model=""
-          >
-            <option value="1">False</option>
-            <option value="2">True</option>
-          </select> -->
         </div>
         <div class="form-group">
           <label for="product-new">new:</label>
@@ -122,15 +226,6 @@
             class="border-2 border-red-500"
             v-model="newProduct"
           />
-          <!-- <select
-            name=""
-            id=""
-           
-            v-model=""
-          >
-            <option value="1">False</option>
-            <option value="2">True</option>
-          </select> -->
         </div>
         <div class="form-group">
           <label for="product-rating">rating:</label>
@@ -201,6 +296,7 @@ export default {
       isUploadingImage: false,
       isDeletingImage: false,
       writeSuccessful: false,
+      uid: null,
     };
   },
   methods: {
@@ -328,6 +424,33 @@ export default {
   mounted() {
     this.readFromFirestore();
   },
+  beforeMount() {
+    const user = this.$fire.auth.currentUser;
+
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      this.uid = user.uid;
+      console.log(this.uid);
+      // ...
+      if (this.uid !== "jl0JqEJTJrbWgY0zxO9voeHxJBS2") {
+        console.log(this.uid);
+        this.$router.push({ path: "/" });
+      }
+    } else {
+      this.$router.push({ path: "/" });
+      // No user is signed in.
+    }
+  },
+  // beforeMount() {
+  // middleware: 'auth'
+  // middleware({ store, redirect }) {
+  //   // if (this.uid !== this.uid) {
+  //   if (false) {
+  //     return redirect("/ProductDetailsCard");
+  //   }
+  // },
+  // },
 };
 </script>
 

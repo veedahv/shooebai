@@ -13,7 +13,12 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' }
+      // { rel: 'stylesheet', href: 'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' },
+      // { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css' }
+      // { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.0.7/css/all.css' }
+    ],
+    script: [
+      { src: "https://kit.fontawesome.com/3ad8d4fbe1.js", crossorigin="anonymous" }
     ]
   },
 
@@ -43,6 +48,23 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    // ['nuxt-fontawesome', {
+    //   component: 'fa',
+    //   imports: [
+    //     //import whole set
+    //     {
+    //       set: '@fortawesome/free-solid-svg-icons',
+    //       icons: ['fas']
+    //     },
+    //     //import 2 icons from set 
+    //     // please note this is PRO set in this example, 
+    //     // you must have it in your node_modules to actually import
+    //     // {
+    //     //   set: '@fortawesome/pro-regular-svg-icons',
+    //     //   icons: ['faAdjust', 'faArchive']
+    //     // }
+    //   ]
+    // }]
   ],
 
   firebase: {
