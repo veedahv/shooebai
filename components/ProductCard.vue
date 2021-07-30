@@ -44,7 +44,8 @@
           <button class="product-btn">
             <!-- <i class="fas fa-shopping-bag"></i> -->
             <!-- <i class="fas fa-5x text-5xl fa-bookmark"></i> -->
-            <i class="fas text-4xl fa-bookmark"></i>
+            <!-- <i class="fas fa-3x fa-bookmark"></i> -->
+            <i class="fas text-3xl fa-bookmark"></i>
             <!-- <span v-if="product.fav">
               <i class="fa fa-heart" aria-hidden="true"></i>
             </span>
