@@ -20,7 +20,7 @@
             :class="slide.id"
           >
             <div class="container py-16 px-6 mx-auto">
-              <small class="font-medium color-tertiary">
+              <small class="font-medium">
                 {{ slide.id }}
               </small>
               <h1 class="text-8xl font-extrabold color-primary">
