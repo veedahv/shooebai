@@ -4,7 +4,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'sho_oebai',
+    title: 'Sho_oebai',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -12,13 +12,10 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      // { rel: 'stylesheet', href: 'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' },
-      // { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css' }
-      // { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.0.7/css/all.css' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
     script: [
-      { src: "https://kit.fontawesome.com/3ad8d4fbe1.js", crossorigin="anonymous" }
+      { src: 'https://kit.fontawesome.com/3ad8d4fbe1.js', crossorigin: 'anonymous' }
     ]
   },
 
@@ -48,23 +45,6 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    // ['nuxt-fontawesome', {
-    //   component: 'fa',
-    //   imports: [
-    //     //import whole set
-    //     {
-    //       set: '@fortawesome/free-solid-svg-icons',
-    //       icons: ['fas']
-    //     },
-    //     //import 2 icons from set 
-    //     // please note this is PRO set in this example, 
-    //     // you must have it in your node_modules to actually import
-    //     // {
-    //     //   set: '@fortawesome/pro-regular-svg-icons',
-    //     //   icons: ['faAdjust', 'faArchive']
-    //     // }
-    //   ]
-    // }]
   ],
 
   firebase: {
@@ -80,8 +60,7 @@ export default {
     services: {
       auth: true,
       firestore: true,
-      storage: true,
-      // realtimeDb: true,
+      storage: true
     },
   },
 
