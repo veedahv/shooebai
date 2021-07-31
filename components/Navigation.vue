@@ -1,6 +1,6 @@
 <template>
   <div class=" bg-white">
-    <div class="container py-2 mx-auto">
+    <div class="container py-2 px-4 mx-auto">
       <div class="flex justify-between items-center">
         <div>
           <nuxt-link to="/">Sho_oebai</nuxt-link>
