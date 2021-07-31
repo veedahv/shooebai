@@ -19,14 +19,14 @@
             class="block h-full w-full text-white bg-blend-overlay"
             :class="slide.id"
           >
-            <div class="container py-16 px-6 mx-auto">
+            <div class="container py-20 px-4 mx-auto">
               <small class="font-medium">
                 {{ slide.id }}
               </small>
-              <h1 class="text-8xl font-extrabold color-primary">
+              <h1 class="text-7xl font-extrabold color-primary">
                 {{ slide.id }}
               </h1>
-              <p class="text-xl color-light">
+              <p class="text-2xl color-light">
                 <em>{{ slide.id }}</em>
               </p>
               Slide 1
