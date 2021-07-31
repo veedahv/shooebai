@@ -35,7 +35,17 @@
           >
             <p class="product-name font-bold">{{ product.productName }}</p>
           </nuxt-link>
-          <p class="product-price font-medium">{{ product.productPrice }}</p>
+          <div class="" v-if="product.discount == 0">
+            <p class="product-price font-medium">{{ product.productPrice }}</p>
+          </div>
+          <div class="" v-else>
+            <del>
+              <p class="product-price font-medium">
+                {{ product.productPrice }}
+              </p>
+            </del>
+            <p class="product-price font-medium">{{ discount }}</p>
+          </div>
           <!-- <nuxt-link
             :to="{ name: 'ProductDetailsCard', params: { id: product.id } }"
           >
@@ -74,5 +84,13 @@
 <script>
 export default {
   props: ["product"],
+  computed: {
+    discount() {
+      let discountVal =
+        this.product.productPrice -
+        (this.product.discount * this.product.productPrice) / 100;
+      return discountVal;
+    },
+  },
 };
 </script>

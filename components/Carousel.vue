@@ -14,39 +14,45 @@
           :checked="slide.check"
         />
         <div class="carousel-item absolute opacity-0" style="height: 90vh">
-            <!-- class="block h-full w-full text-white bg-blend-overlay text-5xl text-center" -->
+          <!-- class="block h-full w-full text-white bg-blend-overlay text-5xl text-center" -->
           <div
             class="block h-full w-full text-white bg-blend-overlay"
             :class="slide.id"
           >
             <div class="container py-20 px-4 mx-auto">
-              <small class="font-medium">
-                {{ slide.id }}
+            <!-- <div class="max-w-md lg:max-w-xl"> -->
+            <div class="max-w-md md:max-w-screen-sm">
+              <small class="font-medium capitalize">
+                {{ slide.small }}
               </small>
-              <h1 class="text-7xl font-extrabold color-primary">
-                {{ slide.id }}
+              <!-- 3 -->
+              <h1 class="text-5xl md:text-7xl capitalize font-extrabold color-primary">
+                {{ slide.title }}
               </h1>
-              <p class="text-2xl color-light">
-                <em>{{ slide.id }}</em>
+              <p class="text-2xl mb-7 color-light">
+                <em>{{ slide.text }}</em>
               </p>
-              Slide 1
+              <div class="py-2">
+                <nuxt-link to="/" class="border-2 font-medium text-2xl border-current px-4 py-2 ">Shop Now</nuxt-link>
+              </div>
+            </div>
             </div>
           </div>
         </div>
-        <label
+        <!-- <label
           :for="slide.prev"
-          class="prev control-1 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-10 inset-y-0 left-0 my-auto"
+          class="prev w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-10 inset-y-0 left-0 my-auto"
           :class="slide.control"
         >
           ‹
         </label>
         <label
           :for="slide.next"
-          class="next control-1 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-10 inset-y-0 right-0 my-auto"
+          class="next w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-10 inset-y-0 right-0 my-auto"
           :class="slide.control"
         >
           ›
-        </label>
+        </label> -->
         <!-- Add additional indicators for each slide-->
         <ol class="carousel-indicators">
           <li class="inline-block mr-3">
@@ -73,44 +79,50 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      carousel2: false,
-      carousel1: true,
+      // carousel2: false,
+      // carousel1: true,
       slides: [
         {
-          id: 'carousel1',
+          id: "carousel1",
+          title: "smart styling, extra comfort",
+          text: "The comfort of your feet is all we care about",
+          small: "it's all about the drip",
           check: true,
-          prev: 'carousel2',
-          next: 'carousel2',
-          control: 'control-1'
+          prev: "carousel2",
+          next: "carousel2",
+          control: "control-1",
         },
         {
-          id: 'carousel2',
+          id: "carousel2",
+          title: "make your move memorable",
+          text: "Your feet will never feel the same",
+          small: "craft your own footprints",
           check: false,
-          prev: 'carousel1',
-          next: 'carousel1',
-          control: 'control-2'
-        }
-      ]
-    }
+          prev: "carousel1",
+          next: "carousel1",
+          control: "control-2",
+        },
+      ],
+    };
   },
-  mounted () {
+  mounted() {
     window.setInterval(() => {
       if (this.slides[0].check) {
-        this.slides[1].check = true
-        this.slides[0].check = false
+        this.slides[1].check = true;
+        this.slides[0].check = false;
         // this.carousel1 = false
       } else {
-        this.slides[1].check = false
+        this.slides[1].check = false;
         // this.carousel2 = false
         // this.carousel1 = true
-        this.slides[0].check = true
+        this.slides[0].check = true;
       }
       // console.log(this.slides[0].check)
-    }, 4000)
-  }
-}
+    }, 4000);
+  },
+};
 </script>
 
 <style>
