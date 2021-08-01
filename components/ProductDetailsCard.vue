@@ -22,14 +22,14 @@
               </del>
               <p class="product-price font-medium">{{ discount }}</p>
             </div>
-            <p class="product-descripion">{{ product.descripion }}</p>
+            <p class="product-descripion text-sm">{{ product.descripion }}</p>
             <div class="">
               <span
                 class="colors h-7 w-7 m-1 inline-block"
                 v-for="n in product.rating"
                 :key="n"
               >
-                <i class="fas fa-star text-yellow-500"></i>
+                <i class="fas fa-star text-sm text-yellow-500"></i>
                 <!-- <input type="radio" name="color" :id="color" class="color hidden" checked /> -->
                 <!-- <label :for="color" class="cursor inline-block h-3.5 w-3.5 rounded-full p-1"> -->
                 <!-- <label :for="color" class="cursor border-2 border-transparent block h-full w-full rounded-full p-1"> -->

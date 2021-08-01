@@ -16,7 +16,7 @@
             <nuxt-link :to="'/Admin/ProductForm'">
               <p class="product-name">Add</p>
             </nuxt-link>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               <div class="" v-for="product in products" :key="product.id">
                 <AdminProductCard :product="product"></AdminProductCard>
               </div>

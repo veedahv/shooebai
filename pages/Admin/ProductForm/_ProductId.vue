@@ -49,8 +49,8 @@
               name="product-desc"
               class="border-2 border-red-500"
               id="product-desc"
-              cols="30"
-              rows="10"
+              cols="39"
+              rows="5"
               v-model="descripion"
             ></textarea>
           </div>
@@ -172,6 +172,7 @@
                 class="colors"
                 v-model="colors"
               />
+
               <label for="blue" class="capitalize">blue</label>
             </div>
             <div class="form-group">
@@ -237,13 +238,27 @@
           <div class="form-group">
             <label for="product-tags">tags:</label>
             <div class="tag-box">
-              <span class="tags">
-                <span class="tag-name">bag | </span>
-                <button class="remove border-2 border-red-500">X</button>
+              <span class="tags" v-for="(tag, index) in tags" :key="tag">
+                <span class="tag-name">{{ tag }} | </span>
+                <button
+                  class="remove border-2 border-red-500"
+                  @click="removeTag(tag, index)"
+                >
+                  X
+                </button>
               </span>
             </div>
-            <input type="text" name="product-tags" i="product-tags" />
-            <button type="button" class="border-2 border-red-500">
+            <input
+              type="text"
+              name="product-tags"
+              i="product-tags"
+              v-model="newTag"
+            />
+            <button
+              type="button"
+              class="border-2 border-red-500"
+              @click="addTag"
+            >
               Add tag
             </button>
           </div>
@@ -280,11 +295,15 @@ export default {
       availableQuantity: "",
       discount: "",
       productImage: "",
-      descripion: "",
+      // productImage: "https://firebasestorage.googleapis.com/v0/b/shooebai.appspot.com/o/images%2Fp1.jpg?alt=media&token=359a83a9-6f40-4259-b1f9-c8ecdf33b952",
+      // productImage: "https://firebasestorage.googleapis.com/v0/b/shooebai.appspot.com/o/images%2Fp2.jpg?alt=media&token=31dbfecb-9a24-44a2-92a4-c4d5fe454597",
+      descripion:
+        "Lorem ipsum dolor, sit amet consectetur elit. Deserunt repellendus officiis id distinctio? At, eligendi! Id quas quo fuga omnis esse natus. Distinctio, rem eveniet similique. Iste eius enim suscipit quo nesciunt.",
       flashSale: false,
       newProduct: false,
       rating: 0,
-      tags: [],
+      tags: ["puma", "jaguar"],
+      newTag: "",
       colors: [],
       sizes: [],
       isUploadingImage: false,
@@ -294,6 +313,19 @@ export default {
     };
   },
   methods: {
+    removeTag(tag, index) {
+      if (this.tags[index] === tag) {
+        this.tags.splice(index, 1);
+      } else {
+        let found = this.tags.indexOf(tag) 
+        this.tags.splice(found, 1);        
+      }
+      // this.tags.push(this.newTag);
+    },
+    addTag() {
+      this.tags.push(this.newTag);
+      this.newTag = "";
+    },
     createId() {
       let result = [];
       let characters =
@@ -335,7 +367,6 @@ export default {
         discount: +this.discount,
         productImage: this.productImage,
         descripion: this.descripion,
-        flashSale: this.flashSale,
         newProduct: this.newProduct,
         rating: +this.rating,
         tags: this.tags,
@@ -343,30 +374,32 @@ export default {
         sizes: this.sizes,
       };
       if (this.$route.params.ProductId) {
-          // console.log(this.products);
-          this.products.forEach(prod => {
+        // console.log(this.products);
+        this.products.forEach((prod) => {
           // console.log(prod.productId);
           if (this.productId === prod.productId) {
-          console.log(prod);
+            console.log(prod);
             console.log(prod.productId);
             prod.productId = this.productId;
             prod.productName = this.productName;
-            prod.productPrice = this.productPrice;
-            prod.availableQuantity = this.availableQuantity;
-            prod.discount = this.discount;
+            prod.productPrice = +this.productPrice;
+            prod.availableQuantity = +this.availableQuantity;
+            prod.discount = +this.discount;
             prod.productImage = this.productImage;
             prod.descripion = this.descripion;
-            prod.flashSale = this.flashSale;
             prod.newProduct = this.newProduct;
-            prod.rating = this.rating;
+            prod.rating = +this.rating;
             prod.tags = this.tags;
             prod.colors = this.colors;
             prod.sizes = this.sizes;
-          }              
-          });
+          }
+        });
         // this.productId = this.$route.params.ProductId;
       } else {
-      this.products.push(newProduct);
+        console.log(newProduct);
+        console.log(this.products);
+        this.products.push(newProduct);
+        // this.products = [newProduct];
       }
       const document = {
         products: this.products,
@@ -377,7 +410,7 @@ export default {
         // TODO: error handling
         console.error(e);
       }
-    //   this.writeSuccessful = true;
+      //   this.writeSuccessful = true;
     },
     async readFromFirestore() {
       const ref = this.$fire.firestore.collection("products").doc("product");
