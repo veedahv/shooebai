@@ -50,7 +50,7 @@
               class="border-2 border-red-500"
               id="product-desc"
               cols="39"
-              rows="5"
+              rows="6"
               v-model="descripion"
             ></textarea>
           </div>
@@ -236,6 +236,33 @@
           </div>
 
           <div class="form-group">
+            <label for="product-tags">sizes:</label>
+            <div class="tag-box">
+              <span class="tags" v-for="(size, index) in sizes" :key="size">
+                <span class="tag-name">{{ size }} | </span>
+                <button
+                  class="remove border-2 border-red-500"
+                  @click="removeSize(size, index)"
+                >
+                  X
+                </button>
+              </span>
+            </div>
+            <input
+              type="number"
+              name="product-size"
+              i="product-size"
+              v-model="newSize"
+            />
+            <button
+              type="button"
+              class="border-2 border-red-500"
+              @click="addSize"
+            >
+              Add tag
+            </button>
+          </div>
+          <div class="form-group">
             <label for="product-tags">tags:</label>
             <div class="tag-box">
               <span class="tags" v-for="(tag, index) in tags" :key="tag">
@@ -267,9 +294,8 @@
       <section class="container">
         <div>
           <div>
-            <button @click="writeToFirestore" :disabled="writeSuccessful">
-              <span v-if="!writeSuccessful">Write now</span>
-              <span v-else>Successful!</span>
+            <button @click="writeToFirestore">
+              <span>add</span>
             </button>
           </div>
         </div>
@@ -306,6 +332,7 @@ export default {
       newTag: "",
       colors: [],
       sizes: [],
+      newSize: "",
       isUploadingImage: false,
       isDeletingImage: false,
       writeSuccessful: false,
@@ -313,6 +340,19 @@ export default {
     };
   },
   methods: {
+    removeSize(size, index) {
+      if (this.sizes[index] === size) {
+        this.sizes.splice(index, 1);
+      } else {
+        let found = this.tags.indexOf(size) 
+        this.sizes.splice(found, 1);        
+      }
+      // this.tags.push(this.newTag);
+    },
+    addSize() {
+      this.sizes.push(this.newSize);
+      this.newSize = "";
+    },
     removeTag(tag, index) {
       if (this.tags[index] === tag) {
         this.tags.splice(index, 1);
@@ -411,6 +451,19 @@ export default {
         console.error(e);
       }
       //   this.writeSuccessful = true;
+      this.productName = "";
+      this.productPrice = "";
+      this.availableQuantity = "";
+      this.discount = "";
+      this.productImage = "";
+      this.descripion = 
+        "Lorem ipsum dolor, sit amet consectetur elit. Deserunt repellendus officiis id distinctio? At, eligendi! Id quas quo fuga omnis esse natus. Distinctio, rem eveniet similique. Iste eius enim suscipit quo nesciunt.";
+      this.flashSale = false;
+      this.newProduct = false;
+      this.rating = 0;
+      this.tags = ["puma", "jaguar"];
+      this.colors = [];
+      this.sizes = [];
     },
     async readFromFirestore() {
       const ref = this.$fire.firestore.collection("products").doc("product");
