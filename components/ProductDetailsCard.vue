@@ -1,0 +1,232 @@
+<template>
+  <div>
+    <div class="product">
+      <div class="flex flex-wrap justify-between py-2 w-full items-start">
+        <div class="product-img w-full md:w-6/12">
+          <img :src="product.productImage" alt="" />
+        </div>
+        <div class="product-info w-full md:w-5/12">
+          <div class="product-details">
+            <p class="product-name">{{ product.productName }}</p>
+            <!-- <p class="product-price">{{ product.productPrice }}</p> -->
+            <div class="" v-if="product.discount == 0">
+              <p class="product-price font-medium">
+                {{ product.productPrice }}
+              </p>
+            </div>
+            <div class="" v-else>
+              <del>
+                <p class="product-price font-medium">
+                  {{ product.productPrice }}
+                </p>
+              </del>
+              <p class="product-price font-medium">{{ discount }}</p>
+            </div>
+            <p class="product-descripion">{{ product.descripion }}</p>
+            <div class="">
+              <span
+                class="colors h-7 w-7 m-1 inline-block"
+                v-for="n in product.rating"
+                :key="n"
+              >
+                <i class="fas fa-star text-yellow-500"></i>
+                <!-- <input type="radio" name="color" :id="color" class="color hidden" checked /> -->
+                <!-- <label :for="color" class="cursor inline-block h-3.5 w-3.5 rounded-full p-1"> -->
+                <!-- <label :for="color" class="cursor border-2 border-transparent block h-full w-full rounded-full p-1"> -->
+                <!-- <label :for="color" class="cursor inline-block rounded-full p-1"> -->
+                <!-- <span
+                    class="block w-full h-full rounded-full bg-gradient-to-r text-black from-gray-900 to-black"
+                    v-if="color === 'black'"
+                  ></span>
+                  <span
+                    class="block w-full h-full text-white rounded-full bg-gradient-to-r from-white to-gray-50"
+                    v-else-if="color === 'white'"
+                  ></span>
+                  <span
+                    class="block w-full h-full rounded-full"
+                    :class="
+                      'bg-gradient-to-r text-' + color + '-500 from-' +
+                      color +
+                      '-200 to-' +
+                      color +
+                      '-700'
+                    "
+                    v-else
+                  ></span> -->
+              </span>
+            </div>
+            <div class="">
+              <span class="">Available colors</span>
+              <span
+                class="colors h-7 w-7 m-1 inline-block"
+                v-for="color in product.colors"
+                :key="color"
+              >
+                <input
+                  type="radio"
+                  name="color"
+                  :id="color"
+                  :value="color"
+                  class="color hidden"
+                  checked
+                />
+                <!-- <label :for="color" class="cursor inline-block h-3.5 w-3.5 rounded-full p-1"> -->
+                <label
+                  :for="color"
+                  class="cursor border-2 border-transparent block h-full w-full rounded-full p-1"
+                  :class="'text-' + color + '-500'"
+                >
+                  <!-- <label :for="color" class="cursor inline-block rounded-full p-1"> -->
+                  <span
+                    class="block w-full h-full rounded-full bg-gradient-to-r text-black from-gray-900 to-black"
+                    v-if="color === 'black'"
+                  ></span>
+                  <span
+                    class="block w-full h-full text-white rounded-full bg-gradient-to-r from-white to-gray-50"
+                    v-else-if="color === 'white'"
+                  ></span>
+                  <span
+                    class="block w-full h-full rounded-full"
+                    :class="
+                      'bg-gradient-to-r text-' +
+                      color +
+                      '-500 from-' +
+                      color +
+                      '-200 to-' +
+                      color +
+                      '-700'
+                    "
+                    v-else
+                  ></span>
+                </label>
+              </span>
+            </div>
+            <div class="">
+              <span class="">Available sizes</span>
+              <span
+                class="sizes h-7 w-7 m-1 inline-block"
+                v-for="size in product.sizes"
+                :key="size"
+              >
+                <input
+                  type="radio"
+                  name="sizes"
+                  :id="size"
+                  :value="size"
+                  class="size hidden"
+                  checked
+                />
+                <!-- <label :for="color" class="cursor inline-block h-3.5 w-3.5 rounded-full p-1"> -->
+                <label
+                  :for="color"
+                  class="cursor border-2 border-transparent block h-full w-full rounded-full p-1"
+                >
+                  <!-- :class="'text-' + size + '-500'" -->
+                  {{ size }}
+                </label>
+              </span>
+            </div>
+          </div>
+          <p class="qty">
+              Only {{ product.availableQuantity }} left in stock
+          </p>
+          <div class="product-btn-box">
+            <button class="product-btn uppercase">
+              <span v-if="product.fav">
+                <span> remove from wishlist </span>
+                <span>
+                  <i class="fas fa-bookmark"></i>
+                  <!-- <i class="fas text-3xl fa-bookmark"></i> -->
+                </span>
+              </span>
+              <span v-else>
+                <span> add to wishlist </span>
+                <span>
+                  <i class="fas fa-bookmark"></i>
+                  <!-- <i class="fas text-3xl fa-bookmark"></i> -->
+                </span>
+              </span>
+            </button>
+            <button class="product-btn uppercase">
+              <span class="in" v-if="product.inShop">
+                <span> remove from cart </span>
+                <i class="fas fa-shopping-bag"></i>
+              </span>
+              <span class="minus" v-else>
+                <span> add to cart </span>
+                <i class="fas fa-shopping-bag"></i>
+                <!-- <i class="fa fa-shopping-cart" aria-hidden="true"></i> -->
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- productId: "",
+      productName: "",
+      productPrice: "",
+      availableQuantity: "",
+      discount: "",
+      productImage: "",
+      descripion: "",
+      newProduct: false, ProductDetailsCard.vue
+      rating: 0,
+      tags: [],
+      colors: [],
+      sizes: [], -->
+    </div>
+  </div>
+</template>
+
+
+<script>
+export default {
+  data() {
+    return {
+      products: [],
+      product: "",
+    };
+  },
+  props: ["id"],
+  computed: {
+    discount() {
+      let discountVal =
+        this.product.productPrice -
+        (this.product.discount * this.product.productPrice) / 100;
+      return discountVal;
+    },
+  },
+  methods: {
+    async readFromFirestore() {
+      const ref = this.$fire.firestore.collection("products").doc("product");
+      let snap;
+      try {
+        snap = await ref.get();
+      } catch (e) {
+        // TODO: error handling
+        console.error(e);
+      }
+      this.products = snap.data().products;
+      this.products.forEach((prod) => {
+        console.log(prod.productId);
+
+        // if (prod.productId.toLowerCase() === this.id.toLowerCase()) {
+        if (prod.productId === this.id) {
+          this.product = prod;
+          console.log(prod.productId);
+          console.log(this.id);
+        }
+      });
+    },
+  },
+  mounted() {
+    this.readFromFirestore();
+  },
+};
+</script>
+
+<style scoped>
+.color:checked ~ label {
+  /* border: 2px solid var(--dark); */
+  border: 2px solid currentColor;
+}
+</style>

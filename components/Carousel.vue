@@ -22,14 +22,15 @@
             <div class="container py-20 px-4 mx-auto">
             <!-- <div class="max-w-md lg:max-w-xl"> -->
             <div class="max-w-md md:max-w-screen-sm">
-              <small class="font-medium capitalize">
+              <!-- <small class="font-medium capitalize"> -->
+              <small class="font-medium uppercase">
                 {{ slide.small }}
               </small>
               <!-- 3 -->
-              <h1 class="text-5xl md:text-7xl capitalize font-extrabold color-primary">
+              <h1 class="text-5xl mb-4 md:text-7xl capitalize font-extrabold color-primary">
                 {{ slide.title }}
               </h1>
-              <p class="text-2xl mb-7 color-light">
+              <p class="text-2xl mb-10 color-light">
                 <em>{{ slide.text }}</em>
               </p>
               <div class="py-2">

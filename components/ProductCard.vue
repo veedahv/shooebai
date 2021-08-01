@@ -19,9 +19,9 @@
         </span>
       </div>
       <div class="product-img">
-        <nuxt-link
-          :to="{ name: 'ProductDetailsCard', params: { id: product.id } }"
-        >
+        <!-- :to="{ name: 'ProductDetailsCard', params: { id: product.productId } }" -->
+        <!-- AdminProductCard.vue -->
+        <nuxt-link :to="'/ProductDetail/' + product.productId">
           <img :src="product.productImage" alt="" />
         </nuxt-link>
       </div>
@@ -30,9 +30,7 @@
         class="product-info flex justify-between py-5 px-4 w-full items-start"
       >
         <div class="product-details">
-          <nuxt-link
-            :to="{ name: 'ProductDetailsCard', params: { id: product.id } }"
-          >
+          <nuxt-link :to="'/ProductDetail/' + product.productId">
             <p class="product-name font-bold">{{ product.productName }}</p>
           </nuxt-link>
           <div class="" v-if="product.discount == 0">
@@ -53,7 +51,9 @@
           </nuxt-link> -->
         </div>
         <div class="product-btn-box">
-          <button class="product-btn">
+          <!-- <button class="product-btn active:shadow-md hover:shadow-lg"> -->
+          <button class="product-btn transform active:scale-90 hover:scale-110">
+            <!-- <button class="product-btn"> -->
             <!-- <i class="fas fa-shopping-bag"></i> -->
             <!-- <i class="fas fa-5x text-5xl fa-bookmark"></i> -->
             <!-- <i class="fas fa-3x fa-bookmark"></i> -->

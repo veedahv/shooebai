@@ -7,7 +7,7 @@
         </div>
         <div class="py-2">
           <nuxt-link to="/">ball</nuxt-link> |
-          <nuxt-link to="/Admin">Admin</nuxt-link> | 
+          <nuxt-link to="/Admin/Products">Admin</nuxt-link> | 
           <nuxt-link to="/shop">Shop</nuxt-link> | 
           <button @click="signOut" v-if="isLoggedIn">logout</button>
           <button @click="signIn" v-else>login</button>

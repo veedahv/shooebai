@@ -1,35 +1,35 @@
 <template>
   <div>
     <div class="product">
-      <div class="flex justify-between py-2 absolute left-0 w-full top items-center">
-      <div class="product-img">
-        <img :src="product.productImage" alt="" />
-      </div>
-      <div class="product-info">
-        <div class="product-details">
-          <p class="product-name">{{ product.productName }}</p>
-          <p class="product-price">{{ product.productPrice }}</p>
-          <p class="product-descripion">{{ product.descripion }}</p>
+      <div class="flex justify-between py-2 w-full items-center">
+        <div class="product-img md:w-7/12">
+          <img :src="product.productImage" alt="" />
         </div>
-        <div class="product-btn-box">
-          <button class="product-btn">
-            <span v-if="product.fav">
-            <i class="fa fa-heart" aria-hidden="true"></i>
-            </span>
-            <span v-else>
-            <i class="fa fa-heart-o" aria-hidden="true"></i>
-            </span>
-          </button>
-          <button class="product-btn">
+        <div class="product-info">
+          <div class="product-details">
+            <p class="product-name">{{ product.productName }}</p>
+            <p class="product-price">{{ product.productPrice }}</p>
+            <p class="product-descripion">{{ product.descripion }}</p>
+          </div>
+          <div class="product-btn-box">
+            <button class="product-btn">
+              <span v-if="product.fav">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+              </span>
+              <span v-else>
+                <i class="fa fa-heart-o" aria-hidden="true"></i>
+              </span>
+            </button>
+            <button class="product-btn">
               <span class="in" v-if="product.inShop">
-              <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                <i class="fa fa-cart-plus" aria-hidden="true"></i>
               </span>
               <span class="minus" v-else>
-                  <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
               </span>
-          </button>
+            </button>
+          </div>
         </div>
-      </div>
       </div>
       <!-- productId: "",
       productName: "",
@@ -39,7 +39,7 @@
       productImage: "",
       descripion: "",
       flashSale: false,
-      newProduct: false,
+      newProduct: false, ProductDetailsCard.vue
       rating: 0,
       tags: [],
       colors: [],
@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       products: [],
-      product: '',
+      product: "",
     };
   },
   props: ["id"],
@@ -71,7 +71,7 @@ export default {
         console.error(e);
       }
       this.products = snap.data().products;
-      this.products.forEach(prod => {
+      this.products.forEach((prod) => {
         if (prod.id === this.id) {
           this.product = prod;
         }
