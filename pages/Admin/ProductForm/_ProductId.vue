@@ -295,7 +295,8 @@
         <div>
           <div>
             <button @click="writeToFirestore">
-              <span>add</span>
+              <span v-if="edit">save</span>
+              <span v-else>add</span>
             </button>
           </div>
         </div>
@@ -333,9 +334,10 @@ export default {
       colors: [],
       sizes: [],
       newSize: "",
+      edit: false,
       isUploadingImage: false,
       isDeletingImage: false,
-      writeSuccessful: false,
+      // writeSuccessful: false,
       uid: null,
     };
   },
@@ -344,8 +346,8 @@ export default {
       if (this.sizes[index] === size) {
         this.sizes.splice(index, 1);
       } else {
-        let found = this.tags.indexOf(size) 
-        this.sizes.splice(found, 1);        
+        let found = this.tags.indexOf(size);
+        this.sizes.splice(found, 1);
       }
       // this.tags.push(this.newTag);
     },
@@ -357,8 +359,8 @@ export default {
       if (this.tags[index] === tag) {
         this.tags.splice(index, 1);
       } else {
-        let found = this.tags.indexOf(tag) 
-        this.tags.splice(found, 1);        
+        let found = this.tags.indexOf(tag);
+        this.tags.splice(found, 1);
       }
       // this.tags.push(this.newTag);
     },
@@ -395,10 +397,22 @@ export default {
       }
       // });
     },
-    async writeToFirestore() {
-      this.generateId();
-      const ref = this.$fire.firestore.collection("products").doc("product");
-      console.log(ref);
+    resetProduct() {
+      this.productName = "";
+      this.productPrice = "";
+      this.availableQuantity = "";
+      this.discount = "";
+      this.productImage = "";
+      this.descripion =
+        "Lorem ipsum dolor, sit amet consectetur elit. Deserunt repellendus officiis id distinctio? At, eligendi! Id quas quo fuga omnis esse natus. Distinctio, rem eveniet similique. Iste eius enim suscipit quo nesciunt.";
+      this.flashSale = false;
+      this.newProduct = false;
+      this.rating = 0;
+      this.tags = ["puma", "jaguar"];
+      this.colors = [];
+      this.sizes = [];
+    },
+    addProduct() {
       const newProduct = {
         productId: this.productId,
         productName: this.productName,
@@ -413,33 +427,40 @@ export default {
         colors: this.colors,
         sizes: this.sizes,
       };
+    },
+    saveProduct() {
+      this.products.forEach((prod) => {
+        // console.log(prod.productId);
+        if (this.productId === prod.productId) {
+          console.log(prod);
+          console.log(prod.productId);
+          prod.productId = this.productId;
+          prod.productName = this.productName;
+          prod.productPrice = +this.productPrice;
+          prod.availableQuantity = +this.availableQuantity;
+          prod.discount = +this.discount;
+          prod.productImage = this.productImage;
+          prod.descripion = this.descripion;
+          prod.newProduct = this.newProduct;
+          prod.rating = +this.rating;
+          prod.tags = this.tags;
+          prod.colors = this.colors;
+          prod.sizes = this.sizes;
+        }
+      });
+    },
+    async writeToFirestore() {
+      this.generateId();
+      const ref = this.$fire.firestore.collection("products").doc("product");
+      console.log(ref);
       if (this.$route.params.ProductId) {
         // console.log(this.products);
-        this.products.forEach((prod) => {
-          // console.log(prod.productId);
-          if (this.productId === prod.productId) {
-            console.log(prod);
-            console.log(prod.productId);
-            prod.productId = this.productId;
-            prod.productName = this.productName;
-            prod.productPrice = +this.productPrice;
-            prod.availableQuantity = +this.availableQuantity;
-            prod.discount = +this.discount;
-            prod.productImage = this.productImage;
-            prod.descripion = this.descripion;
-            prod.newProduct = this.newProduct;
-            prod.rating = +this.rating;
-            prod.tags = this.tags;
-            prod.colors = this.colors;
-            prod.sizes = this.sizes;
-          }
-        });
         // this.productId = this.$route.params.ProductId;
+        this.saveProduct();
       } else {
-        console.log(newProduct);
-        console.log(this.products);
-        this.products.push(newProduct);
         // this.products = [newProduct];
+        this.addProduct();
+        // this.resetProduct();
       }
       const document = {
         products: this.products,
@@ -451,19 +472,6 @@ export default {
         console.error(e);
       }
       //   this.writeSuccessful = true;
-      this.productName = "";
-      this.productPrice = "";
-      this.availableQuantity = "";
-      this.discount = "";
-      this.productImage = "";
-      this.descripion = 
-        "Lorem ipsum dolor, sit amet consectetur elit. Deserunt repellendus officiis id distinctio? At, eligendi! Id quas quo fuga omnis esse natus. Distinctio, rem eveniet similique. Iste eius enim suscipit quo nesciunt.";
-      this.flashSale = false;
-      this.newProduct = false;
-      this.rating = 0;
-      this.tags = ["puma", "jaguar"];
-      this.colors = [];
-      this.sizes = [];
     },
     async readFromFirestore() {
       const ref = this.$fire.firestore.collection("products").doc("product");
@@ -554,8 +562,23 @@ export default {
         });
     },
   },
-  mounted() {
+  // mounted() {
+  //   this.readFromFirestore();
+  //   // console.log(this.$route.params.ProductId);
+  //   // console.log(this.$route.params.id);
+  //   // console.log(this.$route);
+  // },
+  created() {
     this.readFromFirestore();
+      if (this.$route.params.ProductId) {
+        // console.log(this.products);
+        // this.productId = this.$route.params.ProductId;
+        this.edit = true;
+      // } else {
+      //   // this.products = [newProduct];
+      //   this.addProduct();
+        // this.resetProduct();
+      }
     // console.log(this.$route.params.ProductId);
     // console.log(this.$route.params.id);
     // console.log(this.$route);

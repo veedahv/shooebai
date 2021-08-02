@@ -63,7 +63,10 @@ export default {
       console.log(this.products);
     }
   },
-  mounted() {
+  // mounted() {
+  //   this.readFromFirestore();
+  // },
+  created() {
     this.readFromFirestore();
   },
 };

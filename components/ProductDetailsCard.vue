@@ -4,6 +4,90 @@
       <div class="flex flex-wrap justify-between py-2 w-full items-start">
         <div class="product-img w-full md:w-6/12">
           <img :src="product.productImage" alt="" />
+          <div class="">
+            <div class="flex justify-between items-center">
+              <span class="">Available colors</span>
+              <span
+                class="colors h-7 w-7 m-1 inline-block"
+                v-for="color in product.colors"
+                :key="color"
+              >
+                <input
+                  type="radio"
+                  name="color"
+                  :id="color"
+                  :value="color"
+                  class="color hidden"
+                  checked
+                />
+                <!-- <label :for="color" class="cursor inline-block h-3.5 w-3.5 rounded-full p-1"> -->
+                <label
+                  :for="color"
+                  class="cursor border-2 border-transparent block h-full w-full rounded-full p-1"
+                  :class="'text-' + color + '-500'"
+                >
+                {{ color }}
+                  <!-- <label :for="color" class="cursor inline-block rounded-full p-1"> -->
+                  <span
+                    class="block w-full h-full rounded-full bg-gradient-to-r text-black from-gray-900 to-black"
+                    v-if="color === 'black'"
+                  ></span>
+                  <span
+                    class="block w-full h-full text-white rounded-full bg-gradient-to-r from-white to-gray-50"
+                    v-else-if="color === 'white'"
+                  ></span>
+                  <span
+                    class="block w-full h-full bg-gradient-to-r rounded-full"
+                    :class="
+                      'text-' +
+                      color +
+                      '-500 from-' +
+                      color +
+                      '-200 to-' +
+                      color +
+                      '-700'
+                    "
+                    v-else
+                  ></span>
+                </label>
+              </span>
+            </div>
+          </div>
+          <div class="">
+            <div class="flex justify-between items-center">
+              <span class="">Available sizes</span>
+              <select name="" id="">
+                <option
+                  class="sizes h-7 w-7 m-1 inline-block"
+                  v-for="size in product.sizes"
+                  :key="size"
+                  value="size"
+                >
+                  {{ size }}
+                </option>
+              </select>
+              <!-- <span
+                class="sizes h-7 w-7 m-1 inline-block"
+                v-for="size in product.sizes"
+                :key="size"
+              >
+                <input
+                  type="radio"
+                  name="sizes"
+                  :id="size"
+                  :value="size"
+                  class="size hidden"
+                  checked
+                />
+                <label
+                  :for="size"
+                  class="cursor border-2 border-transparent block h-full w-full rounded-full p-1"
+                >
+                  {{ size }}
+                </label>
+              </span> -->
+            </div>
+          </div>
         </div>
         <div class="product-info w-full md:w-5/12">
           <div class="product-details">
@@ -30,106 +114,10 @@
                 :key="n"
               >
                 <i class="fas fa-star text-sm text-yellow-500"></i>
-                <!-- <input type="radio" name="color" :id="color" class="color hidden" checked /> -->
-                <!-- <label :for="color" class="cursor inline-block h-3.5 w-3.5 rounded-full p-1"> -->
-                <!-- <label :for="color" class="cursor border-2 border-transparent block h-full w-full rounded-full p-1"> -->
-                <!-- <label :for="color" class="cursor inline-block rounded-full p-1"> -->
-                <!-- <span
-                    class="block w-full h-full rounded-full bg-gradient-to-r text-black from-gray-900 to-black"
-                    v-if="color === 'black'"
-                  ></span>
-                  <span
-                    class="block w-full h-full text-white rounded-full bg-gradient-to-r from-white to-gray-50"
-                    v-else-if="color === 'white'"
-                  ></span>
-                  <span
-                    class="block w-full h-full rounded-full"
-                    :class="
-                      'bg-gradient-to-r text-' + color + '-500 from-' +
-                      color +
-                      '-200 to-' +
-                      color +
-                      '-700'
-                    "
-                    v-else
-                  ></span> -->
-              </span>
-            </div>
-            <div class="">
-              <span class="">Available colors</span>
-              <span
-                class="colors h-7 w-7 m-1 inline-block"
-                v-for="color in product.colors"
-                :key="color"
-              >
-                <input
-                  type="radio"
-                  name="color"
-                  :id="color"
-                  :value="color"
-                  class="color hidden"
-                  checked
-                />
-                <!-- <label :for="color" class="cursor inline-block h-3.5 w-3.5 rounded-full p-1"> -->
-                <label
-                  :for="color"
-                  class="cursor border-2 border-transparent block h-full w-full rounded-full p-1"
-                  :class="'text-' + color + '-500'"
-                >
-                  <!-- <label :for="color" class="cursor inline-block rounded-full p-1"> -->
-                  <span
-                    class="block w-full h-full rounded-full bg-gradient-to-r text-black from-gray-900 to-black"
-                    v-if="color === 'black'"
-                  ></span>
-                  <span
-                    class="block w-full h-full text-white rounded-full bg-gradient-to-r from-white to-gray-50"
-                    v-else-if="color === 'white'"
-                  ></span>
-                  <span
-                    class="block w-full h-full rounded-full"
-                    :class="
-                      'bg-gradient-to-r text-' +
-                      color +
-                      '-500 from-' +
-                      color +
-                      '-200 to-' +
-                      color +
-                      '-700'
-                    "
-                    v-else
-                  ></span>
-                </label>
-              </span>
-            </div>
-            <div class="">
-              <span class="">Available sizes</span>
-              <span
-                class="sizes h-7 w-7 m-1 inline-block"
-                v-for="size in product.sizes"
-                :key="size"
-              >
-                <input
-                  type="radio"
-                  name="sizes"
-                  :id="size"
-                  :value="size"
-                  class="size hidden"
-                  checked
-                />
-                <!-- <label :for="color" class="cursor inline-block h-3.5 w-3.5 rounded-full p-1"> -->
-                <label
-                  :for="color"
-                  class="cursor border-2 border-transparent block h-full w-full rounded-full p-1"
-                >
-                  <!-- :class="'text-' + size + '-500'" -->
-                  {{ size }}
-                </label>
               </span>
             </div>
           </div>
-          <p class="qty">
-              Only {{ product.availableQuantity }} left in stock
-          </p>
+          <p class="qty">Only {{ product.availableQuantity }} left in stock</p>
           <div class="product-btn-box">
             <button class="product-btn uppercase">
               <span v-if="product.fav">

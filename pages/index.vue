@@ -6,7 +6,7 @@
       <div class="container py-10 px-4 mx-auto">
         <div class="">
           <div class="sub-heading-box text-center py-5 relative">
-              <!-- class="border-0 bg-black w-full h-px inset-y-1/2 left-0 absolute" -->
+            <!-- class="border-0 bg-black w-full h-px inset-y-1/2 left-0 absolute" -->
             <hr
               class="border-0 bg-white w-full h-px inset-y-1/2 left-0 absolute"
             />
@@ -16,7 +16,7 @@
           </div>
           <div class="">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              <div class="" v-for="product in products" :key="product.id">
+              <div class="h-full" v-for="product in products" :key="product.id">
                 <ProductCard :product="product"></ProductCard>
               </div>
             </div>
@@ -43,6 +43,7 @@
 import ProductCard from "../components/ProductCard";
 // import Navigation from '../components/Navigation';
 import Carousel from "../components/Carousel";
+// import axios from '@nuxtjs/axios'
 export default {
   components: {
     // Signin,
@@ -54,9 +55,43 @@ export default {
   data() {
     return {
       products: [],
+      ip: "",
     };
   },
   methods: {
+    async fetchSomething() {
+      const ip = await this.$axios.$get("http://icanhazip.com");
+      this.ip = ip;
+    },
+    async getLocation() {
+      const response = await this.$axios.$get("https://api.geoapify.com/v1/ipinfo?&apiKey=2a1bb31c0a134533b5261eae06c6d2e6");
+      const result = await response.country;
+      // const result = await response.json();
+      // const ip = await result;
+      // this.ip = ip;
+      // console.log(this.ip);
+      console.log(response);
+      console.log(result);
+      // axios
+      //   .get(
+      //     "https://api.geoapify.com/v1/ipinfo?&apiKey=2a1bb31c0a134533b5261eae06c6d2e6"
+      //   )
+      //   .then((response) => {
+      //     return response.json();
+      //   })
+      //   .then((result) => {
+      //     console.log(result);
+      //     console.log(result.country);
+      //   })
+      //   .catch((error) => console.log("error", error));
+      // fetch(
+      //   "https://api.geoapify.com/v1/ipinfo?&apiKey=2a1bb31c0a134533b5261eae06c6d2e6",
+      //   requestOptions
+      // )
+      //   .then((response) => response.json())
+      //   .then((result) => console.log(result))
+      //   .catch((error) => console.log("error", error));
+    },
     async readFromFirestore() {
       const ref = this.$fire.firestore.collection("products").doc("product");
       let snap;
@@ -86,14 +121,18 @@ export default {
     //       // ..
     //     });
     // },
-//     firebase.auth().signOut().then(() => {
-//   // Sign-out successful.
-// }).catch((error) => {
-//   // An error happened.
-// });
+    //     firebase.auth().signOut().then(() => {
+    //   // Sign-out successful.
+    // }).catch((error) => {
+    //   // An error happened.
+    // });
   },
-  mounted() {
+  // mounted() {
+  //   this.readFromFirestore();
+  // },
+  created() {
     this.readFromFirestore();
+    this.getLocation();
   },
 };
 </script>

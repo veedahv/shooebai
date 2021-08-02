@@ -79,10 +79,14 @@ export default {
 //       console.log(this.products);
 //     },
 //   },
-  mounted() {
-      console.log(this.id);
-    // this.readFromFirestore();
-  },
+  // created() {
+  //     console.log(this.id);
+  //   // this.readFromFirestore();
+  // },
+  // mounted() {
+  //     console.log(this.id);
+  //   // this.readFromFirestore();
+  // },
   beforeMount() {
     this.id = this.$route.params.id;
   },

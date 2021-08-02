@@ -84,8 +84,27 @@ export default {
 //   // An error happened.
 // });
   },
-  mounted() {
+  // mounted() {
+  //   this.readFromFirestore();
+  // },
+  created() {
     this.readFromFirestore();
+    const user = this.$fire.auth.currentUser;
+
+    // if (user) {
+    //   // User is signed in, see docs for a list of available properties
+    //   // https://firebase.google.com/docs/reference/js/firebase.User
+    //   this.uid = user.uid;
+    //   console.log(this.uid);
+    //   // ...
+    //   if (this.uid !== "jl0JqEJTJrbWgY0zxO9voeHxJBS2") {
+    //     console.log(this.uid);
+    //     this.$router.push({ path: "/" });
+    //   }
+    // } else {
+    //   this.$router.push({ path: "/" });
+    //   // No user is signed in.
+    // }
   },
 };
 </script>

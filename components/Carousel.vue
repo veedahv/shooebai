@@ -34,7 +34,7 @@
                 <em>{{ slide.text }}</em>
               </p>
               <div class="py-2">
-                <nuxt-link to="/" class="border-2 font-medium text-2xl border-current px-4 py-2 ">Shop Now</nuxt-link>
+                <nuxt-link to="/shop" class="border-2 font-medium text-2xl border-current px-4 py-2 ">Shop Now</nuxt-link>
               </div>
             </div>
             </div>

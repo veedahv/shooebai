@@ -3,31 +3,31 @@
     <div class="product">
       <div class="flex flex-wrap justify-between py-2 w-full items-start">
         <div class="product-img w-4/12">
-          <nuxt-link :to="'/Admin/ProductForm/' + product.productId">
-            <img :src="product.productImage" alt="" />
-          </nuxt-link>
+          <!-- <nuxt-link :to="'/Admin/ProductForm/' + product.productId"> -->
+          <img :src="product.productImage" alt="" />
+          <!-- </nuxt-link> -->
         </div>
         <!-- <div class="product-info w-full md:w-7/12"> -->
         <div class="product-info w-7/12">
           <div class="product-details">
-            <nuxt-link :to="'/Admin/ProductForm/' + product.productId">
-              <p class="product-name">{{ product.productName }}</p>
-            </nuxt-link>
+            <p class="product-name">{{ product.productName }}</p>
           </div>
           <div class="product-btn-box">
-            <button class="product-btn uppercase">
-              <span>
-                <span> edit </span>
+            <nuxt-link :to="'/Admin/ProductForm/' + product.productId">
+              <button class="product-btn uppercase">
                 <span>
-                  <i class="fas fa-bookmark"></i>
-                  <!-- <i class="fas text-3xl fa-bookmark"></i> -->
+                  <span> edit </span>
+                  <span>
+                    <i class="fas text-sm fa-bookmark"></i>
+                    <!-- <i class="fas text-3xl fa-bookmark"></i> -->
+                  </span>
                 </span>
-              </span>
-            </button>
+              </button>
+            </nuxt-link>
             <button class="product-btn uppercase">
               <span class="in">
                 <span> delete </span>
-                <i class="fas fa-shopping-bag"></i>
+                <i class="fas text-sm fa-shopping-bag"></i>
               </span>
             </button>
           </div>
