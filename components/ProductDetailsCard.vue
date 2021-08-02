@@ -26,7 +26,6 @@
                   class="cursor border-2 border-transparent block h-full w-full rounded-full p-1"
                   :class="'text-' + color + '-500'"
                 >
-                  {{ color }}
                   <!-- <label :for="color" class="cursor inline-block rounded-full p-1"> -->
                   <span
                     class="block w-full h-full rounded-full bg-gradient-to-r text-black from-gray-900 to-black"
@@ -178,7 +177,7 @@ export default {
   methods: {
     colorBg(color) {
       return `text-${color}-500 from-${color}-200 to-${color}-700`;
-        },
+    },
     async readFromFirestore() {
       const ref = this.$fire.firestore.collection("products").doc("product");
       let snap;
