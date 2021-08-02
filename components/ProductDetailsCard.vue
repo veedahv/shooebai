@@ -38,15 +38,7 @@
                   ></span>
                   <span
                     class="block w-full h-full bg-gradient-to-r rounded-full"
-                    :class="
-                      'text-' +
-                      color +
-                      '-500 from-' +
-                      color +
-                      '-200 to-' +
-                      color +
-                      '-700'
-                    "
+                    :class=" `text-${color}-500 from-${color}-200 to-${color}-700`"
                     v-else
                   ></span>
                 </label>
@@ -54,7 +46,7 @@
             </div>
           </div>
           <div class="">
-            <div class="flex justify-between items-center">
+            <div class="flex justify-start items-center">
               <span class="">Available sizes</span>
               <select name="" id="">
                 <option
