@@ -57,3 +57,7 @@ body {
 .color-dark {
   color: var(--dark);
 }
+
+span {
+  color: inherit;
+}

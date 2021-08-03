@@ -5,7 +5,7 @@
         <div class="product-img w-full md:w-6/12">
           <img :src="product.productImage" alt="" />
           <div class="">
-            <div class="flex justify-between items-center">
+            <div class="flex justify-start items-center">
               <span class="">Available colors</span>
               <span
                 class="colors h-7 w-7 m-1 inline-block"
@@ -24,7 +24,7 @@
                 <label
                   :for="color"
                   class="cursor border-2 border-transparent block h-full w-full rounded-full p-1"
-                  :class="'text-' + color + '-500'"
+                  :class="`text-${color}-500`"
                 >
                   <!-- <label :for="color" class="cursor inline-block rounded-full p-1"> -->
                   <span
@@ -37,7 +37,7 @@
                   ></span>
                   <span
                     class="block w-full h-full bg-gradient-to-r rounded-full"
-                    :class="colorBg(color)"
+                    :class="`text-${color}-500 from-${color}-200 to-${color}-700`"
                     v-else
                   ></span>
                 </label>
@@ -82,6 +82,15 @@
         </div>
         <div class="product-info w-full md:w-5/12">
           <div class="product-details">
+            <div class="rating">
+              <span
+                class="colors h-7 w-7 m-1 inline-block"
+                v-for="n in product.rating"
+                :key="n"
+              >
+                <i class="fas fa-star text-sm text-yellow-500"></i>
+              </span>
+            </div>
             <p class="product-name">{{ product.productName }}</p>
             <!-- <p class="product-price">{{ product.productPrice }}</p> -->
             <div class="" v-if="product.discount == 0">
@@ -98,45 +107,43 @@
               <p class="product-price font-medium">{{ discount }}</p>
             </div>
             <p class="product-descripion text-sm">{{ product.descripion }}</p>
-            <div class="">
-              <span
-                class="colors h-7 w-7 m-1 inline-block"
-                v-for="n in product.rating"
-                :key="n"
-              >
-                <i class="fas fa-star text-sm text-yellow-500"></i>
-              </span>
-            </div>
           </div>
           <p class="qty">Only {{ product.availableQuantity }} left in stock</p>
           <div class="product-btn-box">
-            <button class="product-btn uppercase">
-              <span v-if="product.fav">
-                <span> remove from wishlist </span>
+            <div class="product-btn-box">
+              <button class="product-btn uppercase" v-if="product.fav">
                 <span>
-                  <i class="fas fa-bookmark"></i>
-                  <!-- <i class="fas text-3xl fa-bookmark"></i> -->
+                  <span> remove from wishlist </span>
+                  <span>
+                    <i class="fas fa-bookmark"></i>
+                    <!-- <i class="fas text-3xl fa-bookmark"></i> -->
+                  </span>
                 </span>
-              </span>
-              <span v-else>
-                <span> add to wishlist </span>
+              </button>
+              <button class="product-btn uppercase" v-else>
                 <span>
-                  <i class="fas fa-bookmark"></i>
-                  <!-- <i class="fas text-3xl fa-bookmark"></i> -->
+                  <span> add to wishlist </span>
+                  <span>
+                    <i class="fas fa-bookmark"></i>
+                  </span>
                 </span>
-              </span>
-            </button>
-            <button class="product-btn uppercase">
-              <span class="in" v-if="product.inShop">
-                <span> remove from cart </span>
-                <i class="fas fa-shopping-bag"></i>
-              </span>
-              <span class="minus" v-else>
-                <span> add to cart </span>
-                <i class="fas fa-shopping-bag"></i>
-                <!-- <i class="fa fa-shopping-cart" aria-hidden="true"></i> -->
-              </span>
-            </button>
+              </button>
+            </div>
+            <div class="product-btn-box">
+              <button class="product-btn uppercase px-2.5 py-2 bg-tertiary color-primary">
+                <span class="in">
+                  <span> remove from cart </span>
+                  <i class="fas fa-shopping-bag"></i>
+                </span>
+              </button>
+              <button class="product-btn uppercase px-2.5 py-2 bg-primary color-tertiary">
+                <span class="minus">
+                  <span> add to cart </span>
+                  <i class="fas fa-shopping-bag"></i>
+                  <!-- <i class="fa fa-shopping-cart" aria-hidden="true"></i> -->
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -163,6 +170,7 @@ export default {
     return {
       products: [],
       product: "",
+      user: "",
     };
   },
   props: ["id"],
@@ -175,9 +183,11 @@ export default {
     },
   },
   methods: {
-    colorBg(color) {
-      return `text-${color}-500 from-${color}-200 to-${color}-700`;
-    },
+    // colorBg(color) {
+    //   return ''
+    //     },
+    addToWishlist() {},
+    removeToWishlist() {},
     async readFromFirestore() {
       const ref = this.$fire.firestore.collection("products").doc("product");
       let snap;
@@ -200,9 +210,25 @@ export default {
       });
     },
   },
-  mounted() {
+  created() {
     this.readFromFirestore();
+    const user = this.$fire.auth.currentUser;
+
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      // this.user = user.uid;
+      this.user = user;
+      console.log(this.user);
+      // ...
+    } else {
+      // this.$router.push({ path: "/" });
+      // No user is signed in.
+    }
   },
+  // mounted() {
+  //   this.readFromFirestore();
+  // },
 };
 </script>
 

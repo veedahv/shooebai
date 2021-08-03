@@ -87,7 +87,10 @@ export default {
   //     console.log(this.id);
   //   // this.readFromFirestore();
   // },
-  beforeMount() {
+  // beforeMount() {
+  //   this.id = this.$route.params.id;
+  // },
+  created() {
     this.id = this.$route.params.id;
   },
 };

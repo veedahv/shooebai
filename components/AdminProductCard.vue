@@ -18,7 +18,7 @@
                 <span>
                   <span> edit </span>
                   <span>
-                    <i class="fas text-sm fa-bookmark"></i>
+                    <i class="fas fa-edit"></i>
                     <!-- <i class="fas text-3xl fa-bookmark"></i> -->
                   </span>
                 </span>
@@ -27,7 +27,7 @@
             <button class="product-btn uppercase">
               <span class="in">
                 <span> delete </span>
-                <i class="fas text-sm fa-shopping-bag"></i>
+                  <i class="fas fa-trash-alt"></i>
               </span>
             </button>
           </div>
