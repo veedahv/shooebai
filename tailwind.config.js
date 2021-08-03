@@ -8,7 +8,12 @@ module.exports = {
       './nuxt.config.{js,ts}',
     ],
     options: {
-      safelist: [/(from|via|to|border|bg|text)-(.*)-(\\d{1}0{1,2})/]
+      // safelist: [/(from|via|to|border|bg|text)-(.*)-(\\d{1}0{1,2})/]
+      // safelist: [/^(from|via|to|border|bg|text)-(.*)-(\\d{1}0{1,2})/]
+      // safelist: [/^(from|via|to|border|bg|text)-(.*)-(\\d{1}0{1,2})/]
+      // safelist: [/^(from|via|to|border|bg|text)-(.*)-(\\d{1}0{1,2})/]
+      // safelist: [/^(from|via|to|border|bg|text)-(.*)-(\\d{1}0{1,2})/]
+      safelist: [/^bg-/]
     }
   },
   darkMode: false, // or 'media' or 'class'
