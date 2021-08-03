@@ -12,8 +12,8 @@ module.exports = {
       // safelist: [/^(from|via|to|border|bg|text)-(.*)-(\\d{1}0{1,2})/]
       // safelist: [/^(from|via|to|border|bg|text)-(.*)-(\\d{1}0{1,2})/]
       // safelist: [/^(from|via|to|border|bg|text)-(.*)-(\\d{1}0{1,2})/]
-      // safelist: [/^(from|via|to|border|bg|text)-(.*)-(\\d{1}0{1,2})/]
-      safelist: [/^bg-/]
+      safelist: [/^(from|via|to|border|bg|text)-(.*)-(\\d{1}0{1,2})/]
+      // safelist: [/^bg-/]
     }
   },
   darkMode: false, // or 'media' or 'class'
