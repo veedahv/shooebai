@@ -32,6 +32,41 @@ export default {
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
+  generate: {
+    fallback: true,
+  },
+
+  // router: {
+  //   extendRoutes(routes, resolve) {
+  //     routes.push(
+  //       {
+  //         // path: '/users/:id',
+  //         // components: {
+  //         //   default: resolve(__dirname, 'pages/users'), // or routes[index].component
+  //         //   modal: resolve(__dirname, 'components/modal.vue')
+  //         // },
+  //         //   modal: 'components/modal'
+  //         // }
+  //         // path: "/Admin/ProductForm/:ProductId?",
+  //         // components: resolve(__dirname, 'pages/Admin/ProductForm.vue'), // or routes[index].component
+  //         // name: "Admin-ProductForm-ProductId",
+  //         //   chunkNames: 'pages/Admin/ProductForm'
+  //         // },
+  //         // {
+  //           // path: "/Admin/ProductForm/:ProductId?",
+  //           path: "/ProductDetail/:id",
+  //           components: resolve(__dirname, 'pages/ProductDetail/_id/index.vue'), // or routes[index].component
+  //           name: "ProductDetail-id" ,
+  //           chunkNames: 'pages/ProductDetail/_id/index'
+  //         // }, {
+  //         //   name: 'custom',
+  //         //   path: '*',
+  //         //   component: resolve(__dirname, 'pages/404.vue')
+  //       }
+  //     )
+  //   }
+  // },
+
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss

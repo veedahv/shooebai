@@ -427,6 +427,7 @@ export default {
         colors: this.colors,
         sizes: this.sizes,
       };
+      this.products.push(newProduct);
     },
     saveProduct() {
       this.products.forEach((prod) => {
@@ -460,7 +461,8 @@ export default {
       } else {
         // this.products = [newProduct];
         this.addProduct();
-        // this.resetProduct();
+        this.resetProduct();
+        console.log(this.products);
       }
       const document = {
         products: this.products,
