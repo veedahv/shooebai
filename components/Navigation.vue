@@ -124,7 +124,8 @@ export default {
       this.viewSignInUp = true;
     },
   },
-  mounted() {
+  // mounted() {
+  created() {
     // const user = this.$fire.auth.currentUser;
 
     // if (user) {

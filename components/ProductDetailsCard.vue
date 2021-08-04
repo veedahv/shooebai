@@ -19,6 +19,7 @@
                   :value="color"
                   class="color hidden"
                   checked
+                  v-model="colorSet"
                 />
                 <!-- <label :for="color" class="cursor inline-block h-3.5 w-3.5 rounded-full p-1"> -->
                 <label
@@ -47,7 +48,7 @@
           <div class="">
             <div class="flex justify-start items-center">
               <span class="">Available sizes</span>
-              <select name="" id="">
+              <select name="" id="" v-model="sizeSet">
                 <option
                   class="sizes h-7 w-7 m-1 inline-block"
                   v-for="size in product.sizes"
@@ -111,32 +112,42 @@
           <p class="qty">Only {{ product.availableQuantity }} left in stock</p>
           <div class="product-btn-box">
             <div class="product-btn-box">
-              <button class="product-btn uppercase" v-if="product.fav">
-                <span>
+              <button class="product-btn uppercase" @click="toggleWishlist">
+                <span v-if="inFav">
                   <span> remove from wishlist </span>
                   <span>
                     <i class="fas fa-bookmark"></i>
                     <!-- <i class="fas text-3xl fa-bookmark"></i> -->
                   </span>
                 </span>
-              </button>
-              <button class="product-btn uppercase" v-else>
-                <span>
+                <!-- </button>
+              <button class="product-btn uppercase"> -->
+                <span v-else>
                   <span> add to wishlist </span>
                   <span>
-                    <i class="fas fa-bookmark"></i>
+                    <i class="far fa-bookmark"></i>
                   </span>
                 </span>
               </button>
             </div>
             <div class="product-btn-box">
-              <button class="product-btn uppercase px-2.5 py-2 bg-tertiary color-primary">
+              <!-- <button
+                class="product-btn"
+                @click="toggleCart"
+              > -->
+              <button
+                class="product-btn uppercase px-2.5 py-2 bg-tertiary color-primary"
+                @click="removeFromCart()" v-if="inShop"
+              >
                 <span class="in">
                   <span> remove from cart </span>
                   <i class="fas fa-shopping-bag"></i>
                 </span>
               </button>
-              <button class="product-btn uppercase px-2.5 py-2 bg-primary color-tertiary">
+              <button
+                class="product-btn uppercase px-2.5 py-2 bg-primary color-tertiary"
+                @click="addToCart()" v-else
+              >
                 <span class="minus">
                   <span> add to cart </span>
                   <i class="fas fa-shopping-bag"></i>
@@ -170,7 +181,20 @@ export default {
     return {
       products: [],
       product: "",
-      user: "",
+      // cartArr: [],
+      // favArr: [],
+      inShop: false,
+      inFav: false,
+      // colorSet: '',
+      sizeSet: '',
+      user: {
+        // userId: userId,
+        // displayName: this.displayName,
+        // email: this.email,
+        // country: this.country,
+        cart: [],
+        fav: []
+      },
     };
   },
   props: ["id"],
@@ -181,12 +205,106 @@ export default {
         (this.product.discount * this.product.productPrice) / 100;
       return discountVal;
     },
+    colorSet() {
+      return this.product.colors[0];
+    },
+    // sizeSet() {
+    //   return this.product.sizes[0];
+    // },
   },
   methods: {
     // colorBg(color) {
     //   return ''
     //     },
-    addToWishlist() {},
+    toggleWishlist() {
+      if (this.user.fav.includes(this.id)) {
+        let found = this.user.fav.indexOf(this.id);
+        this.user.fav.splice(found, 1);
+        this.inFav = false;
+        console.log(this.inFav);
+        console.log(this.user.fav);
+      } else {
+        this.inFav = true;
+        this.user.fav.push(this.id);
+        console.log(this.inFav);
+        console.log(this.user.fav);
+      }
+    },
+    toggleCart() {
+      this.user.cart.forEach(cartItem => {        
+        if (cartItem.id == this.id) {
+          let found = this.user.cart.indexOf(cartItem.id);
+          this.user.cart.splice(found, 1);
+          this.inShop = false;
+          console.log(this.inShop);
+          console.log(this.user.fav);
+        } else {
+          const newItem = {
+            id: this.id,
+            colorSet: this.colorSet,
+            sizeSet: this.sizeSet,
+          }
+          this.user.cart.push(newItem);
+          this.inShop = true;
+          console.log(this.inShop);
+          console.log(this.user.cart);
+        }
+      });
+    },
+    toggleCart() {
+      this.user.cart.forEach(cartItem => {        
+        if (cartItem.id == this.id) {
+          let found = this.user.cart.indexOf(cartItem.id);
+          this.user.cart.splice(found, 1);
+          this.inShop = false;
+          console.log(this.inShop);
+          console.log(this.user.fav);
+        } else {
+          const newItem = {
+            id: this.id,
+            colorSet: this.colorSet,
+            sizeSet: this.sizeSet,
+          }
+          this.user.cart.push(newItem);
+          this.inShop = true;
+          console.log(this.inShop);
+          console.log(this.user.cart);
+        }
+      });
+    },
+    addToCart() {
+              const newItem = {
+                id: this.id,
+                colorSet: this.colorSet,
+                sizeSet: this.sizeSet,
+              }
+              this.user.cart.push(newItem);
+              this.inShop = true;
+              console.log(this.inShop);
+              console.log(this.user.cart);
+    },
+    removeFromCart() {
+          this.user.cart.forEach(cartItem => {        
+            if (cartItem.id == this.id) {
+              let found = this.user.cart.indexOf(cartItem.id);
+              this.user.cart.splice(found, 1);
+              this.inShop = false;
+              console.log(this.inShop);
+              console.log(this.user.fav);
+            } else {
+              this.inShop = true;
+            }
+          });
+          },
+    addToWishlist() {
+      if (this.user.fav.includes(this.id)) {
+        this.inFav = true;
+        console.log(this.inFav);
+      } else {
+        this.inFav = false;
+        console.log(this.inFav);
+      }
+    },
     removeToWishlist() {},
     async readFromFirestore() {
       const ref = this.$fire.firestore.collection("products").doc("product");
@@ -199,7 +317,7 @@ export default {
       }
       this.products = snap.data().products;
       this.products.forEach((prod) => {
-        console.log(prod.productId);
+        // console.log(prod.productId);
 
         // if (prod.productId.toLowerCase() === this.id.toLowerCase()) {
         if (prod.productId === this.id) {
@@ -208,6 +326,41 @@ export default {
           console.log(this.id);
         }
       });
+    },
+    async getUserFirestore(userId) {
+      const ref = this.$fire.firestore.collection("users").doc(userId);
+      // const ref = this.$fire.firestore.collection("users").doc(userId).user;
+      // const ref = this.$fire.firestore.collection("products").doc("product");
+      let snap;
+      try {
+        snap = await ref.get();
+      } catch (e) {
+        // TODO: error handling
+        console.error(e);
+      }
+      this.user = snap.data().user;
+      console.log(this.user);
+      console.log(this.user.fav);
+      console.log(this.user.cart);
+      if (this.user.cart.includes(this.id)) {
+        this.inShop = true;
+        console.log(this.inShop);
+      } else {
+        this.inShop = false;
+        console.log(this.inShop);
+      }
+      if (this.user.fav.includes(this.id)) {
+        this.inFav = true;
+        console.log(this.inFav);
+      } else {
+        this.inFav = false;
+        console.log(this.inFav);
+      }
+
+      // this.cartArr = this.user.cart;
+      // this.favArr =  this.user.fav;
+      // let found = this.tags.indexOf(tag);
+      // this.tags.splice(found, 1);
     },
   },
   created() {
@@ -219,16 +372,22 @@ export default {
       // https://firebase.google.com/docs/reference/js/firebase.User
       // this.user = user.uid;
       this.user = user;
+      let userId = user.uid;
       console.log(this.user);
       // ...
+      this.getUserFirestore(userId);
     } else {
       // this.$router.push({ path: "/" });
       // No user is signed in.
     }
+    // this.sizeSet = 
   },
-  // mounted() {
-  //   this.readFromFirestore();
-  // },
+  mounted() {
+    console.log(this.product);
+    console.log(this.product.sizes);
+    // this.readFromFirestore();
+    // this.colorSet = this.$el.querySelector('input[type="radio"').value;
+  },
 };
 </script>
 

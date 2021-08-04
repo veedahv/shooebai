@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="product bg-white relative">
+  <div class="h-full">
+    <div class="product bg-white relative h-full">
       <!-- <div class="flex justify-between py-2 absolute left-0 w-full top items-center"> -->
       <div class="py-2 absolute left-0 top-0">
         <span
@@ -57,7 +57,8 @@
             <!-- <i class="fas fa-shopping-bag"></i> -->
             <!-- <i class="fas fa-5x text-5xl fa-bookmark"></i> -->
             <!-- <i class="fas fa-3x fa-bookmark"></i> -->
-            <i class="fas text-3xl fa-bookmark"></i>
+            <i class="fas text-3xl fa-bookmark" v-if="inList"></i>
+            <i class="far text-3xl fa-bookmark" v-else></i>
             <!-- <span v-if="product.fav">
               <i class="fa fa-heart" aria-hidden="true"></i>
             </span>
@@ -83,6 +84,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      inList: false,
+    }
+  },
   props: ["product"],
   computed: {
     discount() {
@@ -91,6 +97,59 @@ export default {
         (this.product.discount * this.product.productPrice) / 100;
       return discountVal;
     },
+  },  
+  created() {
+    const user = this.$fire.auth.currentUser;
+
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+      const userId = user.uid;
+    console.log(userId);
+    // storeUser(userId) {
+      // const ref = this.$fire.firestore.collection("users").doc(userId).user;
+      // const ref = this.$fire.firestore.collection("users").doc(userId);
+      // console.log(ref);
+      // const newUser = {
+  this.readFromFirestore(userId);
+      //   userId: userId,
+      //   displayName: this.displayName,
+      //   email: this.email,
+      //   country: this.country,
+      //   cart: this.cart,
+      //   fav: this.fav
+      // };
+      // const document = {
+      //   user: newUser,
+      // };
+      // ref.set(document);
+    // },
+    // // ...
+    // if (this.uid !== "jl0JqEJTJrbWgY0zxO9voeHxJBS2") {
+  //     console.log(this.uid);
+  //     this.$router.push({ path: "/" });
+  //   }
+  // } else {
+  //   this.$router.push({ path: "/" });
+  //   // No user is signed in.
+  }
+  },
+  methods: {
+    async readFromFirestore(userId) {
+      const ref = this.$fire.firestore.collection("users").doc(userId);
+      // const ref = this.$fire.firestore.collection("users").doc(userId).user;
+      // const ref = this.$fire.firestore.collection("products").doc("product");
+      let snap;
+      try {
+        snap = await ref.get();
+      } catch (e) {
+        // TODO: error handling
+        console.error(e);
+      }
+      let user = snap.data().user;
+      console.log(user);
+      console.log(user.fav);
+    }    
   },
 };
 </script>

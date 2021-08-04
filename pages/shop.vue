@@ -14,11 +14,11 @@
           </div>
           <div class="">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              <div class="" v-for="product in products" :key="product.id">
-                <ProductCard :product="product"></ProductCard>
+              <div class="h-full" v-for="product in products" :key="product.id">
+                <ProductCard class="h-full" :product="product"></ProductCard>
               </div>
-              <div class="" v-for="product in products" :key="product.id">
-                <ProductCard :product="product"></ProductCard>
+              <div class="h-full" v-for="product in products" :key="product.id">
+                <ProductCard class="h-full" :product="product"></ProductCard>
               </div>
             </div>
           </div>
