@@ -166,8 +166,8 @@ export default {
     return {
       products: [],
       product: "",
-      // cartArr: [],
-      // favArr: [],
+      cartList: [],
+      favList: [],
       inShop: false,
       inFav: false,
       // colorSet: '',
@@ -206,18 +206,35 @@ export default {
     //     },
     toggleWishlist() {
       if (this.user.fav.includes(this.id)) {
-        let found = this.user.fav.indexOf(this.id);
-        this.user.fav.splice(found, 1);
+      //   let found = this.user.fav.indexOf(this.id);
+      //   this.user.fav.splice(found, 1);
+      //   this.inFav = false;
+      //   console.log(this.inFav);
+      //   console.log(this.user.fav);
+      // } else {
+      //   this.inFav = true;
+      //   this.user.fav.push(this.id);
+      //   console.log(this.inFav);
+      //   console.log(this.user.fav);
+      // }
+      // if (this.favList.includes(this.product.productId)) {
+        let found = this.favList.indexOf(this.product.productId);
+        this.favList.splice(found, 1);
         this.inFav = false;
-        console.log(this.inFav);
-        console.log(this.user.fav);
+        // console.log(this.inFav);
+        // console.log(this.user.fav);
       } else {
         this.inFav = true;
-        this.user.fav.push(this.id);
-        console.log(this.inFav);
-        console.log(this.user.fav);
+        this.favList.push(this.id);
+        // console.log(this.inFav);
+        // console.log(this.user.fav);
       }
-      this.saveUser();
+      if (this.isUser) {        
+        this.saveUser();
+      } else {
+        localStorage.setItem('favList', this.favList)
+      }
+      // this.saveUser();
     },
     // toggleCart() {
     //   this.user.cart.forEach((cartItem) => {
@@ -344,7 +361,11 @@ export default {
         }
           console.log(this.inShop);
       });
-      if (this.user.fav.includes(this.id)) {
+      let list = this.user.fav;
+      list.forEach((element) => {
+        this.favList.push(element);
+      });
+      if (this.favList.includes(this.id)) {
         this.inFav = true;
         console.log(this.inFav);
       } else {
@@ -367,7 +388,12 @@ export default {
       console.log(this.user);
       // ...
       this.getUserFirestore(userId);
-    } else {
+    }  else if (localStorage.getItem("favList")) {
+      let list = JSON.parse(localStorage.getItem("favList"));
+      list.forEach((element) => {
+        this.favList.push(element);
+      });
+      // } else {
       // this.$router.push({ path: "/" });
       // No user is signed in.
     }
