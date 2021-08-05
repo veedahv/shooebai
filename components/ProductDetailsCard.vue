@@ -48,36 +48,19 @@
           <div class="">
             <div class="flex justify-start items-center">
               <span class="">Available sizes</span>
+              <!-- <select name="" id=""> -->
               <select name="" id="" v-model="sizeSet">
                 <option
                   class="sizes h-7 w-7 m-1 inline-block"
-                  v-for="size in product.sizes"
+                  v-for="(size) in product.sizes"
                   :key="size"
-                  value="size"
+                  :value="size"
                 >
+                  <!-- v-for="(size, index) in product.sizes" -->
+                  <!-- :selected="index === 1" -->
                   {{ size }}
                 </option>
               </select>
-              <!-- <span
-                class="sizes h-7 w-7 m-1 inline-block"
-                v-for="size in product.sizes"
-                :key="size"
-              >
-                <input
-                  type="radio"
-                  name="sizes"
-                  :id="size"
-                  :value="size"
-                  class="size hidden"
-                  checked
-                />
-                <label
-                  :for="size"
-                  class="cursor border-2 border-transparent block h-full w-full rounded-full p-1"
-                >
-                  {{ size }}
-                </label>
-              </span> -->
             </div>
           </div>
         </div>
@@ -137,7 +120,8 @@
               > -->
               <button
                 class="product-btn uppercase px-2.5 py-2 bg-tertiary color-primary"
-                @click="removeFromCart()" v-if="inShop"
+                @click="removeFromCart()"
+                v-if="inShop"
               >
                 <span class="in">
                   <span> remove from cart </span>
@@ -146,7 +130,8 @@
               </button>
               <button
                 class="product-btn uppercase px-2.5 py-2 bg-primary color-tertiary"
-                @click="addToCart()" v-else
+                @click="addToCart()"
+                v-else
               >
                 <span class="minus">
                   <span> add to cart </span>
@@ -186,14 +171,14 @@ export default {
       inShop: false,
       inFav: false,
       // colorSet: '',
-      sizeSet: '',
+      sizeSet: "",
       user: {
         // userId: userId,
         // displayName: this.displayName,
         // email: this.email,
         // country: this.country,
         cart: [],
-        fav: []
+        fav: [],
       },
     };
   },
@@ -209,6 +194,9 @@ export default {
       return this.product.colors[0];
     },
     // sizeSet() {
+    //       // console.log(this.product);
+    //       // console.log(this.product.sizes);
+    //       // console.log(this.product.colors);
     //   return this.product.sizes[0];
     // },
   },
@@ -229,73 +217,71 @@ export default {
         console.log(this.inFav);
         console.log(this.user.fav);
       }
+      this.saveUser();
     },
-    toggleCart() {
-      this.user.cart.forEach(cartItem => {        
-        if (cartItem.id == this.id) {
-          let found = this.user.cart.indexOf(cartItem.id);
-          this.user.cart.splice(found, 1);
-          this.inShop = false;
-          console.log(this.inShop);
-          console.log(this.user.fav);
-        } else {
-          const newItem = {
-            id: this.id,
-            colorSet: this.colorSet,
-            sizeSet: this.sizeSet,
-          }
-          this.user.cart.push(newItem);
-          this.inShop = true;
-          console.log(this.inShop);
-          console.log(this.user.cart);
-        }
-      });
-    },
-    toggleCart() {
-      this.user.cart.forEach(cartItem => {        
-        if (cartItem.id == this.id) {
-          let found = this.user.cart.indexOf(cartItem.id);
-          this.user.cart.splice(found, 1);
-          this.inShop = false;
-          console.log(this.inShop);
-          console.log(this.user.fav);
-        } else {
-          const newItem = {
-            id: this.id,
-            colorSet: this.colorSet,
-            sizeSet: this.sizeSet,
-          }
-          this.user.cart.push(newItem);
-          this.inShop = true;
-          console.log(this.inShop);
-          console.log(this.user.cart);
-        }
-      });
+    // toggleCart() {
+    //   this.user.cart.forEach((cartItem) => {
+    //     if (cartItem.id == this.id) {
+    //       let found = this.user.cart.indexOf(cartItem.id);
+    //       this.user.cart.splice(found, 1);
+    //       this.inShop = false;
+    //       console.log(this.inShop);
+    //       console.log(this.user.fav);
+    //     } else {
+    //       const newItem = {
+    //         id: this.id,
+    //         colorSet: this.colorSet,
+    //         sizeSet: this.sizeSet,
+    //       };
+    //       this.user.cart.push(newItem);
+    //       this.inShop = true;
+    //       console.log(this.inShop);
+    //       console.log(this.user.cart);
+    //     }
+    //   });
+    // },
+    saveUser() {      
+      const ref = this.$fire.firestore.collection("users").doc(this.user.userId);
+      console.log(ref);
+      const editUser = {
+        userId: this.user.userId,
+        displayName: this.user.displayName,
+        email: this.user.email,
+        country: this.user.country,
+        cart: this.user.cart,
+        fav: this.user.fav
+      };
+      const document = {
+        user: editUser,
+      };
+      ref.set(document);
     },
     addToCart() {
-              const newItem = {
-                id: this.id,
-                colorSet: this.colorSet,
-                sizeSet: this.sizeSet,
-              }
-              this.user.cart.push(newItem);
-              this.inShop = true;
-              console.log(this.inShop);
-              console.log(this.user.cart);
+      const newItem = {
+        id: this.id,
+        colorSet: this.colorSet,
+        sizeSet: this.sizeSet,
+      };
+      this.user.cart.push(newItem);
+      this.inShop = true;
+      console.log(this.inShop);
+      console.log(this.user.cart);
+      this.saveUser();
     },
     removeFromCart() {
-          this.user.cart.forEach(cartItem => {        
-            if (cartItem.id == this.id) {
-              let found = this.user.cart.indexOf(cartItem.id);
-              this.user.cart.splice(found, 1);
-              this.inShop = false;
-              console.log(this.inShop);
-              console.log(this.user.fav);
-            } else {
-              this.inShop = true;
-            }
-          });
-          },
+      this.user.cart.forEach((cartItem) => {
+        if (cartItem.id == this.id) {
+          let found = this.user.cart.indexOf(cartItem);
+          this.user.cart.splice(found, 1);
+          this.inShop = false;
+          console.log(this.inShop);
+          console.log(this.user.fav);
+        } else {
+          this.inShop = true;
+        }
+      });
+      this.saveUser();
+    },
     addToWishlist() {
       if (this.user.fav.includes(this.id)) {
         this.inFav = true;
@@ -322,8 +308,13 @@ export default {
         // if (prod.productId.toLowerCase() === this.id.toLowerCase()) {
         if (prod.productId === this.id) {
           this.product = prod;
+          this.sizeSet = this.product.sizes[0];
           console.log(prod.productId);
           console.log(this.id);
+          console.log(this.product);
+          console.log(this.product.sizes[0]);
+          console.log(this.product.sizes);
+          console.log(this.product.colors);
         }
       });
     },
@@ -342,13 +333,17 @@ export default {
       console.log(this.user);
       console.log(this.user.fav);
       console.log(this.user.cart);
-      if (this.user.cart.includes(this.id)) {
-        this.inShop = true;
-        console.log(this.inShop);
-      } else {
-        this.inShop = false;
-        console.log(this.inShop);
-      }
+      this.user.cart.forEach((cartItem) => {
+        if (cartItem.id == this.id) {
+        console.log(cartItem.id);
+          this.inShop = true;
+          console.log(this.user.fav);
+        } else {
+          console.log(cartItem.id);
+          this.inShop = false;
+        }
+          console.log(this.inShop);
+      });
       if (this.user.fav.includes(this.id)) {
         this.inFav = true;
         console.log(this.inFav);
@@ -356,16 +351,12 @@ export default {
         this.inFav = false;
         console.log(this.inFav);
       }
-
-      // this.cartArr = this.user.cart;
-      // this.favArr =  this.user.fav;
-      // let found = this.tags.indexOf(tag);
-      // this.tags.splice(found, 1);
     },
   },
   created() {
     this.readFromFirestore();
     const user = this.$fire.auth.currentUser;
+    // console.log(this.sizeSet);
 
     if (user) {
       // User is signed in, see docs for a list of available properties
@@ -380,11 +371,9 @@ export default {
       // this.$router.push({ path: "/" });
       // No user is signed in.
     }
-    // this.sizeSet = 
+    // this.sizeSet =
   },
   mounted() {
-    console.log(this.product);
-    console.log(this.product.sizes);
     // this.readFromFirestore();
     // this.colorSet = this.$el.querySelector('input[type="radio"').value;
   },

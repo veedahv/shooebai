@@ -52,12 +52,12 @@
         </div>
         <div class="product-btn-box">
           <!-- <button class="product-btn active:shadow-md hover:shadow-lg"> -->
-          <button class="product-btn transform active:scale-90 hover:scale-110">
+          <button class="product-btn transform active:scale-90 hover:scale-110" @click="toggleWishlist">
             <!-- <button class="product-btn"> -->
             <!-- <i class="fas fa-shopping-bag"></i> -->
             <!-- <i class="fas fa-5x text-5xl fa-bookmark"></i> -->
             <!-- <i class="fas fa-3x fa-bookmark"></i> -->
-            <i class="fas text-3xl fa-bookmark" v-if="inList"></i>
+            <i class="fas text-3xl fa-bookmark" v-if="inFav"></i>
             <i class="far text-3xl fa-bookmark" v-else></i>
             <!-- <span v-if="product.fav">
               <i class="fa fa-heart" aria-hidden="true"></i>
@@ -86,7 +86,17 @@
 export default {
   data() {
     return {
-      inList: false,
+      inFav: false,
+      isUser: false,
+      favList: [],
+      user: {
+        // userId: userId,
+        // displayName: this.displayName,
+        // email: this.email,
+        // country: this.country,
+        // cart: [],
+        fav: [],
+      },
     }
   },
   props: ["product"],
@@ -100,18 +110,21 @@ export default {
   },  
   created() {
     const user = this.$fire.auth.currentUser;
+    // console.log(this.product.productId);
 
   if (user) {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/firebase.User
       const userId = user.uid;
-    console.log(userId);
+      this.isUser = true;
+    // console.log(userId);
+      this.getUserFirestore(userId);
     // storeUser(userId) {
       // const ref = this.$fire.firestore.collection("users").doc(userId).user;
       // const ref = this.$fire.firestore.collection("users").doc(userId);
       // console.log(ref);
       // const newUser = {
-  this.readFromFirestore(userId);
+  // this.readFromFirestore(userId);
       //   userId: userId,
       //   displayName: this.displayName,
       //   email: this.email,
@@ -132,9 +145,74 @@ export default {
   // } else {
   //   this.$router.push({ path: "/" });
   //   // No user is signed in.
+  } else if (localStorage.getItem('favList')) {
+    let list = JSON.parse(localStorage.getItem('favList'));
+    list.forEach(element => {      
+      this.favList.push(element)
+    });
+  // } else {    
   }
   },
   methods: {
+    toggleWishlist() {
+      if (this.favList.includes(this.product.productId)) {
+        let found = this.favList.indexOf(this.product.productId);
+        this.favList.splice(found, 1);
+        this.inFav = false;
+        // console.log(this.inFav);
+        // console.log(this.user.fav);
+      } else {
+        this.inFav = true;
+        this.favList.push(this.id);
+        // console.log(this.inFav);
+        // console.log(this.user.fav);
+      }
+      if (isUser) {        
+        this.saveUser();
+      } else {
+        localStorage.setItem('favList', this.favList)
+      }
+    },
+    saveUser() {      
+      const ref = this.$fire.firestore.collection("users").doc(this.user.userId);
+      console.log(ref);
+      const editUser = {
+        userId: this.user.userId,
+        displayName: this.user.displayName,
+        email: this.user.email,
+        country: this.user.country,
+        cart: this.user.cart,
+        fav: this.favList
+      };
+      const document = {
+        user: editUser,
+      };
+      ref.set(document);
+    },
+    async getUserFirestore(userId) {
+      const ref = this.$fire.firestore.collection("users").doc(userId);
+      let snap;
+      try {
+        snap = await ref.get();
+      } catch (e) {
+        // TODO: error handling
+        console.error(e);
+      }
+      this.user = snap.data().user;
+      // console.log(this.user);
+      // console.log(this.user.fav);
+      let list = this.user.fav;
+    list.forEach(element => {      
+      this.favList.push(element)
+    });
+      if (this.favList.includes(this.product.productId)) {
+        this.inFav = true;
+        // console.log(this.inFav);
+      } else {
+        this.inFav = false;
+        // console.log(this.inFav);
+      }
+    },
     async readFromFirestore(userId) {
       const ref = this.$fire.firestore.collection("users").doc(userId);
       // const ref = this.$fire.firestore.collection("users").doc(userId).user;
@@ -147,8 +225,8 @@ export default {
         console.error(e);
       }
       let user = snap.data().user;
-      console.log(user);
-      console.log(user.fav);
+      // console.log(user);
+      // console.log(user.fav);
     }    
   },
 };
