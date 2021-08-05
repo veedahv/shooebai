@@ -167,7 +167,7 @@ export default {
         // console.log(this.inFav);
         // console.log(this.user.fav);
       }
-      if (isUser) {        
+      if (this.isUser) {        
         this.saveUser();
       } else {
         localStorage.setItem('favList', this.favList)
