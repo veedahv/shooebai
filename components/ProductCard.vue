@@ -113,8 +113,17 @@ export default {
   },
   created() {
     const user = this.$fire.auth.currentUser;
+    // console.log(this.favList);
     // console.log(this.product.productId);
 
+    if (localStorage.getItem("favList")) {
+      let list = JSON.parse(localStorage.getItem("favList"));
+      list.forEach((element) => {
+        this.favList.push(element);
+      });
+        localStorage.setItem("favList", JSON.stringify(this.favList));
+      // } else {
+    }
     if (user) {
       // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/firebase.User
@@ -122,14 +131,14 @@ export default {
       this.isUser = true;
       // console.log(userId);
       this.getUserFirestore(userId);
-    } else if (localStorage.getItem("favList")) {
-      let list = JSON.parse(localStorage.getItem("favList"));
-      list.forEach((element) => {
-        this.favList.push(element);
-      });
-        localStorage.setItem("favList", this.favList);
-      // } else {
-    }
+    } 
+      if (this.favList.includes(this.product.productId)) {
+        this.inFav = true;
+        // console.log(this.inFav);
+      } else {
+        this.inFav = false;
+        // console.log(this.inFav);
+      }
   },
   methods: {
     toggleWishlist() {
@@ -139,16 +148,17 @@ export default {
         this.inFav = false;
         // console.log(this.inFav);
         // console.log(this.user.fav);
+        console.log(this.favList);
       } else {
         this.inFav = true;
-        this.favList.push(this.id);
+        this.favList.push(this.product.productId);
         // console.log(this.inFav);
         // console.log(this.user.fav);
       }
       if (this.isUser) {
         this.saveUser();
       } else {
-        localStorage.setItem("favList", this.favList);
+        localStorage.setItem("favList", JSON.stringify(this.favList));
       }
     },
     saveUser() {
@@ -185,13 +195,7 @@ export default {
       list.forEach((element) => {
         this.favList.push(element);
       });
-      if (this.favList.includes(this.product.productId)) {
-        this.inFav = true;
-        // console.log(this.inFav);
-      } else {
-        this.inFav = false;
-        // console.log(this.inFav);
-      }
+      this.saveUser();
     },
     async readFromFirestore(userId) {
       const ref = this.$fire.firestore.collection("users").doc(userId);
