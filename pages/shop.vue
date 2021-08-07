@@ -63,7 +63,7 @@ export default {
     };
   },
   // beforeMount() {
-  //   this.visibleProduct();
+  //   this.visibleProduct(); NewProductCard.vue country.js
   // },
   methods: {
     updatePage(pageNumber) {
@@ -92,7 +92,10 @@ export default {
     },
   },
   // mounted() {
-  //   this.readFromFirestore();
+  //   // console.log(this.$country());
+  //   // console.log(this.$location());
+  //   // this.$location();
+  //   // this.$country();
   // },
   created() {
     this.readFromFirestore();

@@ -65,7 +65,9 @@ export default {
     },
     async getLocation() {
       const response = await this.$axios.$get("https://api.geoapify.com/v1/ipinfo?&apiKey=2a1bb31c0a134533b5261eae06c6d2e6");
-      const result = await response.country;
+      const result = await response.country.name;
+      // const response = await this.$axios.$get(`https://restcountries.eu/rest/v2/name/${name}`);
+      // const result = await response;
       // const result = await response.json();
       // const ip = await result;
       // this.ip = ip;

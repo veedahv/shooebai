@@ -34,15 +34,16 @@
             <p class="product-name font-bold">{{ product.productName }}</p>
           </nuxt-link>
           <div class="" v-if="product.discount == 0">
-            <p class="product-price font-medium">{{ product.productPrice }}</p>
+            <p class="product-price font-medium"><span>{{ currencySymbol }}</span>{{ product.productPrice }}</p>
           </div>
           <div class="" v-else>
             <del>
               <p class="product-price font-medium">
+                <span>{{ currencySymbol }}</span>
                 {{ product.productPrice }}
               </p>
             </del>
-            <p class="product-price font-medium">{{ discount }}</p>
+            <p class="product-price font-medium"><span>{{ currencySymbol }}</span>{{ discount }}</p>
           </div>
           <!-- <nuxt-link
             :to="{ name: 'ProductDetailsCard', params: { id: product.id } }"
@@ -91,6 +92,8 @@ export default {
     return {
       inFav: false,
       isUser: false,
+      country: null,
+      currencySymbol: '',
       favList: [],
       user: {
         // userId: userId,
@@ -110,8 +113,19 @@ export default {
         (this.product.discount * this.product.productPrice) / 100;
       return discountVal;
     },
+    currency() {
+      // return this.country.currencies[0].symbol;
+      return 'N';
+    },
   },
-  created() {
+  async created() {
+    // this.getLocation();
+    this.country = await this.$country();
+    this.currencySymbol = this.country.currencies[0].symbol;
+    // console.log(this.$country());
+    console.log(this.currencySymbol);
+    // console.log(this.country);
+    // console.log(this.country.currencies[0].symbol);
     const user = this.$fire.auth.currentUser;
     // console.log(this.favList);
     // console.log(this.product.productId);
@@ -121,7 +135,7 @@ export default {
       list.forEach((element) => {
         this.favList.push(element);
       });
-        localStorage.setItem("favList", JSON.stringify(this.favList));
+      localStorage.setItem("favList", JSON.stringify(this.favList));
       // } else {
     }
     if (user) {
@@ -131,16 +145,35 @@ export default {
       this.isUser = true;
       // console.log(userId);
       this.getUserFirestore(userId);
-    } 
-      if (this.favList.includes(this.product.productId)) {
-        this.inFav = true;
-        // console.log(this.inFav);
-      } else {
-        this.inFav = false;
-        // console.log(this.inFav);
-      }
+    }
+    if (this.favList.includes(this.product.productId)) {
+      this.inFav = true;
+      // console.log(this.inFav);
+    } else {
+      this.inFav = false;
+      // console.log(this.inFav);
+    }
   },
   methods: {
+    async getLocation() {
+      const response = await this.$axios.$get(
+        "https://api.geoapify.com/v1/ipinfo?&apiKey=2a1bb31c0a134533b5261eae06c6d2e6"
+      );
+      const result = await response.country.name;
+      // console.log(response);
+      // console.log(result);
+      this.getLocationInfo(result);
+    },
+    async getLocationInfo(name) {
+      const response = await this.$axios.$get(
+        `https://restcountries.eu/rest/v2/name/${name}?fields=name;capital;currencies;flag;callingCodes`
+      );
+      const result = await response[0].currencies[0].symbol;
+      // const result = await response[0];
+      this.country = await response[0];
+      // console.log(response);
+      console.log(result);
+    },
     toggleWishlist() {
       if (this.favList.includes(this.product.productId)) {
         let found = this.favList.indexOf(this.product.productId);
