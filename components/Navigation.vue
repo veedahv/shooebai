@@ -34,7 +34,7 @@
                 <i class="fas fa-user-slash"></i>
                 </span>
               </button>
-              <div class="absolute bg-white w-36 right-0 top-full" :hidden="viewUserBox">
+              <div class="absolute z-50 bg-white w-36 right-0 top-full" :hidden="viewUserBox">
                 <ul class="w-full">
                   <li>
                     <nuxt-link to="/Admin/Products">Admin</nuxt-link>

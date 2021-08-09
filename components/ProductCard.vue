@@ -31,7 +31,7 @@
       >
         <div class="product-details">
           <nuxt-link :to="'/ProductDetail/' + product.productId">
-            <p class="product-name font-bold">{{ product.productName }}</p>
+            <p class="product-name text-lg font-bold">{{ product.productName }}</p>
           </nuxt-link>
           <div class="" v-if="product.discount == 0">
             <p class="product-price font-medium"><span>{{ currencySymbol }}</span>{{ product.productPrice }}</p>
@@ -92,7 +92,7 @@ export default {
     return {
       inFav: false,
       isUser: false,
-      country: null,
+      // country: null,
       currencySymbol: '',
       favList: [],
       user: {
@@ -105,7 +105,7 @@ export default {
       },
     };
   },
-  props: ["product"],
+  props: ["product", "country"],
   computed: {
     discount() {
       let discountVal =
@@ -118,12 +118,13 @@ export default {
       return 'N';
     },
   },
-  async created() {
+  // async created() {
+  created() {
     // this.getLocation();
-    this.country = await this.$country();
+    // this.country = await this.$country();
     this.currencySymbol = this.country.currencies[0].symbol;
     // console.log(this.$country());
-    console.log(this.currencySymbol);
+    // console.log(this.currencySymbol);
     // console.log(this.country);
     // console.log(this.country.currencies[0].symbol);
     const user = this.$fire.auth.currentUser;

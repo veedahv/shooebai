@@ -25,7 +25,7 @@
           <div class="">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               <div class="h-full" v-for="product in visibleProductArr" :key="product.id">
-                <ProductCard class="h-full" :product="product"></ProductCard>
+                <ProductCard class="h-full" :product="product" :country="country"></ProductCard>
               </div>
               <!-- <div class="h-full" v-for="product in products" :key="product.id">
                 <ProductCard class="h-full" :product="product"></ProductCard>
@@ -56,6 +56,7 @@ export default {
   },
   data() {
     return {
+      country: null,
       products: [],
       visibleProductArr: [],
       currentPage: 0,
@@ -97,7 +98,10 @@ export default {
   //   // this.$location();
   //   // this.$country();
   // },
-  created() {
+  // created() {
+  async created() {
+    // this.getLocation();
+    this.country = await this.$country();
     this.readFromFirestore();
   },
 };

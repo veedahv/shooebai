@@ -316,6 +316,7 @@ export default {
     return {
       products: [],
       productImgObj: null,
+      idArr: [],
       productId: "",
       productName: "productName",
       productPrice: 6800,
@@ -391,7 +392,16 @@ export default {
         // } else (this.createId === group.groupId) {
         //   this.generateId();
       } else {
-        this.productId = this.createId();
+        this.products.forEach((prod) => {
+          // console.log(prod.productId);
+          if (this.productId === prod.productId) {
+          }
+        });
+        if (this.idArr.includes(this.createId)) {
+          this.generateId();
+        } else {
+          this.productId = this.createId();
+        }
       }
       // });
     },
@@ -483,6 +493,14 @@ export default {
         console.error(e);
       }
       this.products = snap.data().products;
+    this.products.forEach((prod) => {
+      // console.log(prod.productId);
+      // if (this.productId === prod.productId) {
+      // console.log(prod);
+      this.idArr.push(prod.productId);
+      // }
+    });
+      console.log(this.idArr);
       console.log(this.products);
       if (this.$route.params.ProductId) {
         console.log(this.$route.params.ProductId);
@@ -570,16 +588,24 @@ export default {
   // },
   created() {
     this.readFromFirestore();
-      if (this.$route.params.ProductId) {
-        // console.log(this.products);
-        // this.productId = this.$route.params.ProductId;
-        this.edit = true;
+    if (this.$route.params.ProductId) {
+      // console.log(this.products);
+      // this.productId = this.$route.params.ProductId;
+      this.edit = true;
       // } else {
       //   // this.products = [newProduct];
       //   this.addProduct();
-        // this.resetProduct();
-      }
-    // console.log(this.$route.params.ProductId);
+      // this.resetProduct();
+    }
+    //   if (this.$route.params.ProductId) {
+    //     // console.log(this.products);
+    //     // this.productId = this.$route.params.ProductId;
+    //   // } else {
+    //   //   // this.products = [newProduct];
+    //   //   this.addProduct();
+    //     // this.resetProduct();
+    //   }
+    // // console.log(this.$route.params.ProductId);
     // console.log(this.$route.params.id);
     // console.log(this.$route);
   },

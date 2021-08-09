@@ -52,7 +52,7 @@
               <select name="" id="" v-model="sizeSet">
                 <option
                   class="sizes h-7 w-7 m-1 inline-block"
-                  v-for="(size) in product.sizes"
+                  v-for="size in product.sizes"
                   :key="size"
                   :value="size"
                 >
@@ -68,7 +68,7 @@
           <div class="product-details">
             <div class="rating">
               <span
-                class="colors h-7 w-7 m-1 inline-block"
+                class="colors h-7 w-7 mx-1 inline-block"
                 v-for="n in product.rating"
                 :key="n"
               >
@@ -93,26 +93,7 @@
             <p class="product-descripion text-sm">{{ product.descripion }}</p>
           </div>
           <p class="qty">Only {{ product.availableQuantity }} left in stock</p>
-          <div class="product-btn-box">
-            <div class="product-btn-box">
-              <button class="product-btn uppercase" @click="toggleWishlist">
-                <span v-if="inFav">
-                  <span> remove from wishlist </span>
-                  <span>
-                    <i class="fas fa-bookmark"></i>
-                    <!-- <i class="fas text-3xl fa-bookmark"></i> -->
-                  </span>
-                </span>
-                <!-- </button>
-              <button class="product-btn uppercase"> -->
-                <span v-else>
-                  <span> add to wishlist </span>
-                  <span>
-                    <i class="far fa-bookmark"></i>
-                  </span>
-                </span>
-              </button>
-            </div>
+          <div class="product-btn-box flex">
             <div class="product-btn-box">
               <!-- <button
                 class="product-btn"
@@ -137,6 +118,29 @@
                   <span> add to cart </span>
                   <i class="fas fa-shopping-bag"></i>
                   <!-- <i class="fa fa-shopping-cart" aria-hidden="true"></i> -->
+                </span>
+              </button>
+            </div>
+            <div class="product-btn-box">
+              <button
+                class="product-btn px-2.5 py-2"
+                :class="inFav ? 'bg-dark color-secondary' : 'bg-secondary color-dark'"
+                @click="toggleWishlist"
+              >
+                <span v-if="inFav">
+                  <!-- <span> remove from wishlist </span> -->
+                  <span>
+                    <i class="fas fa-bookmark"></i>
+                    <!-- <i class="fas text-3xl fa-bookmark"></i> -->
+                  </span>
+                </span>
+                <!-- </button>
+              <button class="product-btn uppercase"> -->
+                <span v-else>
+                  <!-- <span> add to wishlist </span> -->
+                  <span>
+                    <i class="far fa-bookmark"></i>
+                  </span>
                 </span>
               </button>
             </div>
@@ -205,20 +209,20 @@ export default {
     //   return ''
     //     },
     toggleWishlist() {
-      if (this.user.fav.includes(this.id)) {
-      //   let found = this.user.fav.indexOf(this.id);
-      //   this.user.fav.splice(found, 1);
-      //   this.inFav = false;
-      //   console.log(this.inFav);
-      //   console.log(this.user.fav);
-      // } else {
-      //   this.inFav = true;
-      //   this.user.fav.push(this.id);
-      //   console.log(this.inFav);
-      //   console.log(this.user.fav);
-      // }
-      // if (this.favList.includes(this.product.productId)) {
-        let found = this.favList.indexOf(this.product.productId);
+      if (this.favList.includes(this.id)) {
+        //   let found = this.user.fav.indexOf(this.id);
+        //   this.user.fav.splice(found, 1);
+        //   this.inFav = false;
+        //   console.log(this.inFav);
+        //   console.log(this.user.fav);
+        // } else {
+        //   this.inFav = true;
+        //   this.user.fav.push(this.id);
+        //   console.log(this.inFav);
+        //   console.log(this.user.fav);
+        // }
+        // if (this.favList.includes(this.product.productId)) {
+        let found = this.favList.indexOf(this.id);
         this.favList.splice(found, 1);
         this.inFav = false;
         // console.log(this.inFav);
@@ -229,10 +233,11 @@ export default {
         // console.log(this.inFav);
         // console.log(this.user.fav);
       }
-      if (this.isUser) {        
+      if (this.isUser) {
         this.saveUser();
       } else {
-        localStorage.setItem('favList', this.favList)
+        // localStorage.setItem("favList", this.favList);
+        localStorage.setItem("favList", JSON.stringify(this.favList));
       }
       // this.saveUser();
     },
@@ -257,8 +262,10 @@ export default {
     //     }
     //   });
     // },
-    saveUser() {      
-      const ref = this.$fire.firestore.collection("users").doc(this.user.userId);
+    saveUser() {
+      const ref = this.$fire.firestore
+        .collection("users")
+        .doc(this.user.userId);
       console.log(ref);
       const editUser = {
         userId: this.user.userId,
@@ -266,7 +273,7 @@ export default {
         email: this.user.email,
         country: this.user.country,
         cart: this.user.cart,
-        fav: this.user.fav
+        fav: this.user.fav,
       };
       const document = {
         user: editUser,
@@ -352,14 +359,14 @@ export default {
       console.log(this.user.cart);
       this.user.cart.forEach((cartItem) => {
         if (cartItem.id == this.id) {
-        console.log(cartItem.id);
+          console.log(cartItem.id);
           this.inShop = true;
           console.log(this.user.fav);
         } else {
           console.log(cartItem.id);
           this.inShop = false;
         }
-          console.log(this.inShop);
+        console.log(this.inShop);
       });
       let list = this.user.fav;
       list.forEach((element) => {
@@ -388,7 +395,8 @@ export default {
       console.log(this.user);
       // ...
       this.getUserFirestore(userId);
-    }  else if (localStorage.getItem("favList")) {
+    } 
+     if (localStorage.getItem("favList")) {
       let list = JSON.parse(localStorage.getItem("favList"));
       list.forEach((element) => {
         this.favList.push(element);
@@ -396,6 +404,13 @@ export default {
       // } else {
       // this.$router.push({ path: "/" });
       // No user is signed in.
+    }
+    if (this.favList.includes(this.id)) {
+      this.inFav = true;
+      // console.log(this.inFav);
+    } else {
+      this.inFav = false;
+      // console.log(this.inFav);
     }
     // this.sizeSet =
   },
