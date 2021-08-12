@@ -1,11 +1,14 @@
 <template>
   <div class="bg-tertiary text-white">
     <div class="container py-5 px-4 mx-auto">
-      <div>My footer</div>
+      <!-- <div>My footer</div> -->
       <div class="flex flex-wrap justify-between items-start">
         <!-- <div class="py-2 w-full md:w-2/4 lg:w-1/4"> -->
         <div class="py-2 w-full sm:w-2/4 lg:w-1/4">
-          <nuxt-link to="/">Sho_oebai</nuxt-link>
+          <nuxt-link to="/">
+          <!-- Sho_oebai -->
+                <Logo></Logo>
+          </nuxt-link>
           <p class="">
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
             Voluptatibus veniam nemo natus libero vero dolor incidunt doloribus
@@ -49,7 +52,8 @@
             <!-- rounded-md  -->
             <div class="sub-heading-box text-center py-2">
               <h2 class="sub-heading color-primary font-bold text-2xl">
-                Sho_oebai
+                <!-- Sho_oebai -->
+                <Logo></Logo>
               </h2>
               <p class="sub-heading color-primary font-bold text-xl">
                 Welcome Back
@@ -60,8 +64,7 @@
                 <input
                   type="email"
                   name="email"
-                  id="email"
-                  class="border border-current px-4 py-2 h-full block w-full"
+                  class="border color-primary border-current px-4 py-2 h-full block w-full"
                   placeholder="Email"
                   aria-label="Email"
                   v-model="email"
@@ -84,7 +87,9 @@
 </template>
 
 <script>
+import Logo from './Logo'
 export default {
+  components: { Logo },
   data() {
     return {
       email: "",

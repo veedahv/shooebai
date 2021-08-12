@@ -4,12 +4,13 @@
       <div class="flex justify-between items-center">
         <div>
           <nuxt-link class="logo" to="/">
-            <span class="logo text-2xl font-bold"> Sho_oebai </span>
+            <!-- <span class="logo text-2xl font-bold"> Sho_oebai </span>
             <span class="transform ...">
               <span class="...">
                 <i class="transform -rotate-45 fas fa-shoe-prints"></i>
               </span>
-            </span>
+            </span> -->
+        <Logo></Logo>
           </nuxt-link>
         </div>
         <div class="py-2">
@@ -157,11 +158,13 @@
 </template>
 
 <script>
+import Logo from './Logo'
 import SignInOut from "./SignInOut";
 // import Signup from './signup'
 // import Signin from './signin'
 export default {
   components: {
+    Logo,
     SignInOut,
     // Signup,
     // Signin

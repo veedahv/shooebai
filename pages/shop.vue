@@ -32,6 +32,12 @@
               </div> -->
             </div>
           </div>
+            <Pagination
+              :products="products"
+              :currentPage="currentPage"
+              :perPage="perPage"
+              v-on:page:update="updatePage"
+            ></Pagination>
         </div>
       </div>
     </section>

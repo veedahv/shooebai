@@ -406,19 +406,19 @@ export default {
       // });
     },
     resetProduct() {
-      // this.productName = "";
-      // this.productPrice = "";
-      // this.availableQuantity = "";
-      // this.discount = "";
+      this.productName = "";
+      this.productPrice = "";
+      this.availableQuantity = "";
+      this.discount = "";
       this.productImage = "";
-      // this.descripion =
-      //   "Lorem ipsum dolor, sit amet consectetur elit. Deserunt repellendus officiis id distinctio? At, eligendi! Id quas quo fuga omnis esse natus. Distinctio, rem eveniet similique. Iste eius enim suscipit quo nesciunt.";
-      // this.flashSale = false;
-      // this.newProduct = false;
-      // this.rating = 0;
-      // this.tags = ["puma", "jaguar"];
+      this.descripion =
+        "Lorem ipsum dolor, sit amet consectetur elit. Deserunt repellendus officiis id distinctio? At, eligendi! Id quas quo fuga omnis esse natus. Distinctio, rem eveniet similique. Iste eius enim suscipit quo nesciunt.";
+      this.flashSale = false;
+      this.newProduct = false;
+      this.rating = 0;
+      this.tags = [];
       this.colors = [];
-      // this.sizes = [];
+      this.sizes = [];
     },
     addProduct() {
       const newProduct = {

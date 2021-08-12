@@ -137,6 +137,13 @@ export default {
         this.favList.push(element);
       });
       localStorage.setItem("favList", JSON.stringify(this.favList));
+    if (this.favList.includes(this.product.productId)) {
+      this.inFav = true;
+      console.log(this.inFav);
+    } else {
+      this.inFav = false;
+      // console.log(this.inFav);
+    }
       // } else {
     }
     if (user) {
@@ -146,14 +153,16 @@ export default {
       this.isUser = true;
       // console.log(userId);
       this.getUserFirestore(userId);
+      // console.log(this.favList);
     }
-    if (this.favList.includes(this.product.productId)) {
-      this.inFav = true;
-      // console.log(this.inFav);
-    } else {
-      this.inFav = false;
-      // console.log(this.inFav);
-    }
+    //   // console.log(this.favList);
+    // if (this.favList.includes(this.product.productId)) {
+    //   this.inFav = true;
+    //   console.log(this.inFav);
+    // } else {
+    //   this.inFav = false;
+    //   // console.log(this.inFav);
+    // }
   },
   methods: {
     async getLocation() {
@@ -186,9 +195,11 @@ export default {
       } else {
         this.inFav = true;
         this.favList.push(this.product.productId);
+        console.log(this.favList);
         // console.log(this.inFav);
         // console.log(this.user.fav);
       }
+        console.log(this.isUser);
       if (this.isUser) {
         this.saveUser();
       } else {
@@ -199,7 +210,7 @@ export default {
       const ref = this.$fire.firestore
         .collection("users")
         .doc(this.user.userId);
-      console.log(ref);
+      // console.log(ref);
       const editUser = {
         userId: this.user.userId,
         displayName: this.user.displayName,
@@ -226,10 +237,20 @@ export default {
       // console.log(this.user);
       // console.log(this.user.fav);
       let list = this.user.fav;
+        // console.log(list);
       list.forEach((element) => {
+        // console.log(element);
         this.favList.push(element);
       });
+      // console.log(this.favList);
       this.saveUser();
+    if (this.favList.includes(this.product.productId)) {
+      this.inFav = true;
+      console.log(this.inFav);
+    } else {
+      this.inFav = false;
+      // console.log(this.inFav);
+    }
     },
     async readFromFirestore(userId) {
       const ref = this.$fire.firestore.collection("users").doc(userId);
