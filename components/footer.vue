@@ -31,6 +31,9 @@
             <li class="foot-link">
               <nuxt-link to="/Admin">Admin</nuxt-link>
             </li>
+            <li class="foot-link">
+              <nuxt-link to="/About">About</nuxt-link>
+            </li>
           </ul>
           <!-- <button @click="signOut" v-if="isLoggedIn">logout</button> -->
           <!-- <button @click="signIn" v-else>login</button> -->

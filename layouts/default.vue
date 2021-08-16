@@ -3,7 +3,9 @@
     <nav>
       <Navigation></Navigation>
     </nav>
-    <Nuxt />
+    <main>
+      <Nuxt />
+    </main>
     <footer>
       <Footer></Footer>
     </footer>
