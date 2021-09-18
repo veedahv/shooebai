@@ -52,6 +52,18 @@
         </form>
       </div>
     </div>
+    <div class="container py-10 px-4 mx-auto">
+      <div class="color-dark bg-white w-full px-16 py-10">
+        Phone number 
+        Country'
+        Transaction history 
+        Items PricesTotal Transaction date 
+        You have not made any transactions yet
+        And your cart is empty Shop now
+        You can check out items in cart
+        Checkout cart
+      </div>
+    </div>
   </div>
 </template>
 

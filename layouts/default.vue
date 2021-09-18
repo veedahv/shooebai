@@ -4,7 +4,7 @@
       <Navigation></Navigation>
     </nav>
     <main>
-      <Nuxt />
+      <Nuxt keep-alive />
     </main>
     <footer>
       <Footer></Footer>

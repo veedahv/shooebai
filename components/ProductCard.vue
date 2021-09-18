@@ -34,13 +34,13 @@
             <p class="product-name text-lg font-bold">{{ product.productName }}</p>
           </nuxt-link>
           <div class="" v-if="product.discount == 0">
-            <p class="product-price font-medium"><span>{{ currencySymbol }}</span>{{ product.productPrice }}</p>
+            <p class="product-price font-medium"><span>{{ currencySymbol }}</span>{{ productPrice }}</p>
           </div>
           <div class="" v-else>
             <del>
               <p class="product-price font-medium">
                 <span>{{ currencySymbol }}</span>
-                {{ product.productPrice }}
+                {{ productPrice }}
               </p>
             </del>
             <p class="product-price font-medium"><span>{{ currencySymbol }}</span>{{ discount }}</p>
@@ -105,13 +105,19 @@ export default {
       },
     };
   },
-  props: ["product", "country"],
+  props: ["product", "country", "currencyValue"],
   computed: {
+    productPrice() {
+      
+      // return this.country.currencies[0].symbol;
+      return (Math.ceil((this.product.productPrice / this.currencyValue) * 100) / 100);
+    },
     discount() {
       let discountVal =
-        this.product.productPrice -
-        (this.product.discount * this.product.productPrice) / 100;
-      return discountVal;
+        this.productPrice -
+        (this.product.discount * this.productPrice) / 100;
+      return (Math.ceil(discountVal * 100) / 100);
+      // return discountVal;
     },
     currency() {
       // return this.country.currencies[0].symbol;

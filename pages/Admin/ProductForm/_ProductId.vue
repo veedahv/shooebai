@@ -20,7 +20,7 @@
               type="text"
               name="product-price"
               id="product-price"
-              v-model="productPrice"
+              v-model.number="productPrice"
             />
           </div>
           <div class="form-group">

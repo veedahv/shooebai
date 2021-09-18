@@ -6,8 +6,8 @@
         <!-- <div class="py-2 w-full md:w-2/4 lg:w-1/4"> -->
         <div class="py-2 w-full sm:w-2/4 lg:w-1/4">
           <nuxt-link to="/">
-          <!-- Sho_oebai -->
-                <Logo></Logo>
+            <!-- Sho_oebai -->
+            <Logo></Logo>
           </nuxt-link>
           <p class="">
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -26,40 +26,57 @@
         <div class="py-2 w-1/2 sm:w-2/5 lg:w-1/5">
           <ul>
             <li class="foot-link">
-              <nuxt-link to="/">ball</nuxt-link>
+              <nuxt-link to="/">Home</nuxt-link>
+            </li>
+            <li class="foot-link">
+              <nuxt-link to="/Cart">Cart</nuxt-link>
+            </li>
+            <li class="foot-link">
+              <nuxt-link to="/Wishlist">Wishlist</nuxt-link>
             </li>
             <li class="foot-link">
               <nuxt-link to="/Admin">Admin</nuxt-link>
             </li>
             <li class="foot-link">
-              <nuxt-link to="/About">About</nuxt-link>
+              <!-- <li class="foot-link" v-if="isLoggedIn"> -->
+              <nuxt-link to="/Profile">Profile</nuxt-link>
             </li>
           </ul>
-          <!-- <button @click="signOut" v-if="isLoggedIn">logout</button> -->
-          <!-- <button @click="signIn" v-else>login</button> -->
         </div>
         <!-- <div class="py-2 w-full md:w-2/5 lg:w-1/5"> -->
         <div class="py-2 w-1/2 sm:w-2/5 lg:w-1/5">
-          <nuxt-link to="/">ball</nuxt-link> |
-          <nuxt-link to="/Admin">Admin</nuxt-link> |
-          <!-- <button @click="signOut" v-if="isLoggedIn">logout</button> -->
-          <!-- <button @click="signIn" v-else>login</button> -->
+          <ul>
+            <li class="foot-link">
+              <nuxt-link to="/faq">FAQ</nuxt-link>
+            </li>
+            <li class="foot-link">
+              <nuxt-link to="/About">About Us</nuxt-link>
+            </li>
+            <li class="foot-link">
+              <nuxt-link to="/Terms">Terms</nuxt-link>
+            </li>
+            <li class="foot-link">
+              <nuxt-link to="/Privacy&Policy">Privacy & Policy</nuxt-link>
+            </li>
+            <li class="foot-link">
+              <nuxt-link to="/Contact.vue">Contact Us</nuxt-link>
+            </li>
+          </ul>
         </div>
         <!-- <div class="py-2 w-full md:w-2/4 lg:w-1/4">3</div> -->
         <div class="py-2 w-full sm:w-2/4 lg:w-1/4">
-          <form
-            @submit.prevent="subscribe"
-            class="w-full"
-          >
+          <form @submit.prevent="subscribe" class="w-full">
             <!-- class="color-dark bg-white w-full px-16 py-10" -->
             <!-- rounded-md  -->
             <div class="sub-heading-box text-center py-2">
               <h2 class="sub-heading color-primary font-bold text-2xl">
                 <!-- Sho_oebai -->
-                <Logo></Logo>
+                <!-- <Logo></Logo> -->
+                Subscribe to our newsletter
               </h2>
               <p class="sub-heading color-primary font-bold text-xl">
-                Welcome Back
+                <!-- Welcome Back -->
+                Get daily foot care tips
               </p>
             </div>
             <div class="flex items-center">
@@ -90,7 +107,7 @@
 </template>
 
 <script>
-import Logo from './Logo'
+import Logo from "./Logo";
 export default {
   components: { Logo },
   data() {
@@ -106,3 +123,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.foot-link {
+  line-height: 40px;
+  /* line-height: 30px; */
+}
+</style>
