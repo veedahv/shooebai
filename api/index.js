@@ -22,3 +22,4 @@ if (require.main === module) {
     console.log(`API server listening on port ${port}`)
   })
 }
+
