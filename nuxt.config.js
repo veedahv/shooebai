@@ -74,6 +74,7 @@ export default {
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
     '@nuxtjs/firebase',
+    '@nuxtjs/netlify-files',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
