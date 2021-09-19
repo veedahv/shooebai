@@ -82,6 +82,7 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxt/http',
   ],
 
   firebase: {
@@ -133,6 +134,15 @@ export default {
     manifest: {
       lang: 'en'
     }
+  },
+
+  // serverMiddleware: ['~/server-middleware/currency.js'],
+  // serverMiddleware: [
+  //   { path: '/api', handler: '~/server-middleware/currency.js' }
+  // ],
+  
+  serverMiddleware: {
+    '/api': '~/api'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

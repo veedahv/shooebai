@@ -1,6 +1,8 @@
 <template>
   <div>
     <div>
+      <div>
+      </div>
       <section class="">
         <div class="container py-10 px-4 mx-auto">
           <div class="text-center">
@@ -40,7 +42,7 @@
             <div class="">
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <!-- <div class="h-full" v-for="n in 3" :key="n"> -->
-                  <div class="h-full">
+                <div class="h-full">
                   <div
                     class="box bg-white py-10 px-5 w-full flex justify-center items-center"
                   >
@@ -55,7 +57,7 @@
                     </div>
                   </div>
                 </div>
-                  <div class="h-full">
+                <div class="h-full">
                   <div
                     class="box bg-white py-10 px-5 w-full flex justify-center items-center"
                   >
@@ -68,7 +70,7 @@
                     </div>
                   </div>
                 </div>
-                  <div class="h-full">
+                <div class="h-full">
                   <div
                     class="box bg-white py-10 px-5 w-full flex justify-center items-center"
                   >
@@ -76,7 +78,7 @@
                       <i class="fas fa-globe"></i>
                       <h2 class="font-medium text-4xl my-2.5">2004</h2>
                       <h3 class="font-bold text-lg">Registered Users</h3>
-                      <!-- <h3>Registered Users</h3> -->
+                      <!-- <h3>Registered Users</h3> --> 
                       <!-- Successful deliveries Users from Xxx Countries -->
                     </div>
                   </div>
@@ -123,6 +125,11 @@
     </div>
   </div>
 </template>
+
+<script>
+// export default {
+// };
+</script>
 
 
 

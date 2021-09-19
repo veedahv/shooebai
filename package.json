@@ -9,12 +9,15 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxt/http": "^0.6.4",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/firebase": "^7.6.1",
     "@nuxtjs/pwa": "^3.3.5",
     "core-js": "^3.15.1",
+    "express": "latest",
     "firebase": "^8.8.0",
     "firebase-admin": "^9.11.0",
+    "node-fetch": "^3.0.0",
     "nuxt": "^2.15.7"
   },
   "devDependencies": {

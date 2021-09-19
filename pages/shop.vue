@@ -70,9 +70,6 @@ export default {
       currencyValue: null,
     };
   },
-  // beforeMount() {
-  //   this.visibleProduct(); NewProductCard.vue country.js
-  // },
   methods: {
     updatePage(pageNumber) {
       this.currentPage = pageNumber;
@@ -99,12 +96,6 @@ export default {
     this.visibleProduct();
     },
   },
-  // mounted() {
-  //   // console.log(this.$country());
-  //   // console.log(this.$location());
-  //   // this.$location();
-  //   // this.$country();
-  // },
   // created() {
   async created() {
     // this.getLocation();
@@ -112,10 +103,38 @@ export default {
     console.log(this.country);
     console.log(this.country.currencies);
     console.log(this.country.currencies[0].code);
-    this.currencyValue = await this.$currencyRate(this.country.currencies[0].code);
+    
+    let returnValue = await this.$http.$get(`/api/currency/${this.country.currencies[0].code}`);
+      this.currencyValue = returnValue.id;
+      console.log(this.currencyValue);
+    // this.currencyValue = await this.$currencyRate(this.country.currencies[0].code);
     // this.currencyValue = await this.$currencyRate('USD');
     this.readFromFirestore();
   },
+  // async fetch({ $http }) {
+  //   this.country = await this.$country();
+  //   console.log(this.country);
+  //   console.log(this.country.currencies);
+  //   console.log(this.country.currencies[0].code);
+  //   // if (this.country) {
+  //     this.currencyValue = await $http.$get(`/api/currency/${this.country.currencies[0].code}`);
+  //     // const data = await $http.$get(`/api/currency/${this.country.currencies[0].code}`);
+  //     // const data = await $http.$get("/api/currency/USD");
+  //     // return { currencyValue: data };
+  //     // this.currencyValue = data;
+  //   // }
+  // },
+  // async asyncData({ $http }) {
+  //   // this.country = await this.$country();
+  //   // console.log(this.country);
+  //   // console.log(this.country.currencies);
+  //   // console.log(this.country.currencies[0].code);
+  //   if (this.country) {
+  //     const data = await $http.$get(`/api/currency/${this.country.currencies[0].code}`);
+  //     // const data = await $http.$get("/api/currency/USD");
+  //     return { currencyValue: data };
+  //   }
+  // },
 };
 </script>
 
