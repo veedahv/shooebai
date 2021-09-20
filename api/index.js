@@ -1,7 +1,10 @@
 const express = require('express')
 
 // Create express instance
+const cors = require('cors')
 const app = express()
+
+app.use(cors())
 
 // Require API routes
 const currency = require('./routes/currency')
