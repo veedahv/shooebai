@@ -86,6 +86,18 @@ export default {
     '@nuxt/http',
   ],
 
+  netlifyFiles: {
+    netlifyToml: {
+      headers: [
+        {
+          for: '/*',
+          // values: { 'X-XSS-Protection': '1; mode=block' }
+          values: { 'Access-Control-Allow-Origin': '*' }
+        }
+      ]
+    }
+  },
+
   firebase: {
     config: {
       apiKey: "AIzaSyAZbwO7t7ivtzIJALo3e32p46V5RXKdebQ",
