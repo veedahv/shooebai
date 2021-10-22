@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white">
-    <div class="container py-2 px-4 mx-auto">
+    <div class="container lg:max-w-5xl py-2 px-4 mx-auto">
       <div class="flex justify-between items-center">
         <div>
           <nuxt-link class="logo" to="/">
@@ -10,13 +10,15 @@
                 <i class="transform -rotate-45 fas fa-shoe-prints"></i>
               </span>
             </span> -->
-        <Logo></Logo>
+            <Logo></Logo>
           </nuxt-link>
         </div>
         <div class="py-2">
           <nuxt-link to="/">Home</nuxt-link> |
           <nuxt-link to="/Admin/Products">Admin</nuxt-link> |
-          <nuxt-link to="/shop">Shop</nuxt-link> 
+          <nuxt-link to="/Cart">Cart</nuxt-link> |
+          <nuxt-link to="/Wishlist">Wishlist</nuxt-link> |
+          <nuxt-link to="/shop">Shop</nuxt-link>
           <!-- <button @click="signOut" v-if="isLoggedIn">logout</button>
           <button @click="signIn" v-else>login</button> -->
         </div>
@@ -133,12 +135,18 @@
                   <li class="flex justify-start px-3 py-2 w-full items-center">
                     <img
                       class="w-1/5"
+                      :src="countryFlag"
+                      :alt="countryName + ' flag'"
+                    />
+                    <!-- <img
+                      class="w-1/5"
                       :src="countryObj.countryFlag"
                       :alt="countryObj.countryName + ' flag'"
-                    />
-                    <span class="mx-2.5 font-bold">{{
-                      countryObj.countryName
-                    }}</span>
+                    /> -->
+                    <span class="mx-2.5 font-bold">
+                      {{ countryName }}
+                      <!-- {{ countryObj.countryName }} -->
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -158,7 +166,8 @@
 </template>
 
 <script>
-import Logo from './Logo'
+import { mapActions, mapState } from "vuex";
+import Logo from "./Logo";
 import SignInOut from "./SignInOut";
 // import Signup from './signup'
 // import Signin from './signin'
@@ -181,7 +190,13 @@ export default {
       countryObj: {},
     };
   },
+  computed: {
+    // ...mapState(["countryName", "countryFlag"]),
+    ...mapState(["countryName", "countryFlag", "currencyRate"]),
+    // ...mapState(['country', 'countryName', 'countryFlag', 'currency', 'currencyRate', 'currencySymbol']),
+  },
   methods: {
+    ...mapActions(["getLocation", "authUser"]),
     signInUp() {
       this.viewSignInUp = false;
     },
@@ -231,13 +246,24 @@ export default {
   },
   // mounted() {
   // created() {
+  // async fetch ({ store }) {
+  //   // this.getLocation
+  //       // this.$store.dispatch('getLocation');
+  //       await store.dispatch('getLocation');
+  //     console.log(this.$store.state.countryName);
+  //   // this.getLocation();
+  // },
   async created() {
+    this.getLocation();
+    this.authUser();
+    // console.log(this.currencyRate);
+    // this.$store.dispatch('getLocation');
     // this.getLocation();
-    this.country = await this.$country();
-    this.countryObj.countryName = this.country.name;
-    this.countryObj.countryFlag = this.country.flag;
-    console.log(this.country);
-    console.log(this.countryObj);
+    // this.country = await this.$country();
+    // this.countryObj.countryName = this.country.name;
+    // this.countryObj.countryFlag = this.country.flag;
+    // console.log(this.country);
+    // console.log(this.countryObj);
     // this.readFromFirestore();
     // },
     // const user = this.$fire.auth.currentUser;

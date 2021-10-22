@@ -18,9 +18,9 @@ const currencyRateValue = async (currency) => {
 
 
 /* GET users listing. */
-router.get('/currency', function (req, res, next) {
-    res.json(currency)
-})
+// router.get('/currency', function (req, res, next) {
+//     res.json(currency)
+// })
 
 /* GET user by ID. */
 router.get('/currency/:id', function (req, res, next) {

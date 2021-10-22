@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container py-10 px-4 mx-auto">
+    <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
       <div class="product">
         <form>
           <div class="form-group">

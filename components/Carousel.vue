@@ -19,24 +19,30 @@
             class="block h-full w-full text-white bg-blend-overlay"
             :class="slide.id"
           >
-            <div class="container py-20 px-4 mx-auto">
-            <!-- <div class="max-w-md lg:max-w-xl"> -->
-            <div class="max-w-md md:max-w-screen-sm">
-              <!-- <small class="font-medium capitalize"> -->
-              <small class="font-medium uppercase">
-                {{ slide.small }}
-              </small>
-              <!-- 3 -->
-              <h1 class="text-5xl mb-4 md:text-7xl capitalize font-extrabold color-primary">
-                {{ slide.title }}
-              </h1>
-              <p class="text-2xl mb-10 color-light">
-                <em>{{ slide.text }}</em>
-              </p>
-              <div class="py-2">
-                <nuxt-link to="/shop" class="border-2 font-medium text-2xl border-current px-4 py-2 ">Shop Now</nuxt-link>
+            <div class="container lg:max-w-5xl py-20 px-4 mx-auto">
+              <!-- <div class="max-w-md lg:max-w-xl"> -->
+              <div class="max-w-md md:max-w-screen-sm">
+                <!-- <small class="font-medium capitalize"> -->
+                <small class="font-medium uppercase">
+                  {{ slide.small }}
+                </small>
+                <!-- 3 -->
+                <h1
+                  class="text-5xl mb-4 md:text-7xl capitalize font-extrabold color-primary"
+                >
+                  {{ slide.title }}
+                </h1>
+                <p class="text-2xl mb-10 color-light">
+                  <em>{{ slide.text }}</em>
+                </p>
+                <div class="py-2">
+                  <nuxt-link
+                    to="/shop"
+                    class="border-2 font-medium text-2xl border-current px-4 py-2"
+                    >Shop Now</nuxt-link
+                  >
+                </div>
               </div>
-            </div>
             </div>
           </div>
         </div>
@@ -55,7 +61,7 @@
           ›
         </label> -->
         <!-- Add additional indicators for each slide-->
-        <ol class="carousel-indicators">
+        <!-- <ol class="carousel-indicators">
           <li class="inline-block mr-3">
             <label
               for="carousel1"
@@ -72,7 +78,7 @@
               •
             </label>
           </li>
-        </ol>
+        </ol> -->
       </div>
     </div>
   </div>

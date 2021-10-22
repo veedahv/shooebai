@@ -1,13 +1,14 @@
 let location;
-let country;
+// let country;
 const getLocationInfo = async (name) => {
-    let response = await fetch(
-        `https://restcountries.eu/rest/v2/name/${name}`
-    );
-    let result = await response.json();
-    country = await result[0];
+    // let response = await fetch(
+    //     `https://restcountries.com/v3/name/${name}`
+    // );
+    // let result = await response.json();
+    // country = await result[0];
     // console.log(country);
-    return country;
+    // return country;
+    return name;
 }
 const getLocation = async () => {
     let response = await fetch(
@@ -18,7 +19,7 @@ const getLocation = async () => {
     // console.log(location);
     return location;
 }
-getLocation();
+// getLocation();
 export default ({ app }, inject) => {
     inject('country', () => getLocation())
 }

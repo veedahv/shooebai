@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <div class="container py-10 px-4 mx-auto">
+      <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
         <div class="">
           <div class="">
             <div class="sub-heading-box text-center py-5 relative">
@@ -24,31 +24,17 @@
               :perPage="perPage"
               v-on:page:update="updatePage"
             ></Pagination>
-            zzzzzzz
+            <!-- zzzzzzz -->
             <div class="">
-              yyyyy
+              <!-- yyyyy -->
               <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                lllll
-                <div
-                  class="h-full"
-                >
-                  gggg
-                  {{ visibleProductArr }}
-                </div>
+                <!-- lllll -->
                 <div
                   class="h-full"
                   v-for="product in visibleProductArr"
                   :key="product.id"
                 >
-                  gggg
-                  {{ product.id }}
-                </div>
-                <div
-                  class="h-full"
-                  v-for="product in visibleProductArr"
-                  :key="product.id"
-                >
-                  gggg
+                  <!-- gggg -->
                   {{ product.id }}
                   <ProductCard
                     class="h-full"
@@ -189,17 +175,18 @@ export default {
           // console.log(this.inFav);
         }
       });
+      this.visibleProduct();
     },
   },
   async created() {
     // this.getLocation();
-    this.country = await this.$country();
-    console.log(this.country);
-    console.log(this.country.currencies);
-    console.log(this.country.currencies[0].code);
-    this.currencyValue = await this.$currencyRate(
-      this.country.currencies[0].code
-    );
+    // this.country = await this.$country();
+    // console.log(this.country);
+    // console.log(this.country.currencies);
+    // console.log(this.country.currencies[0].code);
+    // this.currencyValue = await this.$currencyRate(
+    //   this.country.currencies[0].code
+    // );
     // this.currencyValue = await this.$currencyRate('USD');
     this.readFromFirestore();
     //   },
@@ -223,11 +210,41 @@ export default {
       // } else {
       this.visibleProduct();
     }
-    const user = this.$fire.auth.currentUser;
-    console.log(user);
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
+    // const user = this.$fire.auth.currentUser;
+    // console.log(user);
+    // if (user) {
+    //   // User is signed in, see docs for a list of available properties
+    //   // https://firebase.google.com/docs/reference/js/firebase.User
+    //   const userId = user.uid;
+    //   this.isUser = true;
+    //   // console.log(userId);
+    //   this.getUserFirestore(userId);
+    //   this.visibleProduct();
+    //   // console.log(this.favList);
+    //   console.log("this.products");
+    // }
+    this.$fire.auth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        // let uid = user.uid;
+        // // ...
+        // console.log(uid);
+        // this.isLoggedIn = true;
+        // if (uid === "jl0JqEJTJrbWgY0zxO9voeHxJBS2") {
+        //   this.isAdmin = true;
+        // }
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        // this.user = user.uid;
+        // this.user = user;
+        // // this.isUser = true;
+        // // console.log(this.isUser);
+        // let userId = user.uid;
+        // // console.log(this.user);
+        // // ...
+        // this.getUserFirestore(userId);
+        // this.readFromFirestore();
       const userId = user.uid;
       this.isUser = true;
       // console.log(userId);
@@ -235,9 +252,15 @@ export default {
       this.visibleProduct();
       // console.log(this.favList);
       console.log("this.products");
-    }
-    console.log(this.products);
-    this.visibleProduct();
+      } else {
+        // User is signed out
+        // ...
+        console.log("signed out");
+    // this.readFromFirestore();
+      }
+    });
+    // console.log(this.products);
+    // this.visibleProduct();
   },
 };
 </script>

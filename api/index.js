@@ -8,10 +8,14 @@ app.use(cors())
 
 // Require API routes
 const currency = require('./routes/currency')
+const country = require('./routes/country')
+const location = require('./routes/location')
 const test = require('./routes/test')
 
 // Import API Routes
 app.use(currency)
+app.use(country)
+app.use(location)
 app.use(test)
 
 // Export express app

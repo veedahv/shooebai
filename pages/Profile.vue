@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="container py-10 px-4 mx-auto">
+    <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
       <div class="">
         <form
           @submit.prevent="signIn"
@@ -34,12 +34,26 @@
           Sign in
         </button>
       </div> -->
+            {{ getUser }}
+            <!-- {{ setUser }} -->
+          <!-- <p>
+            {{ setUser.displayName }}
+          </p>
           <p>
+            {{ setUser.email }}
+          </p> -->
+          <p>
+            {{ getUser.displayName }}
+          </p>
+          <p>
+            {{ getUser.email }}
+          </p>
+          <!-- <p>
             {{ user.displayName }}
           </p>
           <p>
             {{ user.email }}
-          </p>
+          </p> -->
           <div class="form-group my-4">
             <a
               href=""
@@ -52,22 +66,64 @@
         </form>
       </div>
     </div>
-    <div class="container py-10 px-4 mx-auto">
+    <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
       <div class="color-dark bg-white w-full px-16 py-10">
-        Phone number 
-        Country'
-        Transaction history 
-        Items PricesTotal Transaction date 
-        You have not made any transactions yet
-        And your cart is empty Shop now
-        You can check out items in cart
-        Checkout cart
+        <!-- Phone number  -->
+        <!-- Country' -->
+        <div class="trans" v-if="user.trans">
+          <table class="border w-full">
+            <thead>
+              <tr>
+                <th class="border">Items</th>
+                <th class="border">Prices</th>
+                <th class="border">Total</th>
+                <th class="border">Transaction history</th>
+                <th class="border"> Transaction date </th>
+                <th class="border"></th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="no-trans-cart text-center" v-else-if="user.cart">
+          <div class="py-2">
+            <!-- <p class=""></p> -->
+            <p class="">You can check out items in cart</p>
+
+            <div class="py-2">
+              <!-- <nuxt-link to="/Cart"></nuxt-link> -->
+              <nuxt-link
+                to="/Cart"
+                class="border-2 font-medium text-2xl border-current px-4 py-2"
+              >
+                Checkout cart
+                <!-- Shop Now -->
+              </nuxt-link>
+            </div>
+          </div>
+        </div>
+        <div class="no-trans text-center" v-else>
+          <div class="py-2">
+            <p class="">You have not made any transactions yet</p>
+            <p class="">And your cart is empty</p>
+
+            <div class="py-2">
+              <nuxt-link
+                to="/shop"
+                class="border-2 font-medium text-2xl border-current px-4 py-2"
+                >Shop Now</nuxt-link
+              >
+            </div>
+          </div>
+        </div>
+         
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapGetters } from "vuex";
+
 export default {
   data() {
     return {
@@ -77,45 +133,63 @@ export default {
       //   viewSignInUp: false
     };
   },
+  computed: {    
+    ...mapState(['setUser']),
+    ...mapGetters(['getUser']),
+  },
   created() {
-    const user = this.$fire.auth.currentUser;
-    console.log(user);
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      const userId = user.uid;
-      //   this.isUser = true;
-      console.log(userId);
-      this.getUser(userId);
-    }
+    // console.log(this.getUser);
+    // const user = this.$fire.auth.currentUser;
+    // console.log(user);
+    // if (user) {
+    // }
+    this.$fire.auth.onAuthStateChanged((user) => {
+      if (user) {
+        // if (uid === "jl0JqEJTJrbWgY0zxO9voeHxJBS2") {
+        //   this.isAdmin = true;
+        // }
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const userId = user.uid;
+        // this.user = user;
+        //   this.isUser = true;
+        // console.log(userId);
+        // this.getUser(userId)
+        console.log("signed in");
+      } else {
+        // User is signed out
+        // ...
+        console.log("signed out");
+      }
+    });
     //   this.getUser()
   },
   methods: {
-    async getUser(userId) {
-      console.log(userId);
-      const ref = this.$fire.firestore.collection("users").doc(userId);
-      console.log(ref);
-      let snap;
-      try {
-        snap = await ref.get();
-      } catch (e) {
-        // TODO: error handling
-        console.error(e);
-      }
-      this.user = snap.data().user;
-      console.log(this.user);
-      // const newUser = {
-      //   userId: userId,
-      //   displayName: this.displayName,
-      //   email: this.email,
-      //   password: this.password,
-      //   country: this.country
-      // };
-      // const document = {
-      //   user: newUser,
-      // };
-      // ref.set(document);
-    },
+    // async getUser(userId) {
+    //   // console.log(userId);
+    //   const ref = this.$fire.firestore.collection("users").doc(userId);
+    //   // console.log(ref);
+    //   let snap;
+    //   try {
+    //     snap = await ref.get();
+    //   } catch (e) {
+    //     // TODO: error handling
+    //     console.error(e);
+    //   }
+    //   this.user = snap.data().user;
+    //   console.log(this.user);
+    //   // const newUser = {
+    //   //   userId: userId,
+    //   //   displayName: this.displayName,
+    //   //   email: this.email,
+    //   //   password: this.password,
+    //   //   country: this.country
+    //   // };
+    //   // const document = {
+    //   //   user: newUser,
+    //   // };
+    //   // ref.set(document);
+    // },
     signIn() {
       console.log(this.password);
       this.$fire.auth

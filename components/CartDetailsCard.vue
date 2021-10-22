@@ -2,71 +2,12 @@
   <div>
     <div class="product">
       <div class="flex flex-wrap justify-between py-2 w-full items-start">
-        <div class="product-img w-full md:w-6/12">
+        <div class="product-img w-full md:w-4/12">
           <img :src="product.productImage" alt="" />
-          <div class="">
-            <div class="flex justify-start items-center">
-              <span class="">Available colors</span>
-              <span
-                class="colors h-7 w-7 m-1 inline-block"
-                v-for="color in product.colors"
-                :key="color"
-              >
-                <input
-                  type="radio"
-                  name="color"
-                  :id="color"
-                  :value="color"
-                  class="color hidden"
-                  checked
-                  v-model="colorSet"
-                />
-                <!-- <label :for="color" class="cursor inline-block h-3.5 w-3.5 rounded-full p-1"> -->
-                <label
-                  :for="color"
-                  class="cursor border-2 border-transparent block h-full w-full rounded-full p-1"
-                  :class="`text-${color}-500`"
-                >
-                  <!-- <label :for="color" class="cursor inline-block rounded-full p-1"> -->
-                  <span
-                    class="block w-full h-full rounded-full bg-gradient-to-r text-black from-gray-900 to-black"
-                    v-if="color === 'black'"
-                  ></span>
-                  <span
-                    class="block w-full h-full text-white rounded-full bg-gradient-to-r from-white to-gray-50"
-                    v-else-if="color === 'white'"
-                  ></span>
-                  <span
-                    class="block w-full h-full bg-gradient-to-r rounded-full"
-                    :class="`text-${color}-500 from-${color}-200 to-${color}-700`"
-                    v-else
-                  ></span>
-                </label>
-              </span>
-            </div>
-          </div>
-          <div class="">
-            <div class="flex justify-start items-center">
-              <span class="">Available sizes</span>
-              <!-- <select name="" id=""> -->
-              <select name="" id="" v-model="sizeSet">
-                <option
-                  class="sizes h-7 w-7 m-1 inline-block"
-                  v-for="size in product.sizes"
-                  :key="size"
-                  :value="size"
-                >
-                  <!-- v-for="(size, index) in product.sizes" -->
-                  <!-- :selected="index === 1" -->
-                  {{ size }}
-                </option>
-              </select>
-            </div>
-          </div>
         </div>
-        <div class="product-info w-full md:w-5/12">
+        <div class="product-info w-full md:w-7/12">
           <div class="product-details">
-            <div class="rating">
+            <!-- <div class="rating">
               <span
                 class="colors h-7 w-7 mx-1 inline-block"
                 v-for="n in product.rating"
@@ -74,7 +15,7 @@
               >
                 <i class="fas fa-star text-sm text-yellow-500"></i>
               </span>
-            </div>
+            </div> -->
             <p class="product-name">{{ product.productName }}</p>
             <div class="" v-if="product.discount == 0">
               <p class="product-price font-medium">
@@ -96,9 +37,78 @@
                 >{{ discount }}
               </p>
             </div>
-            <p class="product-descripion text-sm">{{ product.descripion }}</p>
+            <!-- <p class="product-descripion text-sm">{{ product.descripion }}</p> -->
           </div>
-          <p class="qty">Only {{ product.availableQuantity }} left in stock</p>
+          <div class="flex justify-between items-center">
+            <div class="">
+              <div class="flex justify-start items-center">
+                <span class="">Color</span>
+                <select name="" id="" v-model="colorSet">
+                  <option
+                    class="colors h-7 w-7 m-1 inline-block"
+                    v-for="color in product.colors"
+                    :key="color"
+                    :value="color"
+                  >
+                    {{ color }}
+                  </option>
+                </select>
+                <!-- <span
+                class="colors h-7 w-7 m-1 inline-block"
+                v-for="color in product.colors"
+                :key="color"
+              >
+                <input
+                  type="radio"
+                  name="color"
+                  :id="color"
+                  :value="color"
+                  class="color hidden"
+                  checked
+                  v-model="colorSet"
+                />
+                <label
+                  :for="color"
+                  class="cursor border-2 border-transparent block h-full w-full rounded-full p-1"
+                  :class="`text-${color}-500`"
+                >
+                  <span
+                    class="block w-full h-full rounded-full bg-gradient-to-r text-black from-gray-900 to-black"
+                    v-if="color === 'black'"
+                  ></span>
+                  <span
+                    class="block w-full h-full text-white rounded-full bg-gradient-to-r from-white to-gray-50"
+                    v-else-if="color === 'white'"
+                  ></span>
+                  <span
+                    class="block w-full h-full bg-gradient-to-r rounded-full"
+                    :class="`text-${color}-500 from-${color}-200 to-${color}-700`"
+                    v-else
+                  ></span>
+                </label>
+              </span> -->
+              </div>
+            </div>
+            <div class="">
+              <div class="flex justify-start items-center">
+                <span class="">Size</span>
+                <!-- <select name="" id=""> -->
+                <select name="" id="" v-model="sizeSet">
+                  <option
+                    class="sizes h-7 w-7 m-1 inline-block"
+                    v-for="size in product.sizes"
+                    :key="size"
+                    :value="size"
+                  >
+                    <!-- v-for="(size, index) in product.sizes" -->
+                    <!-- :selected="index === 1" -->
+                    {{ size }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <!-- <p class="qty">Only {{ product.availableQuantity }} left in stock</p> -->
           <div class="product-btn-box flex">
             <div class="product-btn-box">
               <!-- <button
@@ -108,14 +118,14 @@
               <button
                 class="product-btn uppercase px-2.5 py-2 bg-tertiary color-primary"
                 @click="removeFromCart()"
-                v-if="inShop"
               >
+                <!-- v-if="inShop" -->
                 <span class="in">
                   <span> remove from cart </span>
                   <i class="fas fa-shopping-bag"></i>
                 </span>
               </button>
-              <button
+              <!-- <button
                 class="product-btn uppercase px-2.5 py-2 bg-primary color-tertiary"
                 @click="addToCart()"
                 v-else
@@ -123,11 +133,10 @@
                 <span class="minus">
                   <span> add to cart </span>
                   <i class="fas fa-shopping-bag"></i>
-                  <!-- <i class="fa fa-shopping-cart" aria-hidden="true"></i> -->
                 </span>
-              </button>
+              </button> -->
             </div>
-            <div class="product-btn-box">
+            <!-- <div class="product-btn-box">
               <button
                 class="product-btn px-2.5 py-2"
                 :class="
@@ -136,22 +145,17 @@
                 @click="toggleWishlist"
               >
                 <span v-if="inFav">
-                  <!-- <span> remove from wishlist </span> -->
                   <span>
                     <i class="fas fa-bookmark"></i>
-                    <!-- <i class="fas text-3xl fa-bookmark"></i> -->
                   </span>
                 </span>
-                <!-- </button>
-              <button class="product-btn uppercase"> -->
                 <span v-else>
-                  <!-- <span> add to wishlist </span> -->
                   <span>
                     <i class="far fa-bookmark"></i>
                   </span>
                 </span>
               </button>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -369,22 +373,22 @@ export default {
         // console.log(this.inShop);
       });
       // console.log(this.cartList);
-    this.cartList.forEach((cartItem) => {
-      // this.cartList.push(cartItem);
-      // if (this.cartList.includes(this.id)) {
+      this.cartList.forEach((cartItem) => {
+        // this.cartList.push(cartItem);
+        // if (this.cartList.includes(this.id)) {
         // console.log(this.id);
         // console.log(cartItem.id);
-      if (cartItem.id == this.id) {
-        // console.log("in shop");
-        this.inShop = true;
-      // } else {
-      //   // console.log(cartItem.id);
-      //   console.log("not in shop");
-      //   this.inShop = false;
-      }
-    });
+        if (cartItem.id == this.id) {
+          // console.log("in shop");
+          this.inShop = true;
+          // } else {
+          //   // console.log(cartItem.id);
+          //   console.log("not in shop");
+          //   this.inShop = false;
+        }
+      });
       // console.log(this.inShop);
-        // console.log(this.cartList);
+      // console.log(this.cartList);
       let list = this.user.fav;
       list.forEach((element) => {
         this.favList.push(element);
@@ -462,19 +466,19 @@ export default {
       this.inFav = false;
       // console.log(this.inFav);
     }
-      // console.log(this.cartList);
+    // console.log(this.cartList);
     this.cartList.forEach((cartItem) => {
       // this.cartList.push(cartItem);
       // if (this.cartList.includes(this.id)) {
       if (cartItem.id == this.id) {
         console.log(cartItem.id);
         this.inShop = true;
-      // } else {
-      //   // console.log(cartItem.id);
-      //   this.inShop = false;
+        // } else {
+        //   // console.log(cartItem.id);
+        //   this.inShop = false;
       }
     });
-      // console.log(this.inShop);
+    // console.log(this.inShop);
   },
 };
 </script>

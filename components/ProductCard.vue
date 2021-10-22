@@ -34,16 +34,20 @@
             <p class="product-name text-lg font-bold">{{ product.productName }}</p>
           </nuxt-link>
           <div class="" v-if="product.discount == 0">
-            <p class="product-price font-medium"><span>{{ currencySymbol }}</span>{{ productPrice }}</p>
+            <!-- <p class="product-price font-medium"><span>{{ currencySymbol }}</span>{{ productPrice }}</p> -->
+            <p class="product-price font-medium"><span>{{ getCurrencySymbol }}</span>{{ productPrice }}</p>
+            <!-- <p class="product-price font-medium"><span>{{ getCurrencySymbol }}</span>{{ getCurrencyRate }}</p> -->
           </div>
           <div class="" v-else>
             <del>
               <p class="product-price font-medium">
-                <span>{{ currencySymbol }}</span>
+                <span>{{ getCurrencySymbol }}</span>
+                <!-- <span>{{ currencySymbol }}</span> -->
                 {{ productPrice }}
               </p>
             </del>
-            <p class="product-price font-medium"><span>{{ currencySymbol }}</span>{{ discount }}</p>
+            <p class="product-price font-medium"><span>{{ getCurrencySymbol }}</span>{{ discount }}</p>
+            <!-- <p class="product-price font-medium"><span>{{ currencySymbol }}</span>{{ discount }}</p> -->
           </div>
           <!-- <nuxt-link
             :to="{ name: 'ProductDetailsCard', params: { id: product.id } }"
@@ -87,13 +91,17 @@
 
 
 <script>
+// import { mapState } from "vuex";
+// import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
+
 export default {
   data() {
     return {
       inFav: false,
       isUser: false,
       // country: null,
-      currencySymbol: '',
+      // currencySymbol: '',
       favList: [],
       user: {
         // userId: userId,
@@ -105,12 +113,18 @@ export default {
       },
     };
   },
-  props: ["product", "country", "currencyValue"],
+  props: ["product"],
+  // props: ["product", "country", "currencyValue"],
   computed: {
+    ...mapGetters(['getCurrencyRate', 'getCurrencySymbol']),
+    ...mapState(['currencyRate', 'currencySymbol']),
+    // ...mapState(['country', 'countryName', 'countryFlag', 'currency', 'currencyRate', 'currencySymbol']),
     productPrice() {
       
       // return this.country.currencies[0].symbol;
-      return (Math.ceil((this.product.productPrice / this.currencyValue) * 100) / 100);
+      // return (Math.ceil((this.product.productPrice / this.currencyValue) * 100) / 100);
+      // return (Math.ceil((this.product.productPrice / this.getCurrencyRate) * 100) / 100);
+      return (Math.ceil((this.product.productPrice / this.currencyRate) * 100) / 100);
     },
     discount() {
       let discountVal =
@@ -126,9 +140,12 @@ export default {
   },
   // async created() {
   created() {
+    // console.log(this.getCurrencyRate);
+    // console.log(this.currencyRate);
+    // console.log(this.currencySymbol);
     // this.getLocation();
     // this.country = await this.$country();
-    this.currencySymbol = this.country.currencies[0].symbol;
+    // this.currencySymbol = this.country.currencies[0].symbol;
     // console.log(this.$country());
     // console.log(this.currencySymbol);
     // console.log(this.country);
@@ -171,25 +188,25 @@ export default {
     // }
   },
   methods: {
-    async getLocation() {
-      const response = await this.$axios.$get(
-        "https://api.geoapify.com/v1/ipinfo?&apiKey=2a1bb31c0a134533b5261eae06c6d2e6"
-      );
-      const result = await response.country.name;
-      // console.log(response);
-      // console.log(result);
-      this.getLocationInfo(result);
-    },
-    async getLocationInfo(name) {
-      const response = await this.$axios.$get(
-        `https://restcountries.eu/rest/v2/name/${name}?fields=name;capital;currencies;flag;callingCodes`
-      );
-      const result = await response[0].currencies[0].symbol;
-      // const result = await response[0];
-      this.country = await response[0];
-      // console.log(response);
-      console.log(result);
-    },
+    // async getLocation() {
+    //   const response = await this.$axios.$get(
+    //     "https://api.geoapify.com/v1/ipinfo?&apiKey=2a1bb31c0a134533b5261eae06c6d2e6"
+    //   );
+    //   const result = await response.country.name;
+    //   // console.log(response);
+    //   // console.log(result);
+    //   this.getLocationInfo(result);
+    // },
+    // async getLocationInfo(name) {
+    //   const response = await this.$axios.$get(
+    //     `https://restcountries.eu/rest/v2/name/${name}?fields=name;capital;currencies;flag;callingCodes`
+    //   );
+    //   const result = await response[0].currencies[0].symbol;
+    //   // const result = await response[0];
+    //   this.country = await response[0];
+    //   // console.log(response);
+    //   console.log(result);
+    // },
     toggleWishlist() {
       if (this.favList.includes(this.product.productId)) {
         let found = this.favList.indexOf(this.product.productId);

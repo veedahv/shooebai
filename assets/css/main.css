@@ -66,3 +66,7 @@ span {
 .logo {
   font-family: 'Style Script', cursive;
 }
+
+textarea {
+  resize: none;
+}
