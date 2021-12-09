@@ -85,21 +85,21 @@
               <!-- <p class="sub-heading color-light font-bold text-xl"> -->
               <p class="sub-heading color-light text-xl">
                 <!-- Welcome Back -->
-                Get daily foot care tips
+                Subscribe to our newsletter to get deals and fashion tips.
               </p>
             </div>
-            <div class="border color-primary border-current subscribe-box flex my-4 items-center">
-              <div class="form-group w-full h-full">
+            <div class="border color-primary border-current subscribe-box flex my-4 items-stretch">
+              <div class="form-group w-full">
                 <input
                   type="email"
                   name="email"
-                  class="border-0 px-4 py-2 h-full block w-full"
+                  class="border-0 outline-none px-4 py-2 h-full block w-full"
                   placeholder="Email"
                   aria-label="Email"
                   v-model="email"
                 />
               </div>
-              <div class="form-group h-full">
+              <div class="form-group">
                 <button
                   type="submit"
                   class="color-dark bg-primary h-full capitalize font-medium px-4 py-1"

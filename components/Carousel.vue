@@ -1,9 +1,9 @@
 <template>
-  <div class="carousel relative shadow-2xl bg-white">
+  <div class="carousel relative shadow">
     <div class="carousel-inner relative overflow-hidden w-full">
       <!--Slide-->
       <!-- <div class="slides" v-for="slide in slides" :key="slide.id"> -->
-      <div class="" v-for="slide in slides" :key="slide.id">
+      <div class="w-full" v-for="slide in slides" :key="slide.id">
         <input
           :id="slide.id"
           class="carousel-open"
@@ -13,7 +13,7 @@
           hidden=""
           :checked="slide.check"
         />
-        <div class="carousel-item absolute opacity-0" style="height: 90vh">
+        <div class="carousel-item w-0 overflow-hidden absolute opacity-0" style="height: 90vh">
           <!-- class="block h-full w-full text-white bg-blend-overlay text-5xl text-center" -->
           <div
             class="block h-full w-full text-white bg-blend-overlay"
@@ -114,7 +114,7 @@ export default {
       ],
     };
   },
-  mounted() {
+  created() {
     window.setInterval(() => {
       if (this.slides[0].check) {
         this.slides[1].check = true;
@@ -133,13 +133,17 @@ export default {
 </script>
 
 <style>
+.carousel-item {
+  opacity: 0;
+  -webkit-transition: opacity .1s ease-out, width .1s ease-out;
+  transition: opacity .1s ease-out, width .1s ease-out;
+  margin-left: 0;
+}
 .carousel-open:checked + .carousel-item {
   position: static;
   opacity: 100;
-}
-.carousel-item {
-  -webkit-transition: opacity 0.6s ease-out;
-  transition: opacity 0.6s ease-out;
+  width: 100%;
+  margin-left: auto;
 }
 .carousel1 {
   background-image: url("~assets/images/carousel1.jpg");

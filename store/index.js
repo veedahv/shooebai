@@ -13,6 +13,7 @@ export const state = () => ({
     currency: null,
     currencyRate: null,
     currencySymbol: null,
+    isAdmin: false,
     userId: null,
     user: {}
     // loading: false,
@@ -40,6 +41,10 @@ export const mutations = {
     },
     setUserId(state, userId) {
         state.userId = userId
+            // state.loading = true
+    },
+    adminState(state, isAdmin) {
+        state.isAdmin = isAdmin
             // state.loading = true
     },
     // authStart(state) {
@@ -91,7 +96,11 @@ export const actions = {
         console.error(e);
       }
       let user = snap.data().user;
-      commit('setUser', user)
+      commit('setUser', user);
+    //   if (state.userId === "EGb3fizva6OhlFQETY78HPykmpz2") {
+    //       commit('adminState', true)
+    //   //   this.isAdmin = true;
+    //   }
         console.log(state.user);
       // const newUser = {
       //   userId: userId,
@@ -118,9 +127,10 @@ export const actions = {
                 dispatch('getUser')
                 // console.log(user);
                 // this.isLoggedIn = true;
-                // if (uid === "jl0JqEJTJrbWgY0zxO9voeHxJBS2") {
+                if (uid === "EGb3fizva6OhlFQETY78HPykmpz2") {
+                    commit('adminState', true)
                 //   this.isAdmin = true;
-                // }
+                }
             } else {
                 // User is signed out
                 // ...
@@ -179,6 +189,9 @@ export const actions = {
 }
 
 export const getters = {
+    getAdminState(state) {
+        return state.isAdmin
+    },
     getUser(state) {
         return state.user
     },

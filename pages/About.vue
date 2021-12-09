@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <section class="heading-section bg-black bg-opacity-20">
+      <section class="heading-section">
         <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
           <div class="text-center">
             <div class="heading-box py-8 relative">
@@ -252,10 +252,7 @@ export default {
   width: 100%;
 } */
 .heading-section {
-  background-image: url('~/assets/images/about.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
+  background: rgba(0, 0, 0, .3) url('~/assets/images/about.jpg') no-repeat bottom 40% center / cover;
   background-blend-mode: overlay;
 }
 </style>

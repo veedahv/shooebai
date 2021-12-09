@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white">
+  <div class="bg-white relative">
     <div class="container lg:max-w-5xl py-2 px-4 mx-auto">
       <div class="flex justify-between items-center">
         <div>
@@ -7,18 +7,26 @@
             <!-- <span class="logo text-2xl font-bold"> Sho_oebai </span>
             <span class="transform ...">
               <span class="...">
+
+
+
+                \
                 <i class="transform -rotate-45 fas fa-shoe-prints"></i>
               </span>
             </span> -->
             <Logo></Logo>
           </nuxt-link>
         </div>
-        <div class="py-2">
-          <nuxt-link to="/">Home</nuxt-link> |
-          <nuxt-link to="/Admin/Products">Admin</nuxt-link> |
-          <nuxt-link to="/Cart">Cart</nuxt-link> |
-          <nuxt-link to="/Wishlist">Wishlist</nuxt-link> |
-          <nuxt-link to="/shop">Shop</nuxt-link>
+        <label for="hamburg-check" class="hamburg cursor-pointer inline-block md:hidden">
+          <i class="fas fa-bars text-xl"></i>
+        </label>
+        <input type="checkbox" class="hamburg-check hidden" id="hamburg-check">
+        <div class="menu py-0 md:py-2 bg-white overflow-hidden flex flex-col md:flex-row gap-x-5 gap-y-10 items-center absolute top-full left-0 right-0 md:relative">
+          <nuxt-link class="font-medium text-lg nav-link color-tertiary" to="/">Home</nuxt-link> 
+          <!-- <nuxt-link class="font-medium text-lg nav-link color-tertiary" to="/Admin/Products">Admin</nuxt-link>  -->
+          <nuxt-link class="font-medium text-lg nav-link color-tertiary" to="/Cart">Cart</nuxt-link> 
+          <nuxt-link class="font-medium text-lg nav-link color-tertiary" to="/Wishlist">Wishlist</nuxt-link> 
+          <nuxt-link class="font-medium text-lg nav-link color-tertiary" to="/shop">Shop</nuxt-link>
           <!-- <button @click="signOut" v-if="isLoggedIn">logout</button>
           <button @click="signIn" v-else>login</button> -->
         </div>
@@ -78,6 +86,7 @@
                 @click="viewUserBox = !viewUserBox"
               >
                 <span v-if="isAdmin">
+                <!-- <span v-if="adminState"> -->
                   <i class="fas fa-user-cog"></i>
                 </span>
                 <span v-else-if="isLoggedIn">
@@ -101,6 +110,7 @@
               >
                 <ul class="w-full">
                   <li v-if="isAdmin">
+                  <!-- <li v-if="adminState"> -->
                     <nuxt-link
                       class="px-3 inline-block py-2 w-full"
                       to="/Admin/Products"
@@ -192,7 +202,7 @@ export default {
   },
   computed: {
     // ...mapState(["countryName", "countryFlag"]),
-    ...mapState(["countryName", "countryFlag", "currencyRate"]),
+    ...mapState(["countryName", "countryFlag", "currencyRate", "adminState"]),
     // ...mapState(['country', 'countryName', 'countryFlag', 'currency', 'currencyRate', 'currencySymbol']),
   },
   methods: {
@@ -236,7 +246,7 @@ export default {
       // }
     },
     signIn() {
-      console.log("unknown");
+      // console.log("unknown");
       this.viewSignInUp = true;
     },
     search() {
@@ -256,6 +266,7 @@ export default {
   async created() {
     this.getLocation();
     this.authUser();
+    console.log(this.adminState);
     // console.log(this.currencyRate);
     // this.$store.dispatch('getLocation');
     // this.getLocation();
@@ -283,7 +294,7 @@ export default {
         // ...
         console.log(uid);
         this.isLoggedIn = true;
-        if (uid === "jl0JqEJTJrbWgY0zxO9voeHxJBS2") {
+        if (uid === "EGb3fizva6OhlFQETY78HPykmpz2") {
           this.isAdmin = true;
         }
       } else {
@@ -336,5 +347,24 @@ input::-webkit-calendar-picker-inicator {
 }
 .search-input {
   outline: none;
+}
+@media (max-width: 767px) {
+  .hamburg {
+    display: inline-block;
+  }
+
+.menu {
+  max-height: 0px;
+  /* background-color: white; */
+  transition: padding .3s ease-out, max-height 0.3s ease-out;
+}
+  .hamburg-check:checked + .menu {
+    /* height: auto; */
+    /* height: 600px; */
+    /* height: max-content; */
+    max-height: 600px;
+    padding: 20px;
+    /* background-color: blue; */
+  }
 }
 </style>

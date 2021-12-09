@@ -10,8 +10,8 @@
             <hr
               class="border-0 bg-white w-full h-px inset-y-1/2 left-0 absolute"
             />
-            <h2 class="sub-heading bg-white mx-auto py-2 px-1 w-min relative">
-              Trending
+            <h2 class="sub-heading bg-white font-medium text-lg mx-auto py-2 px-1.5 w-max relative">
+              Trending Sale
             </h2>
           </div>
           <div class="">
@@ -33,8 +33,8 @@
             <hr
               class="border-0 bg-white w-full h-px inset-y-1/2 left-0 absolute"
             />
-            <h2 class="sub-heading bg-white mx-auto py-2 px-1 w-min relative">
-              Trending
+            <h2 class="sub-heading bg-white font-medium text-lg mx-auto py-2 px-1.5 mx-auto py-2 px-1 w-max relative">
+              Flash Sale
             </h2>
           </div>
           <div class="">
