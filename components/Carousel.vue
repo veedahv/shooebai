@@ -139,6 +139,9 @@ export default {
   transition: opacity .1s ease-out, width .1s ease-out;
   margin-left: 0;
 }
+.carousel-item > div {
+  min-width: 280px;
+}
 .carousel-open:checked + .carousel-item {
   position: static;
   opacity: 100;
@@ -185,5 +188,10 @@ export default {
   li:nth-child(2)
   .carousel-bullet {
   color: #2b6cb0; /*Set to match the Tailwind colour you want the active one to be */
+}
+@media (min-width: 767px) {  
+.carousel-item > div {
+  min-width: 600px;
+}
 }
 </style>

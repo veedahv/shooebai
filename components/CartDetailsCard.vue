@@ -1,166 +1,103 @@
 <template>
-  <div>
-    <div class="product">
-      <div class="flex flex-wrap justify-between py-2 w-full items-start">
-        <div class="product-img w-full md:w-4/12">
-          <img :src="product.productImage" alt="" />
-        </div>
-        <div class="product-info w-full md:w-7/12">
-          <div class="product-details">
-            <!-- <div class="rating">
-              <span
-                class="colors h-7 w-7 mx-1 inline-block"
-                v-for="n in product.rating"
-                :key="n"
-              >
-                <i class="fas fa-star text-sm text-yellow-500"></i>
-              </span>
-            </div> -->
-            <p class="product-name">{{ product.productName }}</p>
-            <div class="" v-if="product.discount == 0">
-              <p class="product-price font-medium">
-                <span>{{ currencySymbol }}</span
-                >{{ productPrice }}
-              </p>
-            </div>
-            <div class="" v-else>
-              <del>
-                <p class="product-price font-medium">
-                  <!-- <span>{{ getCurrencySymbol }}</span> -->
-                  <span>{{ currencySymbol }}</span>
-                  {{ productPrice }}
-                </p>
-              </del>
-              <!-- <p class="product-price font-medium"><span>{{ getCurrencySymbol }}</span>{{ discount }}</p> -->
-              <p class="product-price font-medium">
-                <span>{{ currencySymbol }}</span
-                >{{ discount }}
-              </p>
-            </div>
-            <!-- <p class="product-descripion text-sm">{{ product.descripion }}</p> -->
-          </div>
+      <tr>
+        <td class="font- align-middle py-5 border-b border-gray-600">
+          <!-- Description -->
           <div class="flex justify-between items-center">
-            <div class="">
-              <div class="flex justify-start items-center">
-                <span class="">Color</span>
-                <select name="" id="" v-model="colorSet">
-                  <option
-                    class="colors h-7 w-7 m-1 inline-block"
-                    v-for="color in product.colors"
-                    :key="color"
-                    :value="color"
-                  >
-                    {{ color }}
-                  </option>
-                </select>
-                <!-- <span
-                class="colors h-7 w-7 m-1 inline-block"
-                v-for="color in product.colors"
-                :key="color"
-              >
-                <input
-                  type="radio"
-                  name="color"
-                  :id="color"
-                  :value="color"
-                  class="color hidden"
-                  checked
-                  v-model="colorSet"
-                />
-                <label
-                  :for="color"
-                  class="cursor border-2 border-transparent block h-full w-full rounded-full p-1"
-                  :class="`text-${color}-500`"
-                >
-                  <span
-                    class="block w-full h-full rounded-full bg-gradient-to-r text-black from-gray-900 to-black"
-                    v-if="color === 'black'"
-                  ></span>
-                  <span
-                    class="block w-full h-full text-white rounded-full bg-gradient-to-r from-white to-gray-50"
-                    v-else-if="color === 'white'"
-                  ></span>
-                  <span
-                    class="block w-full h-full bg-gradient-to-r rounded-full"
-                    :class="`text-${color}-500 from-${color}-200 to-${color}-700`"
-                    v-else
-                  ></span>
-                </label>
-              </span> -->
-              </div>
+            <div class="product-img w-4/12">
+              <img :src="product.productImage" alt="" />
             </div>
-            <div class="">
-              <div class="flex justify-start items-center">
-                <span class="">Size</span>
-                <!-- <select name="" id=""> -->
-                <select name="" id="" v-model="sizeSet">
-                  <option
-                    class="sizes h-7 w-7 m-1 inline-block"
-                    v-for="size in product.sizes"
-                    :key="size"
-                    :value="size"
-                  >
-                    <!-- v-for="(size, index) in product.sizes" -->
-                    <!-- :selected="index === 1" -->
-                    {{ size }}
-                  </option>
-                </select>
+            <div class="product-info w-7/12">
+              <div class="product-details">
+                <p class="product-name text-sm sm:text-lg">
+                  {{ product.productName }}
+                </p>
+              </div>
+              <div class="flex justify-start items-center gap-3 md:gap-5 my-2">
+                <div class="">
+                  <div class="flex justify-start items-center gap-1">
+                    <span class="text-sm sm:text-lg">Color</span>
+                    <select
+                      name=""
+                      id=""
+                      v-model="colorSet"
+                      class="text-sm sm:text-lg"
+                    >
+                      <option
+                        class="colors h-7 w-7 m-1 inline-block text-sm sm:text-lg"
+                        v-for="color in product.colors"
+                        :key="color"
+                        :value="color"
+                      >
+                        {{ color }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="">
+                  <div class="flex justify-start items-center gap-1">
+                    <span class="text-sm sm:text-lg">Size</span>
+                    <select
+                      name=""
+                      id=""
+                      v-model="sizeSet"
+                      class="text-sm sm:text-lg"
+                    >
+                      <option
+                        class="sizes h-7 w-7 m-1 inline-block text-sm sm:text-lg"
+                        v-for="size in product.sizes"
+                        :key="size"
+                        :value="size"
+                      >
+                        <!-- v-for="(size, index) in product.sizes" -->
+                        <!-- :selected="index === 1" -->
+                        {{ size }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <!-- <p class="qty">Only {{ product.availableQuantity }} left in stock</p> -->
-          <div class="product-btn-box flex">
-            <div class="product-btn-box">
-              <!-- <button
-                class="product-btn"
-                @click="toggleCart"
-              > -->
-              <button
-                class="product-btn uppercase px-2.5 py-2 bg-tertiary color-primary"
-                @click="removeFromCart()"
-              >
-                <!-- v-if="inShop" -->
-                <span class="in">
-                  <span> remove from cart </span>
-                  <i class="fas fa-shopping-bag"></i>
-                </span>
-              </button>
-              <!-- <button
-                class="product-btn uppercase px-2.5 py-2 bg-primary color-tertiary"
-                @click="addToCart()"
-                v-else
-              >
-                <span class="minus">
-                  <span> add to cart </span>
-                  <i class="fas fa-shopping-bag"></i>
-                </span>
-              </button> -->
-            </div>
-            <!-- <div class="product-btn-box">
-              <button
-                class="product-btn px-2.5 py-2"
-                :class="
-                  inFav ? 'bg-dark color-secondary' : 'bg-secondary color-dark'
-                "
-                @click="toggleWishlist"
-              >
-                <span v-if="inFav">
-                  <span>
-                    <i class="fas fa-bookmark"></i>
-                  </span>
-                </span>
-                <span v-else>
-                  <span>
-                    <i class="far fa-bookmark"></i>
-                  </span>
-                </span>
-              </button>
-            </div> -->
+        </td>
+        <td class="font- align-middle py-5 border-b border-gray-600">Quantity</td>
+        <td class="font- align-middle py-5 border-b border-gray-600">
+          Price
+          <div class="" v-if="product.discount == 0">
+            <p class="product-price font-medium">
+              <span>{{ currencySymbol }}</span
+              >{{ productPrice }}
+            </p>
+            <!-- <p class="product-price font-medium">
+              <span>{{ currencySymbol }}</span
+              >{{ discount }}
+            </p> -->
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
+          <div class="" v-else>
+            <del>
+              <p class="product-price font-medium">
+                <span>{{ currencySymbol }}</span>
+                {{ productPrice }}
+              </p>
+            </del>
+            <p class="product-price font-medium">
+              <span>{{ currencySymbol }}</span
+              >{{ discount }}
+            </p>
+          </div>
+        </td>
+        <td class="font- align-middle py-5 border-b border-gray-600">
+          <button
+            class="product-btn uppercase text-xs sm:text-sm px-2 py-1.5 bg-tertiary color-primary"
+            @click="removeFromCart()"
+          >
+            <!-- v-if="inShop" -->
+            <span class="in">
+              <span> X </span>
+              <!-- <i class="fas fa-shopping-bag"></i> -->
+            </span>
+          </button>
+        </td>
+      </tr>
 </template>
 
 

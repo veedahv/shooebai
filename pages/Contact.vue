@@ -1,5 +1,21 @@
 <template>
   <div class="">
+      <section class="heading-section">
+        <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
+          <div class="text-center">
+            <div class="heading-box py-8 relative">
+              <h2
+                class="heading mx-auto text-white py-5 px-1 w-max font-bold text-3xl md:text-4xl"
+              >
+                <!-- class="heading mx-auto color-light py-5 px-1 w-max font-bold text-5xl" -->
+                <!-- ABOUT US -->
+                WE ARE HERE TO LISTEN
+              </h2>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section>
     <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
       <div class="">
       </div>
@@ -70,7 +86,7 @@
         <div class="py-2 w-full md:w-1/2">
           <form
             @submit.prevent="onSubmit"
-            class="color-dark bg-white my-2 w-full px-16 py-10"
+            class="color-dark bg-white my-2 w-full px-8 py-10"
           >
             <!-- rounded-md  -->
             <div class="sub-heading-box text-center py-2">
@@ -141,6 +157,7 @@
         </div>
       </div>
     </div>
+    </section>
   </div>
 </template>
 
@@ -233,3 +250,11 @@ export default {
   },
 };
 </script>
+
+
+<style scoped>
+.heading-section {
+  background: rgba(0, 0, 0, .3) url('~/assets/images/contact.jpg') no-repeat bottom 40% center / cover;
+  background-blend-mode: overlay;
+}
+</style>

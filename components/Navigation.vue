@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white relative">
+  <div class="bg-white z-50 relative">
     <div class="container lg:max-w-5xl py-2 px-4 mx-auto">
       <div class="flex justify-between items-center">
         <div>
@@ -17,16 +17,64 @@
             <Logo></Logo>
           </nuxt-link>
         </div>
-        <label for="hamburg-check" class="hamburg cursor-pointer inline-block md:hidden">
+        <label
+          for="hamburg-check"
+          class="hamburg cursor-pointer inline-block md:hidden"
+        >
           <i class="fas fa-bars text-xl"></i>
         </label>
-        <input type="checkbox" class="hamburg-check hidden" id="hamburg-check">
-        <div class="menu py-0 md:py-2 bg-white overflow-hidden flex flex-col md:flex-row gap-x-5 gap-y-10 items-center absolute top-full left-0 right-0 md:relative">
-          <nuxt-link class="font-medium text-lg nav-link color-tertiary" to="/">Home</nuxt-link> 
+        <input
+          type="checkbox"
+          class="hamburg-check hidden"
+          id="hamburg-check"
+          ref="menuShow"
+        />
+        <div
+          class="menu py-0 md:py-2 bg-white overflow-hidden flex flex-col md:flex-row gap-x-5 gap-y-10 items-center absolute top-full left-0 right-0 md:relative"
+        >
+          <!-- <nuxt-link class="font-medium text-lg nav-link color-tertiary" to="/">
+            Home
+          </nuxt-link> -->
+          <a
+            class="font-medium text-lg nav-link color-tertiary cursor-pointer"
+            @click="navigate('/')"
+          >
+            Home
+          </a>
+          <a
+            class="font-medium text-lg nav-link color-tertiary cursor-pointer"
+            @click="navigate('/Cart')"
+          >
+            Cart
+          </a>
+          <a
+            class="font-medium text-lg nav-link color-tertiary cursor-pointer"
+            @click="navigate('/Wishlist')"
+          >
+            Wishlist
+          </a>
+          <a
+            class="font-medium text-lg nav-link color-tertiary cursor-pointer"
+            @click="navigate('/shop')"
+          >
+            Shop
+          </a>
           <!-- <nuxt-link class="font-medium text-lg nav-link color-tertiary" to="/Admin/Products">Admin</nuxt-link>  -->
-          <nuxt-link class="font-medium text-lg nav-link color-tertiary" to="/Cart">Cart</nuxt-link> 
-          <nuxt-link class="font-medium text-lg nav-link color-tertiary" to="/Wishlist">Wishlist</nuxt-link> 
-          <nuxt-link class="font-medium text-lg nav-link color-tertiary" to="/shop">Shop</nuxt-link>
+          <!-- <nuxt-link
+            class="font-medium text-lg nav-link color-tertiary"
+            to="/Cart"
+            >Cart</nuxt-link
+          >
+          <nuxt-link
+            class="font-medium text-lg nav-link color-tertiary"
+            to="/Wishlist"
+            >Wishlist</nuxt-link
+          >
+          <nuxt-link
+            class="font-medium text-lg nav-link color-tertiary"
+            to="/shop"
+            >Shop</nuxt-link
+          > -->
           <!-- <button @click="signOut" v-if="isLoggedIn">logout</button>
           <button @click="signIn" v-else>login</button> -->
         </div>
@@ -86,7 +134,7 @@
                 @click="viewUserBox = !viewUserBox"
               >
                 <span v-if="isAdmin">
-                <!-- <span v-if="adminState"> -->
+                  <!-- <span v-if="adminState"> -->
                   <i class="fas fa-user-cog"></i>
                 </span>
                 <span v-else-if="isLoggedIn">
@@ -110,7 +158,7 @@
               >
                 <ul class="w-full">
                   <li v-if="isAdmin">
-                  <!-- <li v-if="adminState"> -->
+                    <!-- <li v-if="adminState"> -->
                     <nuxt-link
                       class="px-3 inline-block py-2 w-full"
                       to="/Admin/Products"
@@ -191,8 +239,9 @@ export default {
   data() {
     return {
       searchTag: "",
-      isLoggedIn: false,
-      isAdmin: false,
+      // isLoggedIn: false,
+      // menuShow: false,
+      // isAdmin: false,
       viewSearch: true,
       viewSignInUp: false,
       viewUserBox: true,
@@ -202,24 +251,38 @@ export default {
   },
   computed: {
     // ...mapState(["countryName", "countryFlag"]),
-    ...mapState(["countryName", "countryFlag", "currencyRate", "adminState"]),
+    ...mapState(["countryName", "countryFlag", "currencyRate", "isAdmin", "user", "isLoggedIn"]),
     // ...mapState(['country', 'countryName', 'countryFlag', 'currency', 'currencyRate', 'currencySymbol']),
   },
   methods: {
-    ...mapActions(["getLocation", "authUser"]),
+    // toggleMenu() {
+    // 	show.value ? enableScroll() : disableScroll()
+    // 	show.value = !show.value
+    // },
+    navigate(link) {
+      // toggleMenu()
+      // this.$route.push(link);
+      this.$refs['menuShow'].checked = false;
+      this.$nuxt.$options.router.push(link);
+      // this.menuShow = false;
+      // console.log(this.menuShow);
+      // this.$router.push({path: this.localePath('search'), query: {q: this.q}});
+    },
+    ...mapActions(["getLocation", "logout", "authUser"]),
     signInUp() {
       this.viewSignInUp = false;
     },
     signOut() {
-      this.$fire.auth
-        .signOut()
-        .then(() => {
-          // Sign-out successful.
-          this.isLoggedIn = false;
-        })
-        .catch((error) => {
-          // An error happened.
-        });
+      this.logout();
+      // this.$fire.auth
+      //   .signOut()
+      //   .then(() => {
+      //     // Sign-out successful.
+      //     this.isLoggedIn = false;
+      //   })
+      //   .catch((error) => {
+      //     // An error happened.
+      //   });
       // this.$fire
       //   .auth
       //   .signOut()
@@ -266,7 +329,9 @@ export default {
   async created() {
     this.getLocation();
     this.authUser();
-    console.log(this.adminState);
+    // console.log(this.isLoggedIn);
+    // console.log(this.isAdmin);
+    // console.log(this.user);
     // console.log(this.currencyRate);
     // this.$store.dispatch('getLocation');
     // this.getLocation();
@@ -286,23 +351,23 @@ export default {
     // } else {
     //   // No user is signed in.
     // }
-    this.$fire.auth.onAuthStateChanged((user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        let uid = user.uid;
-        // ...
-        console.log(uid);
-        this.isLoggedIn = true;
-        if (uid === "EGb3fizva6OhlFQETY78HPykmpz2") {
-          this.isAdmin = true;
-        }
-      } else {
-        // User is signed out
-        // ...
-        console.log("signed out");
-      }
-    });
+    // this.$fire.auth.onAuthStateChanged((user) => {
+    //   if (user) {
+    //     // User is signed in, see docs for a list of available properties
+    //     // https://firebase.google.com/docs/reference/js/firebase.User
+    //     let uid = user.uid;
+    //     // ...
+    //     console.log(uid);
+    //     this.isLoggedIn = true;
+    //     if (uid === "EGb3fizva6OhlFQETY78HPykmpz2") {
+    //       this.isAdmin = true;
+    //     }
+    //   } else {
+    //     // User is signed out
+    //     // ...
+    //     console.log("signed out");
+    //   }
+    // });
     // this.readFromFirestore();
   },
   // created() {
@@ -353,11 +418,11 @@ input::-webkit-calendar-picker-inicator {
     display: inline-block;
   }
 
-.menu {
-  max-height: 0px;
-  /* background-color: white; */
-  transition: padding .3s ease-out, max-height 0.3s ease-out;
-}
+  .menu {
+    max-height: 0px;
+    /* background-color: white; */
+    transition: padding 0.3s ease-out, max-height 0.3s ease-out;
+  }
   .hamburg-check:checked + .menu {
     /* height: auto; */
     /* height: 600px; */

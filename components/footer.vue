@@ -85,7 +85,7 @@
               <!-- <p class="sub-heading color-light font-bold text-xl"> -->
               <p class="sub-heading color-light text-xl">
                 <!-- Welcome Back -->
-                Subscribe to our newsletter to get deals and fashion tips.
+                To get deals and fashion tips.
               </p>
             </div>
             <div class="border color-primary border-current subscribe-box flex my-4 items-stretch">

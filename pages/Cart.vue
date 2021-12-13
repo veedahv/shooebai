@@ -2,67 +2,157 @@
   <div>
     <section>
       <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
-        <div class="">
+        <div class="" v-if="cartProducts.length >= 1">
           <div class="">
-            <div class="sub-heading-box text-center py-5 relative">
-              <!-- class="border-0 bg-black w-full h-px inset-y-1/2 left-0 absolute" -->
+            <!-- <div class="sub-heading-box text-center py-5 relative">
               <hr
                 class="border-0 bg-white w-full h-px inset-y-1/2 left-0 absolute"
               />
               <h2 class="sub-heading bg-white mx-auto py-2 px-1 w-min relative">
                 Trending
               </h2>
-            </div>
+            </div> -->
             <!-- <pagination :postsArr="postsArr" :currentPage="currentPage" :perPage="perPage" v-on:page:update="updatePage"></pagination> -->
             <!-- <pagination></pagination> -->
-            <Pagination
+            <!-- <Pagination
               :products="products"
               :currentPage="currentPage"
               :perPage="perPage"
               v-on:page:update="updatePage"
-            ></Pagination>
+            ></Pagination> -->
           </div>
           <div class="">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              <!-- <div
-                class="h-full"
-                v-for="product in visibleProductArr"
-                :key="product.productId"
-              >
-                <ProductCard
-                  class="h-full"
-                  :product="product"
-                  :country="country"
-                  :currencyValue="currencyValue"
-                ></ProductCard>
-              </div> -->
-              <!-- <div class="h-full" v-for="product in products" :key="product.id">
-                <ProductCard class="h-full" :product="product"></ProductCard>
-              </div> -->
-            </div>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <!-- <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <div
                 class="h-full"
                 v-for="product in visibleProductArr"
                 :key="product.productId"
               >
-                <!-- <ProductCard class="h-full" :product="product" :country="country" :currencyValue="currencyValue"></ProductCard> -->
-                <!-- <ProductDetailsCard
-                  :id="product.productId"
-                ></ProductDetailsCard> -->
                 <CartDetailsCard :id="product.productId"></CartDetailsCard>
               </div>
-              <!-- <div class="h-full" v-for="product in products" :key="product.id">
-                <ProductCard class="h-full" :product="product"></ProductCard>
-              </div> -->
+            </div> -->
+            <div class="">
+              <!-- <table class="divide-y divide-gray-400 w-full"> -->
+              <table class="w-full">
+                <colgroup>
+                  <col span="1" style="width: auto" />
+                  <col span="2" style="width: 130px" />
+                  <col span="1" style="width: 20px" />
+                </colgroup>
+                <thead>
+                  <tr class="text-left">
+                    <!-- <tr class="border-b-2 border-gray-600 text-left"> -->
+                    <!-- <th class="font-medium w-7/12 align-middle">Description</th>
+                  <th class="font-medium w-2/12 align-middle">Quantity</th>
+                  <th class="font-medium w-2/12 align-middle">Price</th>
+                  <th class="font-medium w-1/12 align-middle">&nbsp;</th> -->
+                    <th
+                      class="font-semibold text-lg lg:text-xl align-middle border-b border-gray-600 py-3.5"
+                    >
+                      Description
+                    </th>
+                    <th
+                      class="font-semibold text-lg lg:text-xl align-middle border-b border-gray-600 py-3.5"
+                    >
+                      Quantity
+                    </th>
+                    <th
+                      class="font-semibold text-lg lg:text-xl align-middle border-b border-gray-600 py-3.5"
+                    >
+                      Price
+                    </th>
+                    <th
+                      class="font-semibold text-lg lg:text-xl align-middle border-b border-gray-600 py-3.5"
+                    >
+                      &nbsp;
+                    </th>
+                  </tr>
+                </thead>
+                <!-- <tbody class="divide-y divide-gray-400"> -->
+                <!-- v-for="product in visibleProductArr" -->
+                <tbody class="">
+                  <div
+                    class="contents"
+                    v-for="product in cartProducts"
+                    :key="product.productId"
+                  >
+                    <CartDetailsCard :id="product.productId"></CartDetailsCard>
+                  </div>
+                </tbody>
+                <div class="payment-container w-full">
+                  <div class="flex gap-5 w-full">
+                    <div
+                      class="flex flex-1 items-center justify-between border px-3 py-4"
+                    >
+                      <small class="text-sm font-medium">Discount</small>
+                      <div class="value text-md font-semibold">
+                        {{ currencySymbol }} {{ totalPrice }}
+                      </div>
+                    </div>
+                    <div
+                      class="flex flex-1 items-center justify-between border px-3 py-4"
+                    >
+                      <small class="text-sm font-medium">Subtotal</small>
+                      <div class="value text-md font-semibold">
+                        {{ currencySymbol }} {{ totalPrice }}
+                      </div>
+                    </div>
+                    <div
+                      class="flex flex-1 items-center justify-between border px-3 py-4"
+                    >
+                      <small class="text-sm font-medium">Total</small>
+                      <div class="value text-md font-semibold">
+                        {{ currencySymbol }} {{ totalPrice }}
+                      </div>
+                    </div>
+                    <div
+                      class="flex flex-1 items-center justify-between border px-3 py-4"
+                    >
+                      <button class="w-full">Checkout</button>
+                    </div>
+                  </div>
+                  <p class="">
+                    If you have any promotion code, please enter here
+                  </p>
+                  <div class="flex gap-5 w-full">
+                    <div
+                      class="flex no-wrap flex-auto w-2/3 items-center justify-between border"
+                    >
+                      <input type="text" class="w-full" name="" id="" />
+                      <button class="w-48">Apply Discount</button>
+                    </div>
+                    <div
+                      class="flex-auto w-1/3 items-center justify-between border"
+                    >
+                      <button class="w-full">Continue Shopping</button>
+                    </div>
+                  </div>
+                </div>
+              </table>
             </div>
           </div>
-          <Pagination
+          <!-- <Pagination
             :products="products"
             :currentPage="currentPage"
             :perPage="perPage"
             v-on:page:update="updatePage"
-          ></Pagination>
+          ></Pagination> -->
+        </div>
+        <div class="no-trans text-center h-96" v-else>
+          <div
+            class="py-2 flex items-center justify-center flex-col gap-4 h-full w-full"
+          >
+            <i class="fas fa-shopping-bag text-7xl"></i>
+            <p class="text-3xl capitalize font-semibold">Your cart is empty</p>
+
+            <div class="py-2">
+              <nuxt-link
+                to="/shop"
+                class="border-2 font-medium text-2xl border-current px-4 py-2"
+                >Shop Now</nuxt-link
+              >
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -78,7 +168,8 @@
 </template>
 
 <script>
-import CartDetailsCard from '../components/CartDetailsCard'
+import CartDetailsCard from "../components/CartDetailsCard";
+import { mapGetters, mapState, mapActions } from "vuex";
 // import ProductDetailsCard from "../components/ProductDetailsCard";
 import Pagination from "../components/Pagination";
 // import ProductCard from "../components/ProductCard";
@@ -93,180 +184,81 @@ export default {
     return {
       country: null,
       products: [],
-      cartProducts: [],
+      totalPrice: 0,
+      // cartProducts: [],
       cartList: [],
       visibleProductArr: [],
       currentPage: 0,
       perPage: 15,
       currencyValue: null,
-      user: null,
+      // user: null,
     };
   },
-  // beforeMount() {
-  //   this.visibleProduct(); NewProductCard.vue country.js
-  // },
-  methods: {
-    updatePage(pageNumber) {
-      this.currentPage = pageNumber;
-      this.visibleProduct();
-    },
-    visibleProduct() {
-      this.visibleProductArr = this.cartProducts.slice(
-        this.currentPage * this.perPage,
-        this.currentPage * this.perPage + this.perPage
-      );
-      console.log(this.visibleProductArr);
-    },
-    async readFromFirestore() {
-      const ref = this.$fire.firestore.collection("products").doc("product");
-      let snap;
-      try {
-        snap = await ref.get();
-      } catch (e) {
-        // TODO: error handling
-        console.error(e);
-      }
-      this.products = snap.data().products;
-      // this.cartProducts = this.products;
-      // console.log(this.products);
-      this.cartList.forEach((cartItem) => {
-        // console.log(cartItem.id);
-        this.products.forEach((prod) => {
-          // console.log(prod.productId);
-          // if (prod.productId.toLowerCase() === this.id.toLowerCase()) {
-          if (prod.productId === cartItem.id) {
-            // console.log(prod.productId);
-            this.cartProducts.push(prod);
-            // console.log(prod);
-            // console.log(this.cartProducts);
-          }
-          // this.cartList.push(cartItem);
-          // if (cartItem.id == this.id) {
-          //   // console.log(cartItem.id);
-          //   console.log(this.user.fav);
-          // } else {
-            // }
+  computed: {
+    ...mapGetters(["getCurrencyRate", "getCurrencySymbol"]),
+    ...mapState([
+      "currencyRate",
+      "currencySymbol",
+      "cartItems",
+      "cartProducts",
+      "user",
+    ]),
+    // productPrice() {
+    //   return (
+    //     Math.ceil((this.product.productPrice / this.currencyRate) * 100) / 100
+    //   );
+    // },
+    // discount() {
+    //   let discountVal =
+    //     this.productPrice - (this.product.discount * this.productPrice) / 100;
+    //   return Math.ceil(discountVal * 100) / 100;
+    //   // return discountVal;
+    // },
+  },
+  watch: {
+    cartProducts: {
+      handler: function (newValue) {
+        this.totalPrice = 0;
+        // console.log(newValue);
+        newValue.forEach((product) => {
+          console.log(product.productPrice);
+          let initialPrice =
+            Math.ceil((product.productPrice / this.currencyRate) * 100) / 100;
+          let discountVal =
+            initialPrice - (product.discount * initialPrice) / 100;
+          let productPrice = Math.ceil(discountVal * 100) / 100;
+          console.log(initialPrice);
+          console.log(discountVal);
+          console.log(productPrice);
+          this.totalPrice += productPrice;
+          console.log(this.totalPrice);
         });
-      });
-      this.visibleProduct();
-      console.log(this.cartProducts);
-      // },
-      // async readFromFirestore() {
-      //   const ref = this.$fire.firestore.collection("products").doc("product");
-      //   let snap;
-      //   try {
-      //     snap = await ref.get();
-      //   } catch (e) {
-      //     // TODO: error handling
-      //     console.error(e);
-      //   }
-      //   this.products = snap.data().products;
-      // this.products.forEach((prod) => {
-      //   // console.log(prod.productId);
-
-      //   // if (prod.productId.toLowerCase() === this.id.toLowerCase()) {
-      //   if (prod.productId === this.id) {
-      //     this.product = prod;
-      //     this.sizeSet = this.product.sizes[0];
-      //     this.colorSet = this.product.colors[0];
-      //     // console.log(prod.productId);
-      //     // console.log(this.id);
-      //     // console.log(this.product);
-      //     // console.log(this.product.sizes[0]);
-      //     // console.log(this.product.sizes);
-      //     // console.log(this.product.colors);
-      //   }
-      // });
-    },
-    async getUserFirestore(userId) {
-      const ref = this.$fire.firestore.collection("users").doc(userId);
-      // const ref = this.$fire.firestore.collection("users").doc(userId).user;
-      // const ref = this.$fire.firestore.collection("products").doc("product");
-      let snap;
-      try {
-        snap = await ref.get();
-      } catch (e) {
-        // TODO: error handling
-        console.error(e);
-      }
-      this.user = snap.data().user;
-      // console.log(this.user);
-      // console.log(this.user.fav);
-      console.log(this.user.cart);
-      this.user.cart.forEach((cartItem) => {
-        this.cartList.push(cartItem);
-        // if (cartItem.id == this.id) {
-        //   // console.log(cartItem.id);
-        //   // this.inShop = true;
-        //   console.log(this.user.fav);
-        // } else {
-        //   // console.log(cartItem.id);
-        //   // this.inShop = false;
-        // }
-        // console.log(this.inShop);
-      });
-      console.log(this.cartList);
-      // let list = this.user.fav;
-      // list.forEach((element) => {
-      //   this.favList.push(element);
-      // });
-      // if (this.favList.includes(this.id)) {
-      //   this.inFav = true;
-      //   // console.log(this.inFav);
-      // } else {
-      //   this.inFav = false;
-      //   // console.log(this.inFav);
-      // }
+      },
     },
   },
-  // mounted() {
-  //   // console.log(this.$country());
-  //   // console.log(this.$location());
-  //   // this.$location();
-  //   // this.$country();
-  // },
-  // created() {
-  async created() {
-    // this.getLocation();
-    // this.country = await this.$country();
-    // console.log(this.country);
-    // console.log(this.country.currencies);
-    // console.log(this.country.currencies[0].code);
-    // this.currencyValue = await this.$currencyRate(this.country.currencies[0].code);
-    // // this.currencyValue = await this.$currencyRate('USD');
-    this.$fire.auth.onAuthStateChanged((user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        // let uid = user.uid;
-        // // ...
-        // console.log(uid);
-        // this.isLoggedIn = true;
-        // if (uid === "jl0JqEJTJrbWgY0zxO9voeHxJBS2") {
-        //   this.isAdmin = true;
-        // }
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        // this.user = user.uid;
-        this.user = user;
-        // this.isUser = true;
-        // console.log(this.isUser);
-        let userId = user.uid;
-        // console.log(this.user);
-        // ...
-        this.getUserFirestore(userId);
-        this.readFromFirestore();
-      } else {
-        // User is signed out
-        // ...
-        console.log("signed out");
-    this.readFromFirestore();
-      }
-    });
-    // this.getUserFirestore();
+  methods: {
+    ...mapActions(["getCartProducts"]),
+    // getTotalPrice() {
+    //   this.totalPrice = 0;
+    //   this.cartProducts.forEach((product) => {
+    //     let initialPrice =
+    //       Math.ceil((product.productPrice / this.currencyRate) * 100) / 100;
+    //     let discountVal =
+    //       initialPrice - (product.discount * initialPrice) / 100;
+    //     let productPrice = Math.ceil(discountVal * 100) / 100;
+    //     this.totalPrice += productPrice;
+    //   });
+    // return total;
+    // },
+  },
+  created() {
+    this.getCartProducts();
   },
 };
 </script>
 
 <style>
+/* table {
+  border-spacing: 25px 15px;
+} */
 </style>

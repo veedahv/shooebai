@@ -136,11 +136,11 @@
                   >
                     <div class="text-center capitalize">
                       <!-- <div class="text-center uppercase"> -->
-                      <i class="fas fa-4x fa-truck color-secondary"></i>
+                      <i class="fas fa-3x fa-truck color-secondary"></i>
                       <!-- <i class="fas fa-truck"></i> -->
                       <!-- <i class="fas fa-globe"></i> -->
                       <!-- <h2 class="font-medium text-4xl my-2.5">Made 4000 </h2> -->
-                      <h2 class="text-3xl my-5 color-tertiary">Made 4000</h2>
+                      <h2 class="font-medium text-3xl my-5 color-tertiary">Made 4000</h2>
                       <h3 class="font-bold text-2xl color-dark">
                         successful deliveries
                       </h3>
@@ -155,10 +155,10 @@
                   >
                     <div class="text-center capitalize">
                       <!-- <div class="text-center uppercase"> -->
-                      <i class="fas fa-4x fa-users color-secondary"></i>
+                      <i class="fas fa-3x fa-users color-secondary"></i>
                       <!-- <i class="fas fa-truck"></i> -->
                       <!-- <i class="fas fa-globe"></i> -->
-                      <h2 class="text-3xl my-5 color-tertiary">To 320</h2>
+                      <h2 class="font-medium text-3xl my-5 color-tertiary">To 320</h2>
                       <h3 class="font-bold text-2xl color-dark">
                         Registered Users
                       </h3>
@@ -173,11 +173,11 @@
                   >
                     <div class="text-center capitalize">
                       <!-- <div class="text-center uppercase"> -->
-                      <i class="fas fa-4x fa-globe color-secondary"></i>
+                      <i class="fas fa-3x fa-globe color-secondary"></i>
                       <!-- <i class="fas fa-truck"></i> -->
                       <!-- <i class="fas fa-globe"></i> -->
                       <!-- <h2 class="font-medium text-4xl my-2.5">From 37</h2> -->
-                      <h2 class="text-3xl my-5 color-tertiary">From 37</h2>
+                      <h2 class="font-medium text-3xl my-5 color-tertiary">From 37</h2>
                       <h3 class="font-bold text-2xl color-dark">
                         different countries
                       </h3>

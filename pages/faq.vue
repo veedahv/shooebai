@@ -5,11 +5,11 @@
         <div class="text-center">
           <div class="heading-box py-8 relative">
             <h2
-              class="heading mx-auto text-white py-5 px-1 w-max font-bold text-4xl"
+              class="heading mx-auto text-white py-5 px-1 w-max font-bold text-3xl md:text-4xl"
             >
               <!-- class="heading mx-auto color-light py-5 px-1 w-max font-bold text-5xl" -->
               <!-- ABOUT US -->
-              WE ARE HERE TO HELP
+              HOW CAN WE HELP?
             </h2>
           </div>
         </div>
