@@ -3,14 +3,22 @@
     <section>
       <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
         <div class="">
-          <div class="sub-heading-box text-center py-5 relative">
-            <!-- class="border-0 bg-black w-full h-px inset-y-1/2 left-0 absolute" -->
-            <hr
-              class="border-0 bg-white w-full h-px inset-y-1/2 left-0 absolute"
-            />
-            <h2 class="sub-heading bg-white mx-auto py-2 px-1 w-min relative">
-              Trending
-            </h2>
+          <div class="sub-heading-box py-3">
+            <!-- <nuxt-link
+            class="font-bold text-lg nav-link color-dark"
+            to="/"
+            >Sho_oebai</nuxt-link
+          >
+          >> -->
+            <nuxt-link
+            class="font-bold text-xl nav-link color-tertiary"
+            to="/shop"
+            >Shop</nuxt-link
+          >
+          >>
+          <nuxt-link class="font-semibold text-base nav-link color-tertiary" :to="'/ProductDetail/' + id">
+            {{ product.productName }}
+          </nuxt-link>
           </div>
           <div class="">
             <ProductDetailsCard :id="id"></ProductDetailsCard>
@@ -24,7 +32,7 @@
       </div>
     </section>
     <section>
-      <div class="container py-10 px-4 mx-auto">
+      <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
         <div class="">
           <div class="">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -51,7 +59,7 @@ export default {
   data() {
     return {
       //   products: [],
-      product: null,
+      product: {},
       products: [],
       id: "",
       similarArr: [],
@@ -141,7 +149,7 @@ export default {
           this.product = prod;
           // console.log(prod.productId);
           // console.log(this.id);
-          // console.log(this.product);
+          console.log(this.product);
         }
       });
       // console.log(this.products);
@@ -194,23 +202,9 @@ export default {
   //       console.log(this.products);
   //     },
   //   },
-  // created() {
-  //     console.log(this.id);
-  //   // this.readFromFirestore();
-  // },
-  // mounted() {
-  //     console.log(this.id);
-  //   // this.readFromFirestore();
-  // },
-  // beforeMount() {
-  //   this.id = this.$route.params.id;
-  // },
   created() {
     this.id = this.$route.params.id;
-    // console.log("ghjjk");
     this.readFromFirestore();
-    // this.similarity("shannon fanon", "shan mary");
-    // console.log(this.similarity("shannon fanon", "shan mary"));
   },
 };
 </script>

@@ -4,16 +4,6 @@
       <div class="flex justify-between items-center">
         <div>
           <nuxt-link class="logo" to="/">
-            <!-- <span class="logo text-2xl font-bold"> Sho_oebai </span>
-            <span class="transform ...">
-              <span class="...">
-
-
-
-                \
-                <i class="transform -rotate-45 fas fa-shoe-prints"></i>
-              </span>
-            </span> -->
             <Logo></Logo>
           </nuxt-link>
         </div>

@@ -14,9 +14,11 @@ export const state = () => ({
     currencyRate: null,
     currencySymbol: null,
     products: [],
+    visibleProductArr: [],
     cartItems: [],
     cartProducts: [],
     wishItems: [],
+    wishItemsArray: [],
     isLoggedIn: false,
     isAdmin: false,
     userId: null,
@@ -25,48 +27,51 @@ export const state = () => ({
 })
 
 export const mutations = {
+    // loading(state, isLoading) {
+    // state.loading = isLoading
+    // },
     country(state, country) {
         state.country = country
         state.countryIsocode = country.iso_code
         state.countryName = country.name
-        // state.loading = true
     },
     currency(state, country) {
         state.currency = Object.keys(country.currencies)[0]
         state.currencySymbol = country.currencies[`${Object.keys(country.currencies)[0]}`].symbol
         state.countryFlag = country.flags[0]
-        // state.loading = true
     },
     currencyVal(state, currencyValue) {
         state.currencyRate = currencyValue
     },
     setUser(state, user) {
         state.user = user
-        // state.loading = true
     },
     setUserId(state, userId) {
         state.userId = userId
-        // state.loading = true
     },
     adminState(state, isAdmin) {
         state.isAdmin = isAdmin
-        // state.loading = true
+    },
+    updateWishlist(state, wishItems) {
+        state.wishItems = wishItems
+    },
+    updateWishlistArray(state, wishItems) {
+        state.wishItemsArray = wishItems
     },
     updateCart(state, cartItems) {
         state.cartItems = cartItems
-        // state.loading = true
     },
     updateCartProducts(state, cartItems) {
         state.cartProducts = cartItems
-        // state.loading = true
     },
     updateProducts(state, products) {
         state.products = products
-        // state.loading = true
+    },
+    updateProductsPage(state, visibleProducts) {
+        state.visibleProductArr = visibleProducts
     },
     logoutState(state, isLoggedIn) {
         state.isLoggedIn = isLoggedIn
-        // state.loading = true
     },
     // authStart(state) {
     //     state.error = null,
@@ -129,6 +134,7 @@ export const actions = {
         }
         let allProducts = snap.data().products;
         commit('updateProducts', allProducts);
+        dispatch('getPageProducts', 0);
         //   state.cartItems.forEach((cartItem) => {
         //     this.products.forEach((prod) => {
         //       if (prod.productId === cartItem.id) {
@@ -140,8 +146,21 @@ export const actions = {
         //   this.visibleProduct();
         //   console.log(this.cartProducts);
     },
+    getPageProducts({ commit, dispatch, state }, page) {
+        // dispatch('getProducts');
+        let visibleProductArr = [];
+        let perPage = 15;
+        // console.log(state.products);
+        // console.log(page);
+        visibleProductArr = state.products.slice(
+            page * perPage,
+            page * perPage + perPage
+        );
+        // console.log(visibleProductArr);
+        commit('updateProductsPage', visibleProductArr);
+    },
     getCartProducts({ commit, dispatch, state }) {
-        dispatch('getProducts');
+        // dispatch('getProducts');
         let cartProducts = [];
         state.cartItems.forEach((cartItem) => {
             state.products.forEach((prod) => {
@@ -150,14 +169,104 @@ export const actions = {
                 }
             });
         });
-        console.log(cartProducts);
-        // return cartProducts;
+        // console.log(cartProducts);
         commit('updateCartProducts', cartProducts);
+    },
+    getWishProducts({ commit, dispatch, state }) {
+        // dispatch('getProducts');
+        let wishProducts = [];
+        // state.wishItems.forEach((wishItem) => {
+        state.products.forEach((prod) => {
+            if (state.wishItems.includes(prod.productId)) {
+                //   this.products.push(product);
+                wishProducts.push(prod);
+            }
+            // if (prod.productId === wishItem.id) {
+            // }
+        });
+        // });
+        //   this.allProducts.forEach((product) => {
+        //     if (this.favList.includes(product.productId)) {
+        //       this.products.push(product);
+        //     }
+        //   });
+        // console.log(state.wishItems);
+        // console.log(wishProducts);
+        // return wishProducts;
+        commit('updateWishlistArray', wishProducts);
+    },
+    updateWishProducts({ commit, dispatch, state }, productId) {
+        let favList = [];
+        state.wishItems.forEach(item => {
+            favList.push(item);
+        });
+        if (favList.includes(productId)) {
+            let found = favList.indexOf(productId);
+            favList.splice(found, 1);
+            //   console.log(favList);
+        } else {
+            favList.push(productId);
+            //   console.log(favList);
+        }
+        const editUser = {
+            userId: state.user.userId,
+            displayName: state.user.displayName,
+            email: state.user.email,
+            country: state.user.country,
+            cart: state.user.cart,
+            fav: favList,
+        };
+        // fav: [],
+        dispatch('updateUser', editUser);
+    },
+    updateCartProducts({ commit, dispatch, state }, newItem) {
+        let cartList = [];
+        state.cartItems.forEach((cartItem) => {
+            cartList.push(cartItem);
+        });
+        // console.log(cartList);
+        //   console.log(newItem);
+        let isFound = false;
+        let found;
+        cartList.forEach((cartItem) => {
+            if (cartItem.id === newItem.id) {
+                // console.log("lolo");
+                found = cartList.indexOf(cartItem);
+                isFound = true;
+            }
+        });
+        if (isFound) {
+            cartList.splice(found, 1);
+            //   console.log(cartList);
+        } else {
+            cartList.push(newItem);
+            //   console.log(cartList);
+        }
+        const editUser = {
+            userId: state.user.userId,
+            displayName: state.user.displayName,
+            role: state.user.role,
+            email: state.user.email,
+            country: state.user.country,
+            cart: cartList,
+            fav: state.user.fav,
+        };
+        dispatch('updateUser', editUser);
+    },
+    updateUser({ commit, dispatch, state }, newUser) {
+        const ref = this.$fire.firestore.collection("users").doc(state.userId);
+        // commit('setUser', user);
+        const document = {
+            user: newUser,
+        };
+        ref.set(document);
+        dispatch('getUser');
     },
     async getUser({ commit, dispatch, state }) {
         //   console.log(state.userId);
         const ref = this.$fire.firestore.collection("users").doc(state.userId);
-        console.log(ref);
+        // console.log(this.$fire.firestore.collection("users"));
+        // console.log(ref);
         let snap;
         try {
             snap = await ref.get();
@@ -166,32 +275,29 @@ export const actions = {
             console.error(e);
         }
         let user = snap.data().user;
+        if (user.role === "admin") {
+            commit('adminState', true)
+            //   this.isAdmin = true;
+        }
         commit('setUser', user);
         let cartList = [];
         state.user.cart.forEach((cartItem) => {
             cartList.push(cartItem);
         });
-        console.log(cartList);
+        let wishList = [];
+        // console.log(state.user.fav);
+        state.user.fav.forEach((listItem) => {
+            wishList.push(listItem);
+        });
+        // console.log(wishList);
+        // console.log(cartList);
         commit('updateCart', cartList);
+        commit('updateWishlist', wishList);
         dispatch('getCartProducts');
-        //   if (state.userId === "EGb3fizva6OhlFQETY78HPykmpz2") {
-        //       commit('adminState', true)
-        //   //   this.isAdmin = true;
-        //   }
-        // console.log(state.user);
-        // const newUser = {
-        //   userId: userId,
-        //   displayName: this.displayName,
-        //   email: this.email,
-        //   password: this.password,
-        //   country: this.country
-        // };
-        // const document = {
-        //   user: newUser,
-        // };
-        // ref.set(document);
+        dispatch('getWishProducts');
     },
     authUser({ commit, dispatch, state }) {
+        dispatch('getProducts');
         this.$fire.auth.onAuthStateChanged((user) => {
             if (user) {
                 // User is signed in, see docs for a list of available properties
@@ -199,59 +305,23 @@ export const actions = {
                 let uid = user.uid;
                 // state.uid = user.uid;
                 // ...
-                console.log(uid);
+                // console.log(uid);
                 commit('setUserId', uid);
                 dispatch('getUser');
                 // console.log(user);
                 // this.isLoggedIn = true;
                 commit('logoutState', true);
-                if (uid === "EGb3fizva6OhlFQETY78HPykmpz2") {
-                    commit('adminState', true)
-                    //   this.isAdmin = true;
-                }
+                // if (uid === "EGb3fizva6OhlFQETY78HPykmpz2") {
+                // if (user.role === "admin") {
+                //     commit('adminState', true)
+                //     //   this.isAdmin = true;
+                // }
             } else {
                 // User is signed out
                 // ...
                 console.log("signed out");
             }
         });
-        // const auth = getAuth();
-        // onAuthStateChanged(auth, (user) => {
-        //   if (user) {
-        //     // User is signed in, see docs for a list of available properties
-        //     // https://firebase.google.com/docs/reference/js/firebase.User
-        //     const uid = user.uid;
-        //     console.log(user);
-        //     // ...
-        //   } else {
-        //     // User is signed out
-        //     // ...
-        //     console.log("User is signed out");
-        //   }
-        // });
-        // dispatch('authStart')
-        // axios.post('/auth/employer/login', {
-        //     email: authData.email,
-        //     password: authData.password
-        // })
-        //     .then(res => {
-        //         console.log(res)
-        //         const user = res.data
-        //         localStorage.setItem('token', user.token)
-        //         localStorage.setItem('user-role', user.role)
-        //         commit('authSuccess', user)
-        //         router.push('/ViewJobsCompany')
-        //         dispatch('authStopLoading')
-
-        //     })
-        //     .catch(err => {
-        //         console.log(err.message)
-        //         commit('authFail', err)
-        //         commit('errMessageType', err.message)
-        //         dispatch('authStopLoading')
-        //     })
-
-
     },
     // storeStudentUser(type, studentUserData) {
     //     localStorage.setItem('token', studentUserData.token)

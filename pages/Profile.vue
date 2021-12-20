@@ -3,57 +3,29 @@
     <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
       <div class="">
         <form
-          @submit.prevent="signIn"
+          @submit.prevent="saveProfile"
           class="color-dark bg-white w-full px-16 py-10"
         >
-          <!-- rounded-md  -->
-          <!-- <div class="sub-heading-box text-center py-2">
-        <h2 class="sub-heading color-primary font-bold text-xl py-2">
-          Sho_oebai
-        </h2>
-        <h3 class="sub-heading color-primary font-bold text-4xl py-2">
-          Welcome Back
-        </h3>
-      </div> -->
-          <!-- <div class="form-group my-4">
-        <label for="email" class="capitalize font-medium">email</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          class="border border-current px-4 py-2 block w-full"
-          placeholder="email"
-          v-model="email"
-        />
-      </div> -->
-          <!-- <div class="form-group my-4">
-        <button
-          type="submit"
-          class="color-dark bg-primary w-full capitalize font-medium px-4 py-2"
-        >
-          Sign in
-        </button>
-      </div> -->
-            {{ getUser }}
-            <!-- {{ setUser }} -->
-          <!-- <p>
-            {{ setUser.displayName }}
-          </p>
           <p>
-            {{ setUser.email }}
-          </p> -->
-          <p>
-            {{ getUser.displayName }}
-          </p>
-          <p>
-            {{ getUser.email }}
-          </p>
-          <!-- <p>
             {{ user.displayName }}
           </p>
           <p>
             {{ user.email }}
-          </p> -->
+          </p>
+          <div class="form-group my-4">
+            <label for="name" class=""></label>
+            <input type="text" id="name" v-model="displayName" v-if="isEdit">
+            <p v-else>
+            {{ user.displayName }}
+          </p>
+          </div>
+          <div class="form-group my-4">
+            <label for="email" class=""></label>
+            <input type="text" id="email" v-model="email" v-if="isEdit">
+          <p v-else>
+            {{ user.email }}
+          </p>
+          </div>
           <div class="form-group my-4">
             <a
               href=""
@@ -61,6 +33,33 @@
               @click.prevent="forgotPassword"
             >
               Forgot password?
+            </a>
+          </div>
+          <div class="form-group my-4">
+            <a
+              href=""
+              class="color-dark capitalize font-medium"
+              @click.prevent="editProfile"
+            >
+              Edit Profile
+            </a>
+          </div>
+          <div class="form-group my-4">
+            <a
+              href=""
+              class="color-dark capitalize font-medium"
+              @click.prevent="saveProfile"
+            >
+              Save Profile
+            </a>
+          </div>
+          <div class="form-group my-4">
+            <a
+              href=""
+              class="color-dark capitalize font-medium"
+              @click.prevent="isEdit = false"
+            >
+              Cancel
             </a>
           </div>
         </form>
@@ -87,13 +86,13 @@
         <div class="no-trans-cart text-center" v-else-if="user.cart">
           <div class="py-2">
             <!-- <p class=""></p> -->
-            <p class="">You can check out items in cart</p>
+            <p class="my-3">You can check out items in cart</p>
 
-            <div class="py-2">
+            <div class="my-3">
               <!-- <nuxt-link to="/Cart"></nuxt-link> -->
               <nuxt-link
                 to="/Cart"
-                class="border-2 font-medium text-2xl border-current px-4 py-2"
+                class="border-2 font-medium text-md border-current px-3 py-1.5"
               >
                 Checkout cart
                 <!-- Shop Now -->
@@ -103,13 +102,12 @@
         </div>
         <div class="no-trans text-center" v-else>
           <div class="py-2">
-            <p class="">You have not made any transactions yet</p>
-            <p class="">And your cart is empty</p>
-
-            <div class="py-2">
+            <p class="mt-3">You have not made any transactions yet</p>
+            <p class="my-1">And your cart is empty</p>
+            <div class="my-3">
               <nuxt-link
                 to="/shop"
-                class="border-2 font-medium text-2xl border-current px-4 py-2"
+                class="border-2 font-medium text-md border-current px-3 py-1.5"
                 >Shop Now</nuxt-link
               >
             </div>
@@ -127,14 +125,16 @@ import { mapState, mapGetters } from "vuex";
 export default {
   data() {
     return {
-      //   email: "",
+        email: "",
+        displayName: "",
+        isEdit: false,
       //   password: "",
-      user: {},
+      // user: {},
       //   viewSignInUp: false
     };
   },
   computed: {    
-    ...mapState(['setUser']),
+    ...mapState(['user']),
     ...mapGetters(['getUser']),
   },
   created() {
@@ -143,25 +143,25 @@ export default {
     // console.log(user);
     // if (user) {
     // }
-    this.$fire.auth.onAuthStateChanged((user) => {
-      if (user) {
-        // if (uid === "jl0JqEJTJrbWgY0zxO9voeHxJBS2") {
-        //   this.isAdmin = true;
-        // }
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        const userId = user.uid;
-        // this.user = user;
-        //   this.isUser = true;
-        // console.log(userId);
-        // this.getUser(userId)
-        console.log("signed in");
-      } else {
-        // User is signed out
-        // ...
-        console.log("signed out");
-      }
-    });
+    // this.$fire.auth.onAuthStateChanged((user) => {
+    //   if (user) {
+    //     // if (uid === "jl0JqEJTJrbWgY0zxO9voeHxJBS2") {
+    //     //   this.isAdmin = true;
+    //     // }
+    //     // User is signed in, see docs for a list of available properties
+    //     // https://firebase.google.com/docs/reference/js/firebase.User
+    //     const userId = user.uid;
+    //     // this.user = user;
+    //     //   this.isUser = true;
+    //     // console.log(userId);
+    //     // this.getUser(userId)
+    //     console.log("signed in");
+    //   } else {
+    //     // User is signed out
+    //     // ...
+    //     console.log("signed out");
+    //   }
+    // });
     //   this.getUser()
   },
   methods: {
@@ -190,16 +190,91 @@ export default {
     //   // };
     //   // ref.set(document);
     // },
+    // signIn() {
+    //   console.log(this.password);
+    //   this.$fire.auth
+    //     .signInWithEmailAndPassword(this.email, this.password)
+    //     .then((userCredential) => {
+    //       // Signed in
+    //       var user = userCredential.user;
+    //       // ...
+    //       console.log(user);
+    //       this.updateSignInOut();
+    //     })
+    //     .catch((error) => {
+    //       var errorCode = error.code;
+    //       var errorMessage = error.message;
+    //       // ..
+    //     });
+    // },
+    editProfile() {
+      // const ref = this.$fire.firestore.collection("users").doc(userId);
+      // console.log(ref);
+      // const newUser = {
+        // userId: userId,
+        this.displayName = this.user.displayName;
+        this.email = this.user.email;
+        this.isEdit = true;
+      //   country: this.country,
+      //   cart: this.cart,
+      //   fav: this.fav
+      // };
+      // const document = {
+      //   user: newUser,
+      // };
+      // ref.set(document);
+      console.log(this.user);
+    },
+    saveProfile() {
+      // const ref = this.$fire.firestore.collection("users").doc(userId);
+      // console.log(ref);
+      const saveUser = {
+        userId: this.user.userId,
+        displayName: this.displayName,
+        email: this.email,
+        country: this.user.country,
+        cart: this.user.cart,
+        fav: this.user.fav
+      };
+      console.log(saveUser);
+      // const document = {
+      //   user: newUser,
+      // };
+      // ref.set(document);
+      this.isEdit = false;
+      console.log(this.displayName);
+      console.log(this.email);
+      console.log(this.user);
+    },
+    storeUser(userId) {
+      const ref = this.$fire.firestore.collection("users").doc(userId);
+      console.log(ref);
+      const newUser = {
+        userId: userId,
+        displayName: this.displayName,
+        email: this.email,
+        country: this.country,
+        cart: this.cart,
+        fav: this.fav
+      };
+      const document = {
+        user: newUser,
+      };
+      ref.set(document);
+    },
     signIn() {
-      console.log(this.password);
       this.$fire.auth
-        .signInWithEmailAndPassword(this.email, this.password)
+        .createUserWithEmailAndPassword(this.email, this.password)
         .then((userCredential) => {
           // Signed in
           var user = userCredential.user;
+          user.updateProfile({
+            displayName: this.displayName,
+          });
+
           // ...
           console.log(user);
-          this.updateSignInOut();
+          this.storeUser(user.uid);
         })
         .catch((error) => {
           var errorCode = error.code;

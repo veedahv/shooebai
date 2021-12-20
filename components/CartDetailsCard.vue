@@ -1,29 +1,34 @@
 <template>
       <tr>
-        <td class="font- align-middle py-5 border-b border-gray-600">
+        <td class="font- align-middle py-3.5 pr-5 border-b border-gray-600">
           <!-- Description -->
-          <div class="flex justify-between items-center">
-            <div class="product-img w-4/12">
-              <img :src="product.productImage" alt="" />
+          <div class="">
+            <div class="product-img shadow">
+              <img :src="product.productImage" class="" alt="" />
             </div>
-            <div class="product-info w-7/12">
+          </div>
+        </td>
+        <td class="font- align-middle py-3.5 pr-5 border-b border-gray-600">
+          <!-- Description -->
+          <div class="">
+            <div class="product-info">
               <div class="product-details">
-                <p class="product-name text-sm sm:text-lg">
+                <p class="product-name text-sm sm:text-base font-semibold">
                   {{ product.productName }}
                 </p>
               </div>
               <div class="flex justify-start items-center gap-3 md:gap-5 my-2">
                 <div class="">
                   <div class="flex justify-start items-center gap-1">
-                    <span class="text-sm sm:text-lg">Color</span>
+                    <span class="text-sm sm:text-base font-medium">Color</span>
                     <select
                       name=""
                       id=""
                       v-model="colorSet"
-                      class="text-sm sm:text-lg"
+                      class="text-sm sm:text-base font-medium capitalize"
                     >
                       <option
-                        class="colors h-7 w-7 m-1 inline-block text-sm sm:text-lg"
+                        class="colors h-7 w-7 m-1 inline-block text-sm sm:text-base capitalize"
                         v-for="color in product.colors"
                         :key="color"
                         :value="color"
@@ -35,15 +40,15 @@
                 </div>
                 <div class="">
                   <div class="flex justify-start items-center gap-1">
-                    <span class="text-sm sm:text-lg">Size</span>
+                    <span class="text-sm sm:text-base font-medium">Size</span>
                     <select
                       name=""
                       id=""
                       v-model="sizeSet"
-                      class="text-sm sm:text-lg"
+                      class="text-sm sm:text-base font-medium"
                     >
                       <option
-                        class="sizes h-7 w-7 m-1 inline-block text-sm sm:text-lg"
+                        class="sizes h-7 w-7 m-1 inline-block text-sm sm:text-base"
                         v-for="size in product.sizes"
                         :key="size"
                         :value="size"
@@ -59,10 +64,21 @@
             </div>
           </div>
         </td>
-        <td class="font- align-middle py-5 border-b border-gray-600">Quantity</td>
-        <td class="font- align-middle py-5 border-b border-gray-600">
-          Price
-          <div class="" v-if="product.discount == 0">
+        <td class="font- align-middle py-3.5 pr-5 border-b border-gray-600">
+          <div class="">
+            <div class="flex items-stretch">
+              <button class="btn px-2.5 py-1 border-2 bg-white border-gray-600" :disabled="qty <= 1" @click="qty -= 1">
+                <i class="fas fa-minus text-xs"></i>
+              </button>
+              <input type="text" class="w-8 text-center outline-none border-t-2 border-b-2 border-gray-600" v-model="qty" readonly>
+              <button class="btn px-2.5 py-1 border-2 bg-white border-gray-600" :disabled="qty >= 10" @click="qty += 1">
+                <i class="fas fa-plus text-xs"></i>
+              </button>
+            </div>
+          </div>
+        </td>
+        <td class="font- align-middle py-3.5 pr-5 border-b border-gray-600">
+                    <div class="" v-if="product.discount == 0">
             <p class="product-price font-medium">
               <span>{{ currencySymbol }}</span
               >{{ productPrice }}
@@ -75,8 +91,7 @@
           <div class="" v-else>
             <del>
               <p class="product-price font-medium">
-                <span>{{ currencySymbol }}</span>
-                {{ productPrice }}
+                <span>{{ currencySymbol }}</span>{{ productPrice }}
               </p>
             </del>
             <p class="product-price font-medium">
@@ -85,16 +100,13 @@
             </p>
           </div>
         </td>
-        <td class="font- align-middle py-5 border-b border-gray-600">
+        <td class="font- align-middle py-3.5 border-b border-gray-600">
+            <!-- class="product-btn uppercase text-xs sm:text-sm px-2 py-1.5 bg-tertiary color-primary" -->
           <button
-            class="product-btn uppercase text-xs sm:text-sm px-2 py-1.5 bg-tertiary color-primary"
-            @click="removeFromCart()"
+            class="product-btn uppercase text-xs sm:text-sm px-2.5 py-1 border-2 border-gray-600"
+            @click="updateCart()"
           >
-            <!-- v-if="inShop" -->
-            <span class="in">
-              <span> X </span>
-              <!-- <i class="fas fa-shopping-bag"></i> -->
-            </span>
+            <i class="fas fa-times text-base"></i>
           </button>
         </td>
       </tr>
@@ -104,33 +116,35 @@
 <script>
 // import { mapState } from "vuex";
 // import { mapGetters } from "vuex";
-import { mapGetters, mapState } from "vuex";
+import { mapGetters, mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
       products: [],
-      product: "",
+      // product: "",
       cartList: [],
-      favList: [],
-      inShop: false,
-      inFav: false,
-      isUser: false,
+      // favList: [],
+      // inShop: false,
+      // inFav: false,
+      // isUser: false,
       colorSet: "",
       sizeSet: "",
-      user: {
-        // userId: userId,
-        // displayName: this.displayName,
-        // email: this.email,
-        // country: this.country,
-        cart: [],
-        fav: [],
-      },
+      qty: 1,
+      // user: {
+      //   // userId: userId,
+      //   // displayName: this.displayName,
+      //   // email: this.email,
+      //   // country: this.country,
+      //   cart: [],
+      //   fav: [],
+      // },
     };
   },
-  props: ["id"],
+  // props: ["id"],
+  props: ["cartItem", "product"],
   computed: {
     ...mapGetters(["getCurrencyRate", "getCurrencySymbol"]),
-    ...mapState(["currencyRate", "currencySymbol"]),
+    ...mapState(["currencyRate", "currencySymbol", "user"]),
     productPrice() {
       return (
         Math.ceil((this.product.productPrice / this.currencyRate) * 100) / 100
@@ -147,14 +161,25 @@ export default {
     // },
   },
   methods: {
+    ...mapActions(["getWishProducts", "updateUser", "updateCartProducts", "updateWishProducts"]),
+    updateCart() {
+        const newItem = {
+          id: this.cartItem.id,
+          colorSet: this.colorSet,
+          sizeSet: this.sizeSet,
+          qty: 1
+        };
+        console.log(newItem);
+        this.updateCartProducts(newItem);
+    },
     toggleWishlist() {
-      if (this.favList.includes(this.id)) {
-        let found = this.favList.indexOf(this.id);
+      if (this.favList.includes(this.cartItem.id)) {
+        let found = this.favList.indexOf(this.cartItem.id);
         this.favList.splice(found, 1);
         this.inFav = false;
       } else {
         this.inFav = true;
-        this.favList.push(this.id);
+        this.favList.push(this.cartItem.id);
       }
       // console.log(this.favList);
       // console.log(this.isUser);
@@ -162,67 +187,6 @@ export default {
         this.saveUser();
       } else {
         localStorage.setItem("favList", JSON.stringify(this.favList));
-      }
-    },
-    // toggleCart() {
-    //   this.user.cart.forEach((cartItem) => {
-    //     if (cartItem.id == this.id) {
-    //       let found = this.user.cart.indexOf(cartItem.id);
-    //       this.user.cart.splice(found, 1);
-    //       this.inShop = false;
-    //       console.log(this.inShop);
-    //       console.log(this.user.fav);
-    //     } else {
-    //       const newItem = {
-    //         id: this.id,
-    //         colorSet: this.colorSet,
-    //         sizeSet: this.sizeSet,
-    //       };
-    //       this.user.cart.push(newItem);
-    //       this.inShop = true;
-    //       console.log(this.inShop);
-    //       console.log(this.user.cart);
-    //     }
-    //   });
-    // },
-    saveUser() {
-      const ref = this.$fire.firestore
-        .collection("users")
-        .doc(this.user.userId);
-      // console.log(ref);
-      // console.log(this.user);
-      const editUser = {
-        userId: this.user.userId,
-        displayName: this.user.displayName,
-        email: this.user.email,
-        country: this.user.country,
-        cart: this.cartList,
-        fav: this.favList,
-      };
-      // console.log(editUser);
-      const document = {
-        user: editUser,
-      };
-      // console.log(document);
-      ref.set(document);
-      // console.log(this.favList);
-    },
-    addToCart() {
-      const newItem = {
-        id: this.id,
-        colorSet: this.colorSet,
-        sizeSet: this.sizeSet,
-      };
-      this.cartList.push(newItem);
-      this.inShop = true;
-      console.log(this.inShop);
-      console.log(this.cartList);
-      // console.log(this.user.cart);
-      // this.saveUser();
-      if (this.isUser) {
-        this.saveUser();
-      } else {
-        localStorage.setItem("cartList", JSON.stringify(this.cartList));
       }
     },
     removeFromCart() {
@@ -245,16 +209,6 @@ export default {
         localStorage.setItem("cartList", JSON.stringify(this.cartList));
       }
     },
-    // addToWishlist() {
-    //   if (this.user.fav.includes(this.id)) {
-    //     this.inFav = true;
-    //     console.log(this.inFav);
-    //   } else {
-    //     this.inFav = false;
-    //     console.log(this.inFav);
-    //   }
-    // },
-    // removeToWishlist() {},
     async readFromFirestore() {
       const ref = this.$fire.firestore.collection("products").doc("product");
       let snap;
@@ -270,6 +224,7 @@ export default {
 
         // if (prod.productId.toLowerCase() === this.id.toLowerCase()) {
         if (prod.productId === this.id) {
+          console.log();
           this.product = prod;
           this.sizeSet = this.product.sizes[0];
           this.colorSet = this.product.colors[0];
@@ -340,82 +295,39 @@ export default {
     },
   },
   created() {
-    this.readFromFirestore();
-    // const user = this.$fire.auth.currentUser;
-    // this.isUser = this.$fire.auth.currentUser;
-    // console.log(this.sizeSet);
-    // console.log(this.isUser);
-    // console.log(user);
-
-    // if (this.isUser) {
-    // if (user) {
-    //   // User is signed in, see docs for a list of available properties
-    //   // https://firebase.google.com/docs/reference/js/firebase.User
-    //   // this.user = user.uid;
-    //   this.user = user;
-    //   this.isUser = true;
-    //   console.log(this.isUser);
-    //   let userId = user.uid;
-    //   console.log(this.user);
-    //   // ...
-    //   this.getUserFirestore(userId);
-    // }
-    this.$fire.auth.onAuthStateChanged((user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        // let uid = user.uid;
-        // // ...
-        // console.log(uid);
-        // this.isLoggedIn = true;
-        // if (uid === "jl0JqEJTJrbWgY0zxO9voeHxJBS2") {
-        //   this.isAdmin = true;
-        // }
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        // this.user = user.uid;
-        this.user = user;
-        this.isUser = true;
-        console.log(this.isUser);
-        let userId = user.uid;
-        // console.log(this.user);
-        // ...
-        this.getUserFirestore(userId);
-      } else {
-        // User is signed out
-        // ...
-        console.log("signed out");
-      }
-    });
-    if (localStorage.getItem("favList")) {
-      let list = JSON.parse(localStorage.getItem("favList"));
-      list.forEach((element) => {
-        this.favList.push(element);
-      });
-      // } else {
-      // this.$router.push({ path: "/" });
-      // No user is signed in.
-    }
-    if (this.favList.includes(this.id)) {
-      this.inFav = true;
-      // console.log(this.inFav);
-    } else {
-      this.inFav = false;
-      // console.log(this.inFav);
-    }
-    // console.log(this.cartList);
-    this.cartList.forEach((cartItem) => {
-      // this.cartList.push(cartItem);
-      // if (this.cartList.includes(this.id)) {
-      if (cartItem.id == this.id) {
-        console.log(cartItem.id);
-        this.inShop = true;
-        // } else {
-        //   // console.log(cartItem.id);
-        //   this.inShop = false;
-      }
-    });
-    // console.log(this.inShop);
+    this.sizeSet = this.cartItem.sizeSet;
+    this.colorSet = this.cartItem.colorSet;
+    this.qty = this.cartItem.qty;
+    // this.readFromFirestore();
+  //  if (localStorage.getItem("favList")) {
+  //     let list = JSON.parse(localStorage.getItem("favList"));
+  //     list.forEach((element) => {
+  //       this.favList.push(element);
+  //     });
+  //     // } else {
+  //     // this.$router.push({ path: "/" });
+  //     // No user is signed in.
+  //   }
+  //   if (this.favList.includes(this.id)) {
+  //     this.inFav = true;
+  //     // console.log(this.inFav);
+  //   } else {
+  //     this.inFav = false;
+  //     // console.log(this.inFav);
+  //   }
+  //   // console.log(this.cartList);
+  //   this.cartList.forEach((cartItem) => {
+  //     // this.cartList.push(cartItem);
+  //     // if (this.cartList.includes(this.id)) {
+  //     if (cartItem.id == this.id) {
+  //       console.log(cartItem.id);
+  //       this.inShop = true;
+  //       // } else {
+  //       //   // console.log(cartItem.id);
+  //       //   this.inShop = false;
+  //     }
+  //   });
+  //   // console.log(this.inShop);
   },
 };
 </script>

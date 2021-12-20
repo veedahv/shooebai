@@ -17,7 +17,7 @@
               <p class="product-name">Add</p>
             </nuxt-link>
             <!-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"> -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               <div class="" v-for="product in products" :key="product.id">
                 <AdminProductCard :product="product"></AdminProductCard>
               </div>
@@ -26,22 +26,13 @@
         </div>
       </div>
     </section>
-    <!-- <section>
-      <div class="container py-25 mx-auto">
-        <Signin></Signin>
-      </div>
-    </section> -->
-    <!-- <section>
-      <div class="container py-25 mx-auto">
-        <Signup></Signup>
-      </div>
-    </section> -->
   </div>
 </template>
 
 <script>
 import AdminProductCard from '../../components/AdminProductCard'
 export default {
+  layout: 'admin',
   components: { AdminProductCard },
   data() {
     return {
@@ -62,50 +53,9 @@ export default {
       console.log(this.products);
     //   console.log(this.$route);
     },
-    // signIn() {
-    //   this.$fire
-    //     .auth
-    //     .signOut()
-    //     .then(() => {
-    //       // Signed in
-    //       // var user = userCredential.user;
-    //       // ...
-    //       // console.log(user);
-    //         // Sign-out successful.
-    //     })
-    //     .catch((error) => {
-    //       var errorCode = error.code;
-    //       var errorMessage = error.message;
-    //       // ..
-    //     });
-    // },
-//     firebase.auth().signOut().then(() => {
-//   // Sign-out successful.
-// }).catch((error) => {
-//   // An error happened.
-// });
   },
-  // mounted() {
-  //   this.readFromFirestore();
-  // },
   created() {
     this.readFromFirestore();
-    const user = this.$fire.auth.currentUser;
-
-    // if (user) {
-    //   // User is signed in, see docs for a list of available properties
-    //   // https://firebase.google.com/docs/reference/js/firebase.User
-    //   this.uid = user.uid;
-    //   console.log(this.uid);
-    //   // ...
-    //   if (this.uid !== "jl0JqEJTJrbWgY0zxO9voeHxJBS2") {
-    //     console.log(this.uid);
-    //     this.$router.push({ path: "/" });
-    //   }
-    // } else {
-    //   this.$router.push({ path: "/" });
-    //   // No user is signed in.
-    // }
   },
 };
 </script>

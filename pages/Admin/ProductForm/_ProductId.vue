@@ -1,297 +1,283 @@
 <template>
   <div>
     <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
-      <div class="product">
-        <form>
-          <div class="form-group">
-            <label for="product-name">Product Name:</label>
-            <input
-              class="border-2 border-red-500"
-              type="text"
-              name="product-name"
-              id="product-name"
-              v-model="productName"
-            />
-          </div>
-          <div class="form-group">
-            <label for="product-price">Product Price:</label>
-            <input
-              class="border-2 border-red-500"
-              type="text"
-              name="product-price"
-              id="product-price"
-              v-model.number="productPrice"
-            />
-          </div>
-          <div class="form-group">
-            <label for="product-qty">Available Quantity:</label>
-            <input
-              class="border-2 border-red-500"
-              type="number"
-              name="product-qty"
-              id="product-qty"
-              v-model="availableQuantity"
-            />
-          </div>
-          <div class="form-group">
-            <label for="product-discount">discount</label>
-            <input
-              type="number"
-              class="border-2 border-red-500"
-              name="product-discount"
-              id="product-discount"
-              v-model="discount"
-            />
-          </div>
-          <div class="form-group">
-            <label for="product-desc">Product descripion:</label>
-            <textarea
-              name="product-desc"
-              class="border-2 border-red-500"
-              id="product-desc"
-              cols="39"
-              rows="6"
-              v-model="descripion"
-            ></textarea>
-          </div>
+      <div class="">
+        <div class="sub-heading-box py-3">
+          <nuxt-link class="font-bold text-lg nav-link color-dark" to="/"
+            >Sho_oebai</nuxt-link
+          >
+          >>
+          <nuxt-link
+            class="font-bold text-base nav-link color-tertiary"
+            to="/Admin"
+            >Admin</nuxt-link
+          >
+          >>
+          <nuxt-link
+            class="font-bold text-base nav-link color-tertiary"
+            to="/Admin/Products"
+            >Products</nuxt-link
+          >
+          >>
+          <nuxt-link
+            class="font-bold text-base nav-link color-tertiary"
+            to="/Admin/ProductForm/"
+            >Add product</nuxt-link
+          >
+          <!-- <nuxt-link
+            class="font-bold text-base nav-link color-tertiary"
+            :to="'/Admin/ProductForm/' + product.productId"
+            ></nuxt-link
+          > -->
+          <!-- <nuxt-link class="font-semibold text-base nav-link color-tertiary" :to="'/ProductDetail/' + id">
+            {{ product.productName }}
+          </nuxt-link> -->
+        </div>
+        <div class="">
+          <form>
+            <div class="flex flex-wrap md:flex-nowrap items-start gap-10">
+              <div class="flex-none w-full md:flex-auto md:w-1/2">
+                <div class="form-group w-full">
+                  <label for="imageUrl">Image</label>
+                  <div
+                    class="w-full productImgBox border-2 border-red-500 bg-gray-200 flex items-center justify-center"
+                  >
+                    <div v-if="productImage" class="w-full productImgBox">
+                      <img
+                        :src="productImage"
+                        class="h-auto object-cover inline-block"
+                        alt=""
+                      />
+                      <button
+                        v-if="productImage"
+                        @click="deleteImage"
+                        :disabled="isDeletingImage"
+                        type="button"
+                        class="bg-red-500 border-red-300 text-white"
+                      >
+                        {{ isDeletingImage ? "Deleting..." : "Delete" }}
+                        <i class="fas fa-trash-alt text-sm"></i>
+                      </button>
+                    </div>
+                    <button
+                      v-if="!productImage"
+                      @click="launchImageFile"
+                      :disabled="isUploadingImage"
+                      class="text-2xl font-medium text-white flex items-center gap-3"
+                      type="button"
+                    >
+                      <!-- class="border-2 border-red-500" -->
+                      <i class="fas fa-cloud-upload-alt text-xl"></i>
+                      <span>
 
-          <div class="form-group">
-            <label for="imageUrl">Image</label>
-            <div v-if="productImage" class="productImgBox">
-              <!-- A preview of the image. -->
-              <img
-                :src="productImage"
-                class="w-24 md:w-32 h-auto object-cover inline-block"
-                alt=""
-              />
-              <!-- Delete button for deleting the image. -->
-              <!-- class="border-2 border-red-500" -->
-              <button
-                v-if="productImage"
-                @click="deleteImage"
-                :disabled="isDeletingImage"
-                type="button"
-                class="bg-red-500 border-red-300 text-white"
-              >
-                {{ isDeletingImage ? "Deleting..." : "Delete" }}
-              </button>
-            </div>
-            <!-- Clicking this button triggers the "click" event of the file input. -->
-            <button
-              v-if="!productImage"
-              @click="launchImageFile"
-              :disabled="isUploadingImage"
-              class="border-2 border-red-500"
-              type="button"
-            >
-              {{ isUploadingImage ? "Uploading..." : "Upload" }}
-            </button>
-            <!-- This is the real file input element. -->
-            <input
-              ref="imageFile"
-              @change.prevent="uploadImageFile($event.target.files)"
-              type="file"
-              accept="image/png, image/jpeg"
-              class="hidden border-2 border-red-500"
-            />
-          </div>
-          <div class="form-group">
-            <h4 class="capitalize">colors</h4>
-            <div class="form-group">
-              <input
-                type="checkbox"
-                name="black"
-                id="black"
-                value="black"
-                class="colors"
-                v-model="colors"
-              />
-              <label for="black" class="capitalize">black</label>
-            </div>
-            <div class="form-group">
-              <input
-                type="checkbox"
-                name="white"
-                id="white"
-                value="white"
-                class="colors"
-                v-model="colors"
-              />
-              <label for="white" class="capitalize">white</label>
-            </div>
-            <div class="form-group">
-              <input
-                type="checkbox"
-                name="gray"
-                id="gray"
-                value="gray"
-                class="colors"
-                v-model="colors"
-              />
-              <label for="gray" class="capitalize">gray</label>
-            </div>
-            <div class="form-group">
-              <input
-                type="checkbox"
-                name="pink"
-                id="pink"
-                value="pink"
-                class="colors"
-                v-model="colors"
-              />
-              <label for="pink" class="capitalize">pink</label>
-            </div>
-            <div class="form-group">
-              <input
-                type="checkbox"
-                name="red"
-                id="red"
-                value="red"
-                class="colors"
-                v-model="colors"
-              />
-              <label for="red" class="capitalize">red</label>
-            </div>
-            <div class="form-group">
-              <input
-                type="checkbox"
-                name="yellow"
-                id="yellow"
-                value="yellow"
-                class="colors"
-                v-model="colors"
-              />
-              <label for="yellow" class="capitalize">yellow</label>
-            </div>
-            <div class="form-group">
-              <input
-                type="checkbox"
-                name="blue"
-                id="blue"
-                value="blue"
-                class="colors"
-                v-model="colors"
-              />
+                      {{ isUploadingImage ? "Uploading..." : "Upload" }}
+                      </span>
+                    </button>
+                    <input
+                      ref="imageFile"
+                      @change.prevent="uploadImageFile($event.target.files)"
+                      type="file"
+                      accept="image/png, image/jpeg"
+                      class="hidden border-2 border-red-500"
+                    />
+                  </div>
+                </div>
+                <div class="form-group my-3">
+                  <h4 class="capitalize text-xl font-bold ">available colors</h4>
+                  <div class="tag-box flex flex-wrap gap-1 my-2">
+                    <span
+                      class="tags rounded-full px-2 bg-gray-50"
+                      v-for="(color, index) in colors"
+                      :key="color"
+                    >
+                      <span class="tag-name capitalize text-sm">{{ color }}</span>
+                      <button
+                        class=""
+                        @click="removeColor(color, index)"
+                      >
+                      <i class="fas fa-times text-sm"></i>
+                      </button>
+                    </span>
+                  </div>
+                  <div
+                    class="form-group relative"
+                  >
+                  <label for="" class="block w-full bg-white color-dark text-md font-medium py-1.5 px-2">
+                    Select colors available
+                  </label>
+                  <div
+                    class="dropdown-container hidden absolute left-0 right-0 top-full"
+                  >
+                  <div
+                    class="dropdown-options bg-white border-b border-gray-100 top-full px-2"
+                    v-for="color in allColors"
+                    :key="color"
+                  >
+                    <input
+                      type="checkbox"
+                      :name="color"
+                      :id="color"
+                      :value="color"
+                      class="colors hidden"
+                      v-model="colors"
+                    />
+                    <!-- <i class="far fa-check-square"></i>
+                    <i class="fas fa-check-square"></i>
+                    <i class="far fa-square"></i>
+                    <i class="fas fa-square"></i> -->
+                    <label :for="color" class="color-checkbox inline-block">&nbsp;</label>
+                    <label :for="color" class="capitalize text-base inline-block">{{ color }}</label>
+                  </div>
+                  </div>
+                  </div>
+                </div>
+                <div class="flex gap-5">
+                  <div class="form-group flex-auto w-1/2">
+                    <label for="product-new">new:</label>
+                    <input
+                      type="checkbox"
+                      name="product-new"
+                      id="product-new"
+                      class="border-2 border-red-500"
+                      v-model="newProduct"
+                    />
+                  </div>
+                  <div class="form-group flex-auto w-1/2">
+                    <label for="product-rating">rating:</label>
+                    <select
+                      name="product-rating"
+                      class="border-2 border-red-500"
+                      id="product-rating"
+                      v-model="rating"
+                    >
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="flex-none w-full md:flex-auto md:w-1/2">
+                <div class="form-group">
+                  <label for="product-name">Product Name:</label>
+                  <input
+                    class="border-2 border-red-500 px-3.5 py-2 w-full"
+                    type="text"
+                    name="product-name"
+                    id="product-name"
+                    v-model="productName"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="product-price">Product Price:</label>
+                  <input
+                    class="border-2 border-red-500 px-3.5 py-2 w-full"
+                    type="text"
+                    name="product-price"
+                    id="product-price"
+                    v-model.number="productPrice"
+                  />
+                </div>
+                <div class="flex gap-5">
+                  <div class="form-group w-1/2 flex-auto">
+                    <label for="product-qty">Available Quantity:</label>
+                    <input
+                      class="border-2 border-red-500 px-3.5 py-2 w-full"
+                      type="number"
+                      name="product-qty"
+                      id="product-qty"
+                      v-model="availableQuantity"
+                    />
+                  </div>
+                  <div class="form-group w-1/2 flex-auto">
+                    <label for="product-discount">discount</label>
+                    <input
+                      type="number"
+                      class="border-2 border-red-500 px-3.5 py-2 w-full"
+                      name="product-discount"
+                      id="product-discount"
+                      v-model="discount"
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="product-desc">Product descripion:</label>
+                  <textarea
+                    name="product-desc"
+                    class="border-2 border-red-500 px-3.5 py-2 w-full"
+                    id="product-desc"
+                    cols="39"
+                    rows="6"
+                    v-model="descripion"
+                  ></textarea>
+                </div>
 
-              <label for="blue" class="capitalize">blue</label>
+                <div class="form-group">
+                  <label for="product-tags capitalize">sizes:</label>
+                  <div class="tag-box">
+                    <span
+                      class="tags"
+                      v-for="(size, index) in sizes"
+                      :key="size"
+                    >
+                      <span class="tag-name">{{ size }} | </span>
+                      <button
+                        class="remove border-2 border-red-500"
+                        @click="removeSize(size, index)"
+                      >
+                        X
+                      </button>
+                    </span>
+                  </div>
+                  <input
+                    type="number"
+                    class=" px-3.5 py-2"
+                    name="product-size"
+                    i="product-size"
+                    v-model="newSize"
+                  />
+                  <button
+                    type="button"
+                    class="border-2 border-red-500"
+                    @click="addSize"
+                  >
+                    Add tag
+                  </button>
+                </div>
+                <div class="form-group">
+                  <label for="product-tags">Search Tags:</label>
+                  <div class="tag-box">
+                    <span class="tags" v-for="(tag, index) in tags" :key="tag">
+                      <span class="tag-name">{{ tag }} | </span>
+                      <button
+                        class="remove border-2 border-red-500"
+                        @click="removeTag(tag, index)"
+                      >
+                        X
+                      </button>
+                    </span>
+                  </div>
+                  <input
+                    type="text"
+                    class=" px-3.5 py-2"
+                    name="product-tags"
+                    i="product-tags"
+                    v-model="newTag"
+                  />
+                  <button
+                    type="button"
+                    class="border-2 border-red-500"
+                    @click="addTag"
+                  >
+                    Add tag
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="form-group">
-              <input
-                type="checkbox"
-                name="purple"
-                id="purple"
-                value="purple"
-                class="colors"
-                v-model="colors"
-              />
-              <label for="purple" class="capitalize">purple</label>
-            </div>
-            <div class="form-group">
-              <input
-                type="checkbox"
-                name="indigo"
-                id="indigo"
-                value="indigo"
-                class="colors"
-                v-model="colors"
-              />
-              <label for="indigo" class="capitalize">indigo</label>
-            </div>
-            <div class="form-group">
-              <input
-                type="checkbox"
-                name="green"
-                id="green"
-                value="green"
-                class="colors"
-                v-model="colors"
-              />
-              <label for="green" class="capitalize">green</label>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="product-new">new:</label>
-            <input
-              type="checkbox"
-              name="product-new"
-              id="product-new"
-              class="border-2 border-red-500"
-              v-model="newProduct"
-            />
-          </div>
-          <div class="form-group">
-            <label for="product-rating">rating:</label>
-            <select
-              name="product-rating"
-              class="border-2 border-red-500"
-              id="product-rating"
-              v-model="rating"
-            >
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="product-tags">sizes:</label>
-            <div class="tag-box">
-              <span class="tags" v-for="(size, index) in sizes" :key="size">
-                <span class="tag-name">{{ size }} | </span>
-                <button
-                  class="remove border-2 border-red-500"
-                  @click="removeSize(size, index)"
-                >
-                  X
-                </button>
-              </span>
-            </div>
-            <input
-              type="number"
-              name="product-size"
-              i="product-size"
-              v-model="newSize"
-            />
-            <button
-              type="button"
-              class="border-2 border-red-500"
-              @click="addSize"
-            >
-              Add tag
-            </button>
-          </div>
-          <div class="form-group">
-            <label for="product-tags">tags:</label>
-            <div class="tag-box">
-              <span class="tags" v-for="(tag, index) in tags" :key="tag">
-                <span class="tag-name">{{ tag }} | </span>
-                <button
-                  class="remove border-2 border-red-500"
-                  @click="removeTag(tag, index)"
-                >
-                  X
-                </button>
-              </span>
-            </div>
-            <input
-              type="text"
-              name="product-tags"
-              i="product-tags"
-              v-model="newTag"
-            />
-            <button
-              type="button"
-              class="border-2 border-red-500"
-              @click="addTag"
-            >
-              Add tag
-            </button>
-          </div>
-        </form>
-      </div>
-      <section class="container">
+          </form>
+        </div>
         <div>
           <div>
             <button @click="writeToFirestore">
@@ -300,17 +286,213 @@
             </button>
           </div>
         </div>
-      </section>
+      </div>
+      <!-- <div class="">
+        <div class="product">
+          <form>
+            <div class="form-group">
+              <label for="product-name">Product Name:</label>
+              <input
+                class="border-2 border-red-500"
+                type="text"
+                name="product-name"
+                id="product-name"
+                v-model="productName"
+              />
+            </div>
+            <div class="form-group">
+              <label for="product-price">Product Price:</label>
+              <input
+                class="border-2 border-red-500"
+                type="text"
+                name="product-price"
+                id="product-price"
+                v-model.number="productPrice"
+              />
+            </div>
+            <div class="form-group">
+              <label for="product-qty">Available Quantity:</label>
+              <input
+                class="border-2 border-red-500"
+                type="number"
+                name="product-qty"
+                id="product-qty"
+                v-model="availableQuantity"
+              />
+            </div>
+            <div class="form-group">
+              <label for="product-discount">discount</label>
+              <input
+                type="number"
+                class="border-2 border-red-500"
+                name="product-discount"
+                id="product-discount"
+                v-model="discount"
+              />
+            </div>
+            <div class="form-group">
+              <label for="product-desc">Product descripion:</label>
+              <textarea
+                name="product-desc"
+                class="border-2 border-red-500"
+                id="product-desc"
+                cols="39"
+                rows="6"
+                v-model="descripion"
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="imageUrl">Image</label>
+              <div
+                v-if="productImage"
+                class="w-24 md:w-32 h-20 md:h-24 productImgBox"
+              >
+                <img
+                  :src="productImage"
+                  class="h-auto object-cover inline-block"
+                  alt=""
+                />
+                <button
+                  v-if="productImage"
+                  @click="deleteImage"
+                  :disabled="isDeletingImage"
+                  type="button"
+                  class="bg-red-500 border-red-300 text-white"
+                >
+                  {{ isDeletingImage ? "Deleting..." : "Delete" }}
+                </button>
+              </div>
+              <button
+                v-if="!productImage"
+                @click="launchImageFile"
+                :disabled="isUploadingImage"
+                class="border-2 border-red-500"
+                type="button"
+              >
+                {{ isUploadingImage ? "Uploading..." : "Upload" }}
+              </button>
+              <input
+                ref="imageFile"
+                @change.prevent="uploadImageFile($event.target.files)"
+                type="file"
+                accept="image/png, image/jpeg"
+                class="hidden border-2 border-red-500"
+              />
+            </div>
+            <div class="form-group">
+              <h4 class="capitalize">colors</h4>
+              <div class="form-group" v-for="color in allColors" :key="color">
+                <input
+                  type="checkbox"
+                  :name="color"
+                  :id="color"
+                  :value="color"
+                  class="colors"
+                  v-model="colors"
+                />
+                <label :for="color" class="capitalize">{{ color }}</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="product-new">new:</label>
+              <input
+                type="checkbox"
+                name="product-new"
+                id="product-new"
+                class="border-2 border-red-500"
+                v-model="newProduct"
+              />
+            </div>
+            <div class="form-group">
+              <label for="product-rating">rating:</label>
+              <select
+                name="product-rating"
+                class="border-2 border-red-500"
+                id="product-rating"
+                v-model="rating"
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="product-tags capitalize">sizes:</label>
+              <div class="tag-box">
+                <span class="tags" v-for="(size, index) in sizes" :key="size">
+                  <span class="tag-name">{{ size }} | </span>
+                  <button
+                    class="remove border-2 border-red-500"
+                    @click="removeSize(size, index)"
+                  >
+                    X
+                  </button>
+                </span>
+              </div>
+              <input
+                type="number"
+                name="product-size"
+                i="product-size"
+                v-model="newSize"
+              />
+              <button
+                type="button"
+                class="border-2 border-red-500"
+                @click="addSize"
+              >
+                Add tag
+              </button>
+            </div>
+            <div class="form-group">
+              <label for="product-tags">Search Tags:</label>
+              <div class="tag-box">
+                <span class="tags" v-for="(tag, index) in tags" :key="tag">
+                  <span class="tag-name">{{ tag }} | </span>
+                  <button
+                    class="remove border-2 border-red-500"
+                    @click="removeTag(tag, index)"
+                  >
+                    X
+                  </button>
+                </span>
+              </div>
+              <input
+                type="text"
+                name="product-tags"
+                i="product-tags"
+                v-model="newTag"
+              />
+              <button
+                type="button"
+                class="border-2 border-red-500"
+                @click="addTag"
+              >
+                Add tag
+              </button>
+            </div>
+          </form>
+        </div>
+        <div>
+          <div>
+            <button @click="writeToFirestore">
+              <span v-if="edit">save</span>
+              <span v-else>add</span>
+            </button>
+          </div>
+        </div>
+      </div> -->
     </div>
   </div>
 </template>
 
 
 <script>
-// import { fireDb } from "../plugins/firebase.js";
-// import "~/plugins/firebase.js";
-
 export default {
+  layout: "admin",
   props: ["product"],
   data() {
     return {
@@ -319,7 +501,7 @@ export default {
       idArr: [],
       productId: "",
       productName: "productName",
-      productPrice: 6800,
+      productPrice: 58000,
       availableQuantity: 8,
       discount: 0,
       productImage: "",
@@ -327,10 +509,22 @@ export default {
         "Lorem ipsum dolor, sit amet consectetur elit. Deserunt repellendus officiis id distinctio? At, eligendi! Id quas quo fuga omnis esse natus. Distinctio, rem eveniet similique. Iste eius enim suscipit quo nesciunt.",
       flashSale: false,
       newProduct: false,
-      rating: 0,
+      rating: 5,
       tags: ["puma", "jaguar"],
       newTag: "",
       colors: [],
+      allColors: [
+        "black",
+        "white",
+        "gray",
+        "pink",
+        "red",
+        "yellow",
+        "blue",
+        "purple",
+        "indigo",
+        "green",
+      ],
       sizes: [44, 45, 46],
       newSize: "",
       edit: false,
@@ -493,13 +687,9 @@ export default {
         console.error(e);
       }
       this.products = snap.data().products;
-    this.products.forEach((prod) => {
-      // console.log(prod.productId);
-      // if (this.productId === prod.productId) {
-      // console.log(prod);
-      this.idArr.push(prod.productId);
-      // }
-    });
+      this.products.forEach((prod) => {
+        this.idArr.push(prod.productId);
+      });
       console.log(this.idArr);
       console.log(this.products);
       if (this.$route.params.ProductId) {
@@ -580,61 +770,57 @@ export default {
         });
     },
   },
-  // mounted() {
-  //   this.readFromFirestore();
-  //   // console.log(this.$route.params.ProductId);
-  //   // console.log(this.$route.params.id);
-  //   // console.log(this.$route);
-  // },
   created() {
     this.readFromFirestore();
     if (this.$route.params.ProductId) {
-      // console.log(this.products);
-      // this.productId = this.$route.params.ProductId;
       this.edit = true;
-      // } else {
-      //   // this.products = [newProduct];
-      //   this.addProduct();
-      // this.resetProduct();
     }
-    //   if (this.$route.params.ProductId) {
-    //     // console.log(this.products);
-    //     // this.productId = this.$route.params.ProductId;
-    //   // } else {
-    //   //   // this.products = [newProduct];
-    //   //   this.addProduct();
-    //     // this.resetProduct();
-    //   }
-    // // console.log(this.$route.params.ProductId);
-    // console.log(this.$route.params.id);
-    // console.log(this.$route);
   },
-  //   beforeMount() {
-  //     const user = this.$fire.auth.currentUser;
-
-  //     if (user) {
-  //       // User is signed in, see docs for a list of available properties
-  //       // https://firebase.google.com/docs/reference/js/firebase.User
-  //       this.uid = user.uid;
-  //       console.log(this.uid);
-  //       // ...
-  //       if (this.uid !== "jl0JqEJTJrbWgY0zxO9voeHxJBS2") {
-  //         console.log(this.uid);
-  //         this.$router.push({ path: "/" });
-  //       }
-  //     } else {
-  //       this.$router.push({ path: "/" });
-  //       // No user is signed in.
-  //     }
-  //   },
 };
 </script>
 
 <style scoped>
 .productImgBox {
-  max-width: 400px;
+  /* max-width: 400px; */
+  min-height: 220px;
 }
 .productImgBox img {
   width: 100%;
+}
+.color-checkbox:after {
+  content: "\f0c8";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  /* font-weight: 900; */
+  font-size: 18px;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  /* color: #777; */
+  /* float: right; */
+  /* margin-left: 5px; */
+  display: inline-flex;
+}
+.colors:checked ~ .color-checkbox:after {
+  font-weight: 900;
+  content: "\f14a";
+}
+.accordion:after {
+  content: "\f067"; /*  character for "plus" sign (+) */
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 13px;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  /* color: #777; */
+  float: right;
+  margin-left: 5px;
+  display: inline-flex;
+}
+.accordion-check:checked + .accordion:after {
+  content: "\f068"; /* Unicode character for "minus" sign (-) */
 }
 </style>

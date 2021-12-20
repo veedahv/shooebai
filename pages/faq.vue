@@ -7,8 +7,6 @@
             <h2
               class="heading mx-auto text-white py-5 px-1 w-max font-bold text-3xl md:text-4xl"
             >
-              <!-- class="heading mx-auto color-light py-5 px-1 w-max font-bold text-5xl" -->
-              <!-- ABOUT US -->
               HOW CAN WE HELP?
             </h2>
           </div>
@@ -137,16 +135,6 @@ export default {
             },
           ],
         },
-        // {
-        //   title: "",
-        //   questions: [
-        //     {
-        //       question: "Section 1",
-        //       answer:
-        //         "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        //     },
-        //   ],
-        // },
         {
           title: "Your account",
           questions: [
@@ -211,33 +199,16 @@ background-image: url("data:image/svg+xml,%3Csvg width='42' height='44' viewBox=
   /* background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.09'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); */
 }
 .accordion {
-  /* background-color: #eee; */
   color: #444;
-  /* cursor: pointer; */
-  /* padding: 18px; */
-  /* width: 100%; */
-  /* display: inline-block; */
-  /* border: none; */
-  /* text-align: left; */
-  /* outline: none; */
-  /* font-size: 15px; */
   transition: 0.4s;
 }
 
-/* .active,
-.accordion:hover {
-  background-color: #ccc;
-} */
-
 .panel {
-  /* padding: 0 18px; */
-  /* background-color: #ffffff; */
   max-height: 0;
-  /* overflow: hidden; */
   transition: max-height 0.3s ease-out;
 }
 .accordion:after {
-  content: "\f067"; /*  character for "plus" sign (+) */
+  content: "\f067";
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
   font-size: 13px;
@@ -245,22 +216,16 @@ background-image: url("data:image/svg+xml,%3Csvg width='42' height='44' viewBox=
   font-variant: normal;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
-  /* color: #777; */
   float: right;
   margin-left: 5px;
   display: inline-flex;
 }
 
 .accordion-check:checked + .accordion:after {
-  content: "\f068"; /* Unicode character for "minus" sign (-) */
+  content: "\f068";
 }
 
 .accordion-check:checked + .accordion + .panel {
-  /* padding: 0 18px;
-  background-color: white; */
   max-height: 600px;
-  /* display: block; */
-  /* overflow: hidden;
-  transition: max-height 0.2s ease-out; */
 }
 </style>

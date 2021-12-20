@@ -108,6 +108,7 @@ export default {
       const newUser = {
         userId: userId,
         displayName: this.displayName,
+        role: "user",
         email: this.email,
         country: this.country,
         cart: this.cart,
