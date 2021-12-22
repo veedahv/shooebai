@@ -316,8 +316,11 @@ export default {
   //     console.log(this.$store.state.countryName);
   //   // this.getLocation();
   // },
-  async created() {
+  // async created() {
+  created() {
+    alert('before')
     this.getLocation();
+    alert('after')
     this.authUser();
     // console.log(this.isLoggedIn);
     // console.log(this.isAdmin);
