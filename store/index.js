@@ -95,17 +95,20 @@ export const actions = {
         // console.log(Object.keys(returnValue.currencies)[0]);
         // console.log(returnValue.currencies[`${Object.keys(returnValue.currencies)[0]}`].symbol);
         // console.log(returnValue.flags[0]);
+        alert(JSON.stringify(returnValue))
         let returnCurrency = await this.$http.$get(
             `/api/currency/${Object.keys(returnValue.currencies)[0]}`
         );
         let currencyValue = returnCurrency.id;
+        alert(currencyValue);
         // console.log(currencyValue);
         commit('currency', returnValue)
         commit('currencyVal', currencyValue)
     },
     async getLocation({ commit, dispatch }) {
         const returnValue = await this.$http.$get("/api/getLocation");
-        commit('country', returnValue)
+        commit('country', returnValue);
+        alert(JSON.stringify(returnValue))
         // console.log(returnValue.name);
         // console.log(returnValue);
         await dispatch('getCountryInfo')
