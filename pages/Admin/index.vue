@@ -210,13 +210,13 @@ export default {
     },
   },
   created() {
-    console.log(this.$refs);
-    console.log(this.$refs.setCarousel);
+    // console.log(this.$refs);
+    // console.log(this.$refs.setCarousel);
   },
 };
 </script>
 
-<style>
+<style scoped>
 .buildings-carousel::-webkit-scrollbar {
   width: 0;
   background: transparent;

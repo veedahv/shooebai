@@ -15,14 +15,20 @@
     </section>
     <section>
       <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
+        <p class="text-xl font-medium color-tertiary">
+          Lallalallal lalala lalala lalala laalala la aala lam
+        </p>
         <div class="">
-          <div class="">
-            <Pagination
-              :products="products"
-              :currentPage="currentPage"
-              :perPage="perPage"
-              v-on:page:update="updatePage"
-            ></Pagination>
+          <div class="flex items-center justify-between my-4">
+            <div class="">Filter</div>
+            <div class="w-max">
+              <Pagination
+                :products="products"
+                :currentPage="currentPage"
+                :perPage="perPage"
+                v-on:page:update="updatePage"
+              ></Pagination>
+            </div>
           </div>
           <div class="">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -31,12 +37,9 @@
                 v-for="product in visibleProductArr"
                 :key="product.id"
               >
-                <ProductCard
-                  class="h-full"
-                  :product="product"
-                ></ProductCard>
-                  <!-- // :country="country" -->
-                  <!-- :currencyValue="currencyValue" -->
+                <ProductCard class="h-full" :product="product"></ProductCard>
+                <!-- // :country="country" -->
+                <!-- :currencyValue="currencyValue" -->
               </div>
               <!-- <div class="h-full" v-for="product in products" :key="product.id">
                 <ProductCard class="h-full" :product="product"></ProductCard>
@@ -73,16 +76,13 @@ export default {
   },
   computed: {
     ...mapGetters(["getCurrencyRate", "getCurrencySymbol"]),
-    ...mapState([
-      "products",
-      "visibleProductArr"
-    ]),
+    ...mapState(["products", "visibleProductArr"]),
   },
   methods: {
     ...mapActions(["getProducts", "getPageProducts"]),
     updatePage(pageNumber) {
       this.currentPage = pageNumber;
-    this.getPageProducts(this.currentPage);
+      this.getPageProducts(this.currentPage);
       // this.visibleProduct();
     },
   },
@@ -95,8 +95,8 @@ export default {
 
 <style scoped>
 .heading-section {
-  background: rgba(0, 0, 0, 0.4) url("~/assets/images/shop.jpg") no-repeat bottom
-    40% center / cover;
+  background: rgba(0, 0, 0, 0.4) url("~/assets/images/shop.jpg") no-repeat
+    bottom 40% center / cover;
   background-blend-mode: overlay;
 }
 </style>

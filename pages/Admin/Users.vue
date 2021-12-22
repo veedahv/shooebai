@@ -1,31 +1,34 @@
 <template>
-  <div>
+  <div class="py-8">
     <section>
-      <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
+      <div class="container lg:max-w-5xl py-4 px-4 mx-auto">
         <div class="">
-          <div class="sub-heading-box text-center py-5 relative">
-            <h2 class="sub-heading bg-white mx-auto py-2 px-1 w-min relative">
-              Trending
-            </h2>
-          </div>
+          <button @click="showUserForm = true" class="capitalize inline-block">
+            Create new user
+          </button>
+        </div>
+        <div class="bg-white">
           <div class="">
-            <nuxt-link :to="'/Admin/ProductForm'">
-              <p class="product-name">Add</p>
-            </nuxt-link>
+            <CreateUser :showForm="(showUserForm = false)"></CreateUser>
           </div>
         </div>
       </div>
     </section>
     <section>
-      <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
-        <div class="">
-          <div class="bg-white">
-            <div class="">
+      <div class="container lg:max-w-5xl py-4 px-4 mx-auto">
+        <div class="bg-white px-4">
+          <div
+            class="overflow-x-scroll table-scroll"
+            ref="setCarousel"
+            @mousedown="setCarousel()"
+          >
+            <div class="w-full">
               <table class="w-full text-left">
                 <thead>
                   <tr>
                     <th class="text-base font-medium">S/N</th>
-                    <th class="text-base font-medium">User Id</th>
+                    <th class="text-base font-medium">Date</th>
+                    <!-- <th class="text-base font-medium">User Id</th> -->
                     <th class="text-base font-medium">User Name</th>
                     <th class="text-base font-medium">User Email</th>
                     <th class="text-base font-medium">Role</th>
@@ -36,10 +39,25 @@
                 <tbody>
                   <tr v-for="(user, i) in users" :key="user.userId">
                     <td class="text-sm">{{ i + 1 }}</td>
-                    <td class="text-sm">{{ user.userId }}</td>
+                    <td class="text-sm">{{ user.date }}</td>
+                    <!-- <td class="text-sm">
+                        <input type="text" class="text-sm" v-model="date" :style="{width: `${date.length + 1}ch`}">
+                    </td> -->
+                    <!-- <td class="text-sm">{{ user.userId }}</td> -->
                     <td class="text-sm">{{ user.displayName }}</td>
+                    <!-- <td class="text-sm">
+                        <input type="text" class="text-sm" v-model="user.displayName" :style="{width: `${user.displayName.length}ch`}">
+                    </td> -->
                     <td class="text-sm">{{ user.email }}</td>
-                    <td class="text-sm">{{ user.role }}</td>
+                    <!-- <td class="text-sm">{{ user.role }}</td> -->
+                    <td class="text-sm">
+                      <input
+                        type="text"
+                        class="text-sm"
+                        v-model="user.role"
+                        :style="{ width: `${user.role.length}ch` }"
+                      />
+                    </td>
                     <td class="text-sm">{{ user.country }}</td>
                     <td class="text-sm">
                       <div class="product-btn-box flex justify-center gap-2">
@@ -73,14 +91,45 @@
 </template>
 
 <script>
+import CreateUser from "../../components/CreateUser";
 export default {
+  components: { CreateUser },
   layout: "admin",
   data() {
     return {
+      date: "",
+      showUserForm: true,
       users: [],
+      pos: { left: 0, x: 0 },
     };
   },
   methods: {
+    setCarousel() {
+      let el = this.$refs.setCarousel;
+      if (el) {
+        const mouseMoveHandler = (e) => {
+          const dx = e.clientX - this.pos.x;
+          el.scrollLeft = this.pos.left - dx;
+        };
+        const mouseUpHandler = () => {
+          document.removeEventListener("mousemove", mouseMoveHandler);
+          document.removeEventListener("mouseup", mouseUpHandler);
+          el.style.cursor = "grab";
+          el.style.removeProperty("user-select");
+        };
+        const mouseDownHandler = (e) => {
+          el.style.cursor = "grabbing";
+          el.style.userSelect = "none";
+          this.pos = {
+            left: el.scrollLeft,
+            x: e.clientX,
+          };
+          document.addEventListener("mousemove", mouseMoveHandler);
+          document.addEventListener("mouseup", mouseUpHandler);
+        };
+        el.addEventListener("mousedown", mouseDownHandler);
+      }
+    },
     async readFromFirestore() {
       const ref = this.$fire.firestore.collection("users");
       // const ref = this.$fire.firestore.collection("users").doc(state.userId);
@@ -126,6 +175,16 @@ export default {
     async getUsers(id) {
       //   console.log(doc.id);
       const userRef = this.$fire.firestore.collection("users").doc(id);
+      //   getAuth()
+    //   this.$fire.auth
+    //     .getUser(id)
+    //     .then((userRecord) => {
+    //       // See the UserRecord reference doc for the contents of userRecord.
+    //       console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
+    //     })
+    //     .catch((error) => {
+    //       console.log("Error fetching user data:", error);
+    //     });
       let userSnap;
       try {
         userSnap = await userRef.get();
@@ -134,6 +193,7 @@ export default {
         console.error(e);
       }
       let user = userSnap.data().user;
+      console.log(userSnap);
       console.log(user);
       this.users.push(user);
       // let users = snap.data().user;
@@ -157,5 +217,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.table-scroll::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+.table-scroll > div {
+  min-width: 850px;
+}
 </style>
