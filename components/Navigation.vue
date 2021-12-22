@@ -318,9 +318,9 @@ export default {
   // },
   // async created() {
   created() {
-    alert('before')
+    // alert('before')
     this.getLocation();
-    alert('after')
+    // alert('after')
     this.authUser();
     // console.log(this.isLoggedIn);
     // console.log(this.isAdmin);

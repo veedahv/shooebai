@@ -106,6 +106,7 @@ export const actions = {
         commit('currencyVal', currencyValue)
     },
     async getLocation({ commit, dispatch }) {
+        alert('get location')
         const returnValue = await this.$http.$get("/api/getLocation");
         commit('country', returnValue);
         alert(JSON.stringify(returnValue))
