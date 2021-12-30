@@ -6,25 +6,19 @@
           @submit.prevent="saveProfile"
           class="color-dark bg-white w-full px-16 py-10"
         >
-          <p>
-            {{ user.displayName }}
-          </p>
-          <p>
-            {{ user.email }}
-          </p>
           <div class="form-group my-4">
             <label for="name" class=""></label>
-            <input type="text" id="name" v-model="displayName" v-if="isEdit">
+            <input type="text" class="border-b border-gray-600" id="name" v-model="displayName" v-if="isEdit" />
             <p v-else>
-            {{ user.displayName }}
-          </p>
+              {{ user.displayName }}
+            </p>
           </div>
           <div class="form-group my-4">
             <label for="email" class=""></label>
-            <input type="text" id="email" v-model="email" v-if="isEdit">
-          <p v-else>
-            {{ user.email }}
-          </p>
+            <input type="text" class="border-b border-gray-600" id="email" v-model="email" v-if="isEdit" />
+            <p v-else>
+              {{ user.email }}
+            </p>
           </div>
           <div class="form-group my-4">
             <a
@@ -35,7 +29,7 @@
               Forgot password?
             </a>
           </div>
-          <div class="form-group my-4">
+          <!-- <div class="form-group my-4">
             <a
               href=""
               class="color-dark capitalize font-medium"
@@ -43,24 +37,46 @@
             >
               Edit Profile
             </a>
+          </div> -->
+          <div class="form-group my-4 flex gap-5 items-stretch" v-if="isEdit">
+            <div class="form-group">
+              <a
+                href=""
+                class="px-4 py-2 bg-green-500 text-white text-sm capitalize font-medium"
+                @click.prevent="saveProfile"
+              >
+                Save Profile
+              </a>
+            </div>
+            <div class="form-group">
+              <a
+                href=""
+                class="px-4 py-2 bg-red-100 text-red-600 text-sm capitalize font-medium"
+                @click.prevent="isEdit = false"
+              >
+                Cancel
+              </a>
+            </div>
           </div>
-          <div class="form-group my-4">
-            <a
-              href=""
-              class="color-dark capitalize font-medium"
-              @click.prevent="saveProfile"
+          <div class="form-group my-4 flex gap-5 items-stretch" v-else>
+            <div class="form-group">
+              <a
+                href=""
+                class="px-4 py-2 bg-green-500 text-white text-sm capitalize font-medium"
+                @click.prevent="editProfile"
             >
-              Save Profile
-            </a>
-          </div>
-          <div class="form-group my-4">
-            <a
-              href=""
-              class="color-dark capitalize font-medium"
-              @click.prevent="isEdit = false"
-            >
-              Cancel
-            </a>
+              Edit Profile
+              </a>
+            </div>
+            <div class="form-group">
+              <a
+                href=""
+                class="px-4 py-2 bg-red-100 text-red-600 text-sm capitalize font-medium"
+                @click.prevent="isEdit = false"
+              >
+                delete profile
+              </a>
+            </div>
           </div>
         </form>
       </div>
@@ -125,19 +141,24 @@ import { mapState, mapGetters } from "vuex";
 export default {
   data() {
     return {
-        email: "",
-        displayName: "",
-        isEdit: false,
+      email: "",
+      displayName: "",
+      country: "",
+      phoneNumber: "",
+      deliveryAddress: "",
+      isEdit: false,
       //   password: "",
       // user: {},
       //   viewSignInUp: false
     };
   },
-  computed: {    
-    ...mapState(['user']),
-    ...mapGetters(['getUser']),
+  computed: {
+    ...mapState(["user"]),
+    ...mapGetters(["getUser"]),
   },
   created() {
+        // const returnValue = await this.$http.$get(`/api/getAllCountries`);
+        
     // console.log(this.getUser);
     // const user = this.$fire.auth.currentUser;
     // console.log(user);
@@ -211,10 +232,10 @@ export default {
       // const ref = this.$fire.firestore.collection("users").doc(userId);
       // console.log(ref);
       // const newUser = {
-        // userId: userId,
-        this.displayName = this.user.displayName;
-        this.email = this.user.email;
-        this.isEdit = true;
+      // userId: userId,
+      this.displayName = this.user.displayName;
+      // this.email = this.user.email;
+      this.isEdit = true;
       //   country: this.country,
       //   cart: this.cart,
       //   fav: this.fav
@@ -234,7 +255,7 @@ export default {
         email: this.email,
         country: this.user.country,
         cart: this.user.cart,
-        fav: this.user.fav
+        fav: this.user.fav,
       };
       console.log(saveUser);
       // const document = {
@@ -255,7 +276,7 @@ export default {
         email: this.email,
         country: this.country,
         cart: this.cart,
-        fav: this.fav
+        fav: this.fav,
       };
       const document = {
         user: newUser,

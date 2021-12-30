@@ -95,21 +95,34 @@ export const actions = {
         // console.log(Object.keys(returnValue.currencies)[0]);
         // console.log(returnValue.currencies[`${Object.keys(returnValue.currencies)[0]}`].symbol);
         // console.log(returnValue.flags[0]);
-        alert(JSON.stringify(returnValue))
+        // alert(JSON.stringify(returnValue))
         let returnCurrency = await this.$http.$get(
             `/api/currency/${Object.keys(returnValue.currencies)[0]}`
         );
         let currencyValue = returnCurrency.id;
-        alert(currencyValue);
+        // alert(currencyValue);
         // console.log(currencyValue);
         commit('currency', returnValue)
         commit('currencyVal', currencyValue)
     },
     async getLocation({ commit, dispatch }) {
-        alert('get location')
-        const returnValue = await this.$http.$get("/api/getLocation");
-        commit('country', returnValue);
-        alert(JSON.stringify(returnValue))
+        // alert('get location')
+        // alert(state.countryName);
+        // let response = await axios.get(
+        let response = await this.$http.$get(
+            "https://api.geoapify.com/v1/ipinfo?&apiKey=2a1bb31c0a134533b5261eae06c6d2e6"
+        );
+        // let result = await response.data;
+        let location = response.country;
+        // console.log(response);
+        // console.log(result);
+        // console.log(location);
+        // const returnValue = await this.$http.$get("/api/getLocation");
+        // alert(state.countryName);
+        // alert(JSON.stringify(returnValue))
+        // commit('country', returnValue);
+        commit('country', location);
+        // alert(state.countryName);
         // console.log(returnValue.name);
         // console.log(returnValue);
         await dispatch('getCountryInfo')
@@ -163,13 +176,76 @@ export const actions = {
         // console.log(visibleProductArr);
         commit('updateProductsPage', visibleProductArr);
     },
+    getLocalCartList({ commit, dispatch, state }) {
+        // dispatch('getProducts');
+        
+        if (localStorage.getItem("favList")) {
+            let list = JSON.parse(localStorage.getItem("favList"));
+            let favList;
+            list.forEach((element) => {
+                favList.push(element);
+            });
+            localStorage.setItem("favList", JSON.stringify(favList));
+        }
+        if (localStorage.getItem("cartList")) {
+            let list = JSON.parse(localStorage.getItem("cartList"));
+            let cartList;
+            list.forEach((element) => {
+                cartList.push(element);
+            });
+            localStorage.setItem("cartList", JSON.stringify(cartList));
+        }
+        let cartList = [];
+        state.user.cart.forEach((cartItem) => {
+            cartList.push(cartItem);
+        });
+        let wishList = [];
+        // console.log(state.user.fav);
+        state.user.fav.forEach((listItem) => {
+            wishList.push(listItem);
+        });
+        // console.log(wishList);
+        // console.log(cartList);
+        commit('updateCart', cartList);
+        commit('updateWishlist', wishList);
+        dispatch('getCartProducts');
+        dispatch('getWishProducts');
+        // let cartProducts = [];
+        // state.cartItems.forEach((cartItem) => {
+        //     state.products.forEach((prod) => {
+        //         if (prod.productId === cartItem.id) {
+        //             // let product = prod;
+        //             // product.sizeSet = cartItem.sizeSet;
+        //             // product.colorSet = cartItem.colorSet;
+        //             // product.qty = cartItem.qty;
+        //             prod.sizeSet = cartItem.sizeSet;
+        //             prod.colorSet = cartItem.colorSet;
+        //             prod.qty = cartItem.qty;
+        //             cartProducts.push(prod);
+        //             // console.log(prod);
+        //             // console.log(product);
+        //         }
+        //     });
+        // });
+        // console.log(cartProducts);
+        // commit('updateCartProducts', cartProducts);
+    },
     getCartProducts({ commit, dispatch, state }) {
         // dispatch('getProducts');
         let cartProducts = [];
         state.cartItems.forEach((cartItem) => {
             state.products.forEach((prod) => {
                 if (prod.productId === cartItem.id) {
+                    // let product = prod;
+                    // product.sizeSet = cartItem.sizeSet;
+                    // product.colorSet = cartItem.colorSet;
+                    // product.qty = cartItem.qty;
+                    prod.sizeSet = cartItem.sizeSet;
+                    prod.colorSet = cartItem.colorSet;
+                    prod.qty = cartItem.qty;
                     cartProducts.push(prod);
+                    // console.log(prod);
+                    // console.log(product);
                 }
             });
         });
@@ -246,6 +322,54 @@ export const actions = {
             cartList.push(newItem);
             //   console.log(cartList);
         }
+        if (state.logoutState) {
+            const editUser = {
+                userId: state.user.userId,
+                displayName: state.user.displayName,
+                role: state.user.role,
+                email: state.user.email,
+                country: state.user.country,
+                cart: cartList,
+                fav: state.user.fav,
+            };
+            dispatch('updateUser', editUser);
+        } else {
+            localStorage.setItem("cartList", JSON.stringify(cartList));
+        }
+    },
+    updateCartItems({ commit, dispatch, state }, newItem) {
+        let cartList = [];
+        state.cartItems.forEach((cartItem) => {
+            cartList.push(cartItem);
+        });
+        // console.log(cartList);
+        //   console.log(newItem);
+        let isFound = false;
+        let found;
+        cartList.forEach((cartItem) => {
+            if (cartItem.id === newItem.id) {
+                // console.log("lolo");
+                found = cartList.indexOf(cartItem);
+                isFound = true;
+                // card.sizeSet = item.s
+                // cartItem.sizeSet = newItem.sizeSet;
+                // cartItem.colorSet = newItem.colorSet;
+                // cartItem.qty = newItem.qty;
+                console.log(newItem);
+                console.log(cartItem);
+            }
+        });
+        if (isFound) {
+            cartList.splice(found, 1, newItem);
+            console.log(cartList);
+        }
+        // if (isFound) {
+        //     cartList.splice(found, 1);
+        //     //   console.log(cartList);
+        // } else {
+        //     cartList.push(newItem);
+        //     //   console.log(cartList);
+        // }
         const editUser = {
             userId: state.user.userId,
             displayName: state.user.displayName,
@@ -288,11 +412,29 @@ export const actions = {
         state.user.cart.forEach((cartItem) => {
             cartList.push(cartItem);
         });
+        if (localStorage.getItem("cartList")) {
+            let list = JSON.parse(localStorage.getItem("cartList"));
+            // let cartList;
+            list.forEach((element) => {
+                cartList.push(element);
+            });
+            // localStorage.setItem("cartList", JSON.stringify(cartList));
+            localStorage.removeItem("cartList");
+        }
         let wishList = [];
         // console.log(state.user.fav);
         state.user.fav.forEach((listItem) => {
             wishList.push(listItem);
         });
+        if (localStorage.getItem("favList")) {
+            let list = JSON.parse(localStorage.getItem("favList"));
+            // let favList;
+            list.forEach((element) => {
+                wishList.push(element);
+            });
+            // localStorage.setItem("favList", JSON.stringify(favList));
+            localStorage.removeItem("favList");
+        }
         // console.log(wishList);
         // console.log(cartList);
         commit('updateCart', cartList);
@@ -300,8 +442,12 @@ export const actions = {
         dispatch('getCartProducts');
         dispatch('getWishProducts');
     },
-    authUser({ commit, dispatch, state }) {
+    async authUser({ commit, dispatch, state }) {
         dispatch('getProducts');
+        // let response = await this.$http.$get(
+        //     'http://localhost:3001/users'
+        // );
+        // console.log(response);
         this.$fire.auth.onAuthStateChanged((user) => {
             if (user) {
                 // User is signed in, see docs for a list of available properties
@@ -324,6 +470,26 @@ export const actions = {
                 // User is signed out
                 // ...
                 console.log("signed out");
+                if (localStorage.getItem("favList")) {
+                    let list = JSON.parse(localStorage.getItem("favList"));
+                    let favList = [];
+                    list.forEach((element) => {
+                        favList.push(element);
+                    });
+                    localStorage.setItem("favList", JSON.stringify(favList));
+                    commit('updateWishlist', favList);
+                    dispatch('getWishProducts');
+                }
+                if (localStorage.getItem("cartList")) {
+                    let list = JSON.parse(localStorage.getItem("cartList"));
+                    let cartList = [];
+                    list.forEach((element) => {
+                        cartList.push(element);
+                    });
+                    localStorage.setItem("cartList", JSON.stringify(cartList));
+                    commit('updateCart', cartList);
+                    dispatch('getCartProducts');
+                }
             }
         });
     },

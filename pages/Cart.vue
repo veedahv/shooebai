@@ -18,6 +18,7 @@
                       <col span="1" class="w-auto" />
                       <col span="1" class="w-1/6"  />
                       <col span="1" class="w-1/6"  />
+                      <col span="1" class="w-1/6"  />
                       <col span="1" class="w-12" />
                     </colgroup>
                     <thead>
@@ -31,6 +32,11 @@
                           class="font-semibold text-base lg:text-lg align-middle border-b border-gray-600 py-3.5"
                         >
                           Description
+                        </th>
+                        <th
+                          class="font-semibold text-base lg:text-lg align-middle border-b border-gray-600 py-3.5"
+                        >
+                          Price
                         </th>
                         <th
                           class="font-semibold text-lbaselg:text-xlgalign-middle border-b border-gray-600 py-3.5"
@@ -135,15 +141,18 @@
         </div>
       </div>
     </section>
+    <Checkout></Checkout>
   </div>
 </template>
 
 <script>
+import Checkout from '../components/checkout'
 import CartDetailsCard from "../components/CartDetailsCard";
 import { mapGetters, mapState, mapActions } from "vuex";
 import Pagination from "../components/Pagination";
 export default {
   components: {
+    Checkout,
     CartDetailsCard,
     Pagination,
   },
@@ -176,7 +185,7 @@ export default {
             Math.ceil((product.productPrice / this.currencyRate) * 100) / 100;
           let discountVal =
             initialPrice - (product.discount * initialPrice) / 100;
-          let productPrice = Math.ceil(discountVal * 100) / 100;
+          let productPrice = Math.ceil(discountVal * product.qty * 100) / 100;
           this.totalPrice += productPrice;
         });
       },

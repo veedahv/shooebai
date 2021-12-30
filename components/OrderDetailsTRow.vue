@@ -13,110 +13,78 @@
       <div class="">
         <div class="product-info">
           <div class="product-details">
-            <p class="product-name text-sm md:text-base font-semibold">
-              {{ product.productName }}
+            <!-- <p class="product-name text-sm sm:text-base font-medium">
+                  {{ product.productName }}
+                </p> -->
+            <p class="product-name text-sm sm:text-base font-medium">
+              {{ qty }} {{ colorSet }} {{ product.productName }} (size{{
+                sizeSet
+              }})
             </p>
           </div>
-          <div class="flex justify-start items-center gap-3 md:gap-5 my-2">
-            <div class="">
-              <div class="flex justify-start items-center gap-1">
-                <span class="text-sm md:text-base font-medium">Color</span>
-                <select
-                  name=""
-                  id=""
-                  v-model="colorSet"
-                  class="text-sm md:text-base font-medium capitalize"
-                >
-                  <option
-                    class="colors h-7 w-7 m-1 inline-block text-sm md:text-base capitalize"
-                    v-for="color in product.colors"
-                    :key="color"
-                    :value="color"
-                  >
-                    {{ color }}
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div class="">
-              <div class="flex justify-start items-center gap-1">
-                <span class="text-sm md:text-base font-medium">Size</span>
-                <select
-                  name=""
-                  id=""
-                  v-model="sizeSet"
-                  class="text-sm md:text-base font-medium"
-                >
-                  <option
-                    class="sizes h-7 w-7 m-1 inline-block text-sm md:text-base"
-                    v-for="size in product.sizes"
-                    :key="size"
-                    :value="size"
-                  >
-                    <!-- v-for="(size, index) in product.sizes" -->
-                    <!-- :selected="index === 1" -->
-                    {{ size }}
-                  </option>
-                </select>
-              </div>
+          <!-- <div class="flex justify-start items-center gap-3 md:gap-5 my-2">
+                <div class="">
+                  <div class="flex justify-start items-center gap-1">
+                    <span class="text-sm sm:text-base font-medium">Color</span>
+                    <select
+                      name=""
+                      id=""
+                      v-model="colorSet"
+                      class="text-sm sm:text-base font-medium capitalize"
+                    >
+                      <option
+                        class="colors h-7 w-7 m-1 inline-block text-sm sm:text-base capitalize"
+                        v-for="color in product.colors"
+                        :key="color"
+                        :value="color"
+                      >
+                        {{ color }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="">
+                  <div class="flex justify-start items-center gap-1">
+                    <span class="text-sm sm:text-base font-medium">Size</span>
+                    <select
+                      name=""
+                      id=""
+                      v-model="sizeSet"
+                      class="text-sm sm:text-base font-medium"
+                    >
+                      <option
+                        class="sizes h-7 w-7 m-1 inline-block text-sm sm:text-base"
+                        v-for="size in product.sizes"
+                        :key="size"
+                        :value="size"
+                      >
+                        {{ size }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+            </div> -->
+        </div>
+      </div>
+    </td>
+    <!-- <td class="font- align-middle py-3.5 pr-5 border-b border-gray-600">
+          <div class="">
+            <div class="flex items-stretch">
+              <button class="btn px-2.5 py-1 border-2 bg-white border-gray-600" :disabled="qty <= 1" @click="qty -= 1">
+                <i class="fas fa-minus text-xs"></i>
+              </button>
+              <input type="text" class="w-8 text-center outline-none border-t-2 border-b-2 border-gray-600" v-model="qty" readonly>
+              <button class="btn px-2.5 py-1 border-2 bg-white border-gray-600" :disabled="qty >= 10" @click="qty += 1">
+                <i class="fas fa-plus text-xs"></i>
+              </button>
             </div>
           </div>
-        </div>
-      </div>
-    </td>
-    <td class="font- align-middle py-3.5 pr-5 border-b border-gray-600">
+        </td> -->
+    <td class="font- align-middle py-3.5 border-b border-gray-600">
       <div class="" v-if="product.discount == 0">
-        <p class="product-price text-sm md:text-base font-medium">
+        <p class="product-price font-medium">
           <span>{{ currencySymbol }}</span
           >{{ productPrice }}
-        </p>
-      </div>
-      <div class="" v-else>
-        <del>
-          <p class="product-price text-sm md:text-base font-medium">
-            <span>{{ currencySymbol }}</span
-            >{{ productPrice }}
-          </p>
-        </del>
-        <p class="product-price text-sm md:text-base font-medium">
-          <span>{{ currencySymbol }}</span
-          >{{ discount }}
-        </p>
-      </div>
-    </td>
-    <td class="font- align-middle py-3.5 pr-5 border-b border-gray-600">
-      <div class="">
-        <div class="flex items-stretch">
-          <button
-            class="btn px-2.5 py-1 border-2 bg-white border-gray-600"
-            :disabled="qty <= 1"
-            @click="updateQty('minus')"
-          >
-            <!-- @click="qty -= 1" -->
-            <i class="fas fa-minus text-xs"></i>
-          </button>
-          <input
-            type="text"
-            class="w-8 text-center outline-none border-t-2 border-b-2 border-gray-600"
-            v-model="qty"
-            readonly
-          />
-          <button
-            class="btn px-2.5 py-1 border-2 bg-white border-gray-600"
-            :disabled="qty >= 10"
-            @click="updateQty('plus')"
-          >
-            <!-- @click="qty += 1" -->
-            <i class="fas fa-plus text-xs"></i>
-          </button>
-        </div>
-      </div>
-    </td>
-    <td class="font- align-middle py-3.5 pr-5 border-b border-gray-600">
-      <div class="" v-if="product.discount == 0">
-        <p class="product-price text-sm md:text-base font-medium">
-          <span>{{ currencySymbol }}</span
-          >{{ productPrice * qty }}
         </p>
         <!-- <p class="product-price font-medium">
               <span>{{ currencySymbol }}</span
@@ -125,25 +93,16 @@
       </div>
       <div class="" v-else>
         <del>
-          <p class="product-price text-sm md:text-base font-medium">
+          <p class="product-price font-medium">
             <span>{{ currencySymbol }}</span
-            >{{ productPrice * qty }}
+            >{{ productPrice }}
           </p>
         </del>
-        <p class="product-price text-sm md:text-base font-medium">
+        <p class="product-price font-medium">
           <span>{{ currencySymbol }}</span
-          >{{ discount * qty }}
+          >{{ discount }}
         </p>
       </div>
-    </td>
-    <td class="font- align-middle py-3.5 border-b border-gray-600">
-      <!-- class="product-btn uppercase text-xs sm:text-sm px-2 py-1.5 bg-tertiary color-primary" -->
-      <button
-        class="product-btn uppercase text-xs sm:text-sm px-2.5 py-1 border-2 border-gray-600"
-        @click="updateCart()"
-      >
-        <i class="fas fa-times text-base"></i>
-      </button>
     </td>
   </tr>
 </template>
@@ -202,29 +161,16 @@ export default {
       "updateUser",
       "updateCartProducts",
       "updateWishProducts",
-      "updateCartItems",
     ]),
     updateCart() {
       const newItem = {
         id: this.cartItem.id,
         colorSet: this.colorSet,
         sizeSet: this.sizeSet,
-        qty: this.qty,
+        qty: 1,
       };
-      // console.log(newItem);
+      console.log(newItem);
       this.updateCartProducts(newItem);
-    },
-    updateQty(operand) {
-      operand === 'plus' ? this.qty++ : this.qty--;
-      const newItem = {
-        id: this.cartItem.id,
-        colorSet: this.colorSet,
-        sizeSet: this.sizeSet,
-        qty: this.qty,
-      };
-      // console.log(newItem);
-      this.updateCartItems(newItem);
-      // this.qty = this.qty 
     },
     toggleWishlist() {
       if (this.favList.includes(this.cartItem.id)) {

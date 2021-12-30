@@ -23,14 +23,14 @@
             @mousedown="setCarousel()"
           >
             <div class="w-full">
-              <table class="w-full text-left">
+              <table class="w-full text-center">
                 <thead>
                   <tr>
                     <th class="text-base font-medium">S/N</th>
                     <th class="text-base font-medium">Date</th>
                     <!-- <th class="text-base font-medium">User Id</th> -->
-                    <th class="text-base font-medium">User Name</th>
-                    <th class="text-base font-medium">User Email</th>
+                    <th class="text-base font-medium">Name</th>
+                    <th class="text-base font-medium">Email</th>
                     <th class="text-base font-medium">Role</th>
                     <th class="text-base font-medium">Country</th>
                     <th class="text-base font-medium">Manage</th>
@@ -39,7 +39,7 @@
                 <tbody>
                   <tr v-for="(user, i) in users" :key="user.userId">
                     <td class="text-sm">{{ i + 1 }}</td>
-                    <td class="text-sm">{{ user.date }}</td>
+                    <td class="text-sm">{{ user.lastLogin }}</td>
                     <!-- <td class="text-sm">
                         <input type="text" class="text-sm" v-model="date" :style="{width: `${date.length + 1}ch`}">
                     </td> -->
@@ -49,15 +49,15 @@
                         <input type="text" class="text-sm" v-model="user.displayName" :style="{width: `${user.displayName.length}ch`}">
                     </td> -->
                     <td class="text-sm">{{ user.email }}</td>
-                    <!-- <td class="text-sm">{{ user.role }}</td> -->
-                    <td class="text-sm">
+                    <td class="text-sm">{{ user.role }}</td>
+                    <!-- <td class="text-sm">
                       <input
                         type="text"
                         class="text-sm"
                         v-model="user.role"
                         :style="{ width: `${user.role.length}ch` }"
                       />
-                    </td>
+                    </td> -->
                     <td class="text-sm">{{ user.country }}</td>
                     <td class="text-sm">
                       <div class="product-btn-box flex justify-center gap-2">
@@ -72,7 +72,8 @@
                           </span>
                           <!-- </button> -->
                         </nuxt-link>
-                        <button class="product-btn text-red-600 py-1">
+                        <button class="product-btn text-red-600 py-1" @click="delUser(user.userId)">
+                        <!-- <button class="product-btn text-red-600 py-1" @click="delUser(user.uid)"> -->
                           <span class="">
                             <i class="fas fa-trash-alt text-sm"></i>
                           </span>
@@ -130,11 +131,17 @@ export default {
         el.addEventListener("mousedown", mouseDownHandler);
       }
     },
+    async delUser(id) {
+      // delete('/user/:id'
+      console.log(id);
+        let response = await this.$http.$delete(
+            `http://localhost:3001/user/${id}`
+        );
+        console.log(response);
+        // this.users = response;
+    },
     async readFromFirestore() {
       const ref = this.$fire.firestore.collection("users");
-      // const ref = this.$fire.firestore.collection("users").doc(state.userId);
-      // console.log(this.$fire.firestore.collection("users"));
-      // console.log(ref);
       let snap;
       try {
         snap = await ref.get();
@@ -142,49 +149,13 @@ export default {
         // TODO: error handling
         console.error(e);
       }
-      //   console.log(snap);
-      //   console.log(snap.docs);
       snap.docs.forEach((doc) => {
         console.log(doc.id);
         this.getUsers(doc.id);
-        //       const userRef = this.$fire.firestore.collection("users").doc(doc.id);
-        //   let userSnap;
-        //   try {
-        //     userSnap = await ref.get();
-        //   } catch (e) {
-        //     // TODO: error handling
-        //     console.error(e);
-        //   }
-        //   let user = userSnap.data().user;
-        //   console.log(user);
       });
-      // let users = snap.data().user;
-      // let users = snap.data();
-      // console.log(users);
-      //   let snap;
-      //   try {
-      //     snap = await ref.get();
-      //   } catch (e) {
-      //     // TODO: error handling
-      //     console.error(e);
-      //   }
-      //   this.products = snap.data().products;
-      //   console.log(this.products);
-      //   console.log(this.$route);
     },
-    async getUsers(id) {
-      //   console.log(doc.id);
-      const userRef = this.$fire.firestore.collection("users").doc(id);
-      //   getAuth()
-    //   this.$fire.auth
-    //     .getUser(id)
-    //     .then((userRecord) => {
-    //       // See the UserRecord reference doc for the contents of userRecord.
-    //       console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
-    //     })
-    //     .catch((error) => {
-    //       console.log("Error fetching user data:", error);
-    //     });
+    async getUsers(userDetails) {
+      const userRef = this.$fire.firestore.collection("users").doc(userDetails.uid);
       let userSnap;
       try {
         userSnap = await userRef.get();
@@ -193,26 +164,27 @@ export default {
         console.error(e);
       }
       let user = userSnap.data().user;
-      console.log(userSnap);
-      console.log(user);
+      let lastLogin = userDetails.metadata.lastSignInTime;
+      let date = new Date(lastLogin);
+      user.lastLogin = date.toLocaleDateString();
       this.users.push(user);
-      // let users = snap.data().user;
-      // let users = snap.data();
-      // console.log(users);
-      //   let snap;
-      //   try {
-      //     snap = await ref.get();
-      //   } catch (e) {
-      //     // TODO: error handling
-      //     console.error(e);
-      //   }
-      //   this.products = snap.data().products;
-      //   console.log(this.products);
-      //   console.log(this.$route);
     },
   },
-  created() {
-    this.readFromFirestore();
+  // created() {
+  async created() {
+    // this.readFromFirestore();
+        let response = await this.$http.$get(
+            'http://localhost:3001/users'
+        );
+        console.log(response);
+        let allUsers = response;
+        console.log(allUsers);
+        allUsers.forEach(res => {
+        // console.log(res);
+          // res.uid
+          this.getUsers(res)
+        });
+        // this.users = response;
   },
 };
 </script>

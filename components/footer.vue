@@ -29,7 +29,7 @@
         </div>
         <!-- <div class="py-2 w-full md:w-2/5 lg:w-1/5"> -->
         <!-- <div class="py-2 w-1/2 sm:w-2/5 lg:w-1/5"> -->
-        <div class="py-2 w-1/2 sm:w-2/5 lg:w-1/6">
+        <!-- <div class="py-2 w-1/2 sm:w-2/5 lg:w-1/6">
           <ul>
             <li class="foot-link">
               <nuxt-link to="/">Home</nuxt-link>
@@ -44,11 +44,10 @@
           <nuxt-link to="/shop">Shop</nuxt-link>
             </li>
             <li class="foot-link">
-              <!-- <li class="foot-link" v-if="isLoggedIn"> -->
               <nuxt-link to="/Profile">Profile</nuxt-link>
             </li>
           </ul>
-        </div>
+        </div> -->
         <!-- <div class="py-2 w-full md:w-2/5 lg:w-1/5"> -->
         <!-- <div class="py-2 w-1/2 sm:w-2/5 lg:w-1/5"> -->
         <div class="py-2 w-1/2 sm:w-2/5 lg:w-1/6">

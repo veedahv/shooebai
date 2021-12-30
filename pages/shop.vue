@@ -16,7 +16,7 @@
     <section>
       <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
         <p class="text-xl font-medium color-tertiary">
-          Lallalallal lalala lalala lalala laalala la aala lam
+          Only the best shoes for your feet
         </p>
         <div class="">
           <div class="flex items-center justify-between my-4">
@@ -46,12 +46,14 @@
               </div> -->
             </div>
           </div>
-          <Pagination
-            :products="products"
-            :currentPage="currentPage"
-            :perPage="perPage"
-            v-on:page:update="updatePage"
-          ></Pagination>
+          <div class="my-4">
+            <Pagination
+              :products="products"
+              :currentPage="currentPage"
+              :perPage="perPage"
+              v-on:page:update="updatePage"
+            ></Pagination>
+          </div>
         </div>
       </div>
     </section>

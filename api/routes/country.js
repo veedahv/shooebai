@@ -13,7 +13,7 @@ const getAllCountries = async () => {
     let result = await response.data;
     // country = await result[0];
     // console.log(country);
-    console.log(result);
+    // console.log(result);
     // console.log('result');
     return result;
     // return country;
@@ -27,7 +27,7 @@ const getCountryInfo = async (name) => {
     // console.log(`https://restcountries.com/v3/alpha/${name}?fields=name,capital,currencies,flag`);
     let result = await response.data;
     // country = await result[0];
-    console.log(result);
+    // console.log(result);
     // console.log(country);
     // console.log('result');
     return result;

@@ -15,7 +15,7 @@ const getLocation = async () => {
     let result = await response.data;
     location = result.country;
     // console.log(result);
-    console.log(location);
+    // console.log(location);
     return location;
     // return result;
 }
