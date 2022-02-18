@@ -92,6 +92,13 @@ export default {
     this.getProducts();
     this.getPageProducts(this.currentPage);
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+      console.log(this.$nuxt.$loading);
+      setTimeout(() => this.$nuxt.$loading.finish(), 5000)
+    })
+  },
 };
 </script>
 

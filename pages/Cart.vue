@@ -2,23 +2,29 @@
   <div>
     <section>
       <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
+        <!-- {{ cartProducts }} -->
         <div class="" v-if="cartProducts.length >= 1">
           <div class="">
-            <h2 class="font-bold text-xl md:text-2xl mb-4">Your Shopping Bag</h2>
+            <h2 class="font-bold text-xl md:text-2xl mb-4">
+              Your Shopping Bag
+            </h2>
           </div>
-          <div class="">
-          </div>
+          <div class=""></div>
           <div class="w-full">
-            <div class="overflow-x-scroll table-scroll" ref="setCarousel" @mousedown="setCarousel()">
+            <div
+              class="overflow-x-scroll table-scroll"
+              ref="setCarousel"
+              @mousedown="setCarousel()"
+            >
               <div class="w-table lg:w-full">
                 <div class="w-full">
                   <table class="w-full">
                     <colgroup>
-                      <col span="1" class="w-48"  />
+                      <col span="1" class="w-48" />
                       <col span="1" class="w-auto" />
-                      <col span="1" class="w-1/6"  />
-                      <col span="1" class="w-1/6"  />
-                      <col span="1" class="w-1/6"  />
+                      <col span="1" class="w-1/6" />
+                      <col span="1" class="w-1/6" />
+                      <col span="1" class="w-1/6" />
                       <col span="1" class="w-12" />
                     </colgroup>
                     <thead>
@@ -99,23 +105,35 @@
                     <div
                       class="flex flex-1 items-center justify-between bg-white"
                     >
-                      <button class="w-full px-3 py-2.5 bg-tertiary color-light">Checkout</button>
+                      <button
+                        class="w-full px-3 py-2.5 bg-tertiary color-light"
+                      >
+                        Checkout
+                      </button>
                     </div>
                   </div>
                   <p class="">
                     If you have any promotion code, please enter here
                   </p>
                   <div class="flex items-stretch gap-5 w-full my-3.5">
-                    <div
-                      class="flex no-wrap flex-auto w-2/3 items-stretch"
-                    >
-                      <input type="text" class="px-3 w-full" placeholder="Enter discount code" />
-                      <button class="w-48 py-2.5 font-medium bg-tertiary color-light">Apply</button>
+                    <div class="flex no-wrap flex-auto w-2/3 items-stretch">
+                      <input
+                        type="text"
+                        class="px-3 w-full"
+                        placeholder="Enter discount code"
+                      />
+                      <button
+                        class="w-48 py-2.5 font-medium bg-tertiary color-light"
+                      >
+                        Apply
+                      </button>
                     </div>
-                    <div
-                      class="flex-auto w-1/3"
-                    >
-                      <button class="w-full py-2.5 font-medium bg-primary text-white">Continue Shopping</button>
+                    <div class="flex-auto w-1/3">
+                      <button
+                        class="w-full py-2.5 font-medium bg-primary text-white"
+                      >
+                        Continue Shopping
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -141,12 +159,14 @@
         </div>
       </div>
     </section>
+    <div class="" v-if="cartProducts.length >= 1">
     <Checkout></Checkout>
+    </div>
   </div>
 </template>
 
 <script>
-import Checkout from '../components/checkout'
+import Checkout from "../components/checkout";
 import CartDetailsCard from "../components/CartDetailsCard";
 import { mapGetters, mapState, mapActions } from "vuex";
 import Pagination from "../components/Pagination";
@@ -174,11 +194,13 @@ export default {
       "cartItems",
       "cartProducts",
       "user",
+      "loading",
     ]),
   },
   watch: {
     cartProducts: {
       handler: function (newValue) {
+        // console.log(newValue);
         this.totalPrice = 0;
         newValue.forEach((product) => {
           let initialPrice =
@@ -188,6 +210,13 @@ export default {
           let productPrice = Math.ceil(discountVal * product.qty * 100) / 100;
           this.totalPrice += productPrice;
         });
+      },
+    },
+    loading: {
+      handler: function (newValue) {
+        console.log(newValue);
+        // newValue ? this.$nuxt.$loading.start() : this.$nuxt.$loading.finish();
+        // this.$nextTick(() => {
       },
     },
   },
@@ -222,6 +251,8 @@ export default {
   },
   created() {
     this.getCartProducts();
+        // this.loading ? this.$nuxt.$loading.start() : this.$nuxt.$loading.finish();
+        console.log(this.loading);
   },
 };
 </script>
@@ -234,7 +265,7 @@ export default {
   width: 0;
   background: transparent;
 }
-  .w-table {
-    min-width: 767px;
-  }
+.w-table {
+  min-width: 767px;
+}
 </style>
