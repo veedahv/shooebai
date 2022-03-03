@@ -83,8 +83,9 @@
     <td class="font- align-middle py-3.5 border-b border-gray-600">
       <div class="" v-if="product.discount == 0">
         <p class="product-price font-medium">
-          <span>{{ currencySymbol }}</span
-          >{{ productPrice }}
+          <!-- <span>{{ currencySymbol }}</span> -->
+          <span v-html="currencySymbol"></span>
+          {{ productPrice }}
         </p>
         <!-- <p class="product-price font-medium">
               <span>{{ currencySymbol }}</span
@@ -94,13 +95,15 @@
       <div class="" v-else>
         <del>
           <p class="product-price font-medium">
-            <span>{{ currencySymbol }}</span
-            >{{ productPrice }}
+          <span v-html="currencySymbol"></span>
+            <!-- <span>{{ currencySymbol }}</span> -->
+            {{ productPrice }}
           </p>
         </del>
         <p class="product-price font-medium">
-          <span>{{ currencySymbol }}</span
-          >{{ discount }}
+          <span v-html="currencySymbol"></span>
+          <!-- <span>{{ currencySymbol }}</span> -->
+          {{ discount }}
         </p>
       </div>
     </td>

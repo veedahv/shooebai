@@ -3,6 +3,7 @@
 // import router from '../router'
 // import f/
 // import { getAuth, onAuthStateChanged } from "firebase/auth";
+import currencySymbol from 'currency-symbol';
 
 
 export const state = () => ({
@@ -28,17 +29,25 @@ export const state = () => ({
 
 export const mutations = {
     loading(state, isLoading) {
-    state.loading = isLoading
+        state.loading = isLoading
     },
     country(state, country) {
+        console.log(country);
         state.country = country
+        console.log(state.country);
+        // state.countryFlag = country.flag.toLowerCase()
+        state.countryFlag = country.iso_code.toLowerCase()
+        console.log(state.countryFlag);
         state.countryIsocode = country.iso_code
         state.countryName = country.name
+        // state.currencySymbol = document.createElement('span').innerHTML toHtml(currencySymbol.symbol(country.name));
+        state.currencySymbol = currencySymbol.symbol(country.name);
+        console.log(state.currencySymbol);
     },
     currency(state, country) {
         state.currency = Object.keys(country.currencies)[0]
-        state.currencySymbol = country.currencies[`${Object.keys(country.currencies)[0]}`].symbol
-        state.countryFlag = country.flags[0]
+        // state.currencySymbol = country.currencies[`${Object.keys(country.currencies)[0]}`].symbol
+        // state.countryFlag = country.flags[0]
     },
     currencyVal(state, currencyValue) {
         state.currencyRate = currencyValue
@@ -60,6 +69,7 @@ export const mutations = {
     },
     updateCart(state, cartItems) {
         state.cartItems = cartItems
+        console.log(state.cartItems);
     },
     updateCartProducts(state, cartItems) {
         state.cartProducts = cartItems
@@ -90,7 +100,7 @@ export const actions = {
         // console.log(state.countryName);
         // const returnValue = await this.$http.$get(`/api/getCountryInfo/${state.countryIsocode}`);
         const returnValue = await this.$http.$get(`https://restcountries.com/v3/alpha/${state.countryIsocode}?fields=name,capital,currencies,flags`);
-        // console.log(returnValue);
+        console.log(returnValue);
         // console.log(returnValue.name.common);
         // console.log(returnValue.currencies);
         // console.log(Object.keys(returnValue.currencies));
@@ -103,7 +113,7 @@ export const actions = {
         );
         let currencyValue = returnCurrency.id;
         // alert(currencyValue);
-        // console.log(currencyValue);
+        console.log(currencyValue);
         commit('currency', returnValue)
         commit('currencyVal', currencyValue)
     },
@@ -114,9 +124,22 @@ export const actions = {
         let response = await this.$http.$get(
             "https://api.geoapify.com/v1/ipinfo?&apiKey=2a1bb31c0a134533b5261eae06c6d2e6"
         );
+        console.log(response);
+
+        // console.log(currencySymbol.all());
+        // This will return all curriencies symbol
+
         // let result = await response.data;
         let location = response.country;
+        console.log(location);
+        console.log(location.flag);
+        console.log(currencySymbol.symbol(location.name));
         // console.log(response);
+        let returnCurrency = await this.$http.$get(
+            `/api/currency/${location.currency}`
+        );
+        let currencyValue = returnCurrency.id;
+        commit('currencyVal', currencyValue)
         // console.log(result);
         // console.log(location);
         // const returnValue = await this.$http.$get("/api/getLocation");
@@ -124,10 +147,11 @@ export const actions = {
         // alert(JSON.stringify(returnValue))
         // commit('country', returnValue);
         commit('country', location);
+        console.log(state.countryFlag);
         // alert(state.countryName);
         // console.log(returnValue.name);
         // console.log(returnValue);
-        await dispatch('getCountryInfo')
+        // await dispatch('getCountryInfo')
     },
     logout({ commit, dispatch, state }) {
         this.$fire.auth
@@ -177,8 +201,8 @@ export const actions = {
     async getProducts({ commit, dispatch, state }) {
         // console.log('saii');
         commit('loading', true);
-            // window.$nuxt.$root.$loading.start();
-            // dispatch('startLoading');
+        // window.$nuxt.$root.$loading.start();
+        // dispatch('startLoading');
         const ref = this.$fire.firestore.collection("products").doc("product");
         let snap;
         try {
@@ -221,7 +245,7 @@ export const actions = {
     },
     // getLocalCartList({ commit, dispatch, state }) {
     //     // dispatch('getProducts');
-        
+
     //     if (localStorage.getItem("favList")) {
     //         let list = JSON.parse(localStorage.getItem("favList"));
     //         let favList;
@@ -284,6 +308,7 @@ export const actions = {
         //     console.log('say na nahh');
         // }
         let cartProducts = [];
+        console.log(state.cartItems);
         state.cartItems.forEach((cartItem) => {
             // console.log(cartItem.id);
             state.products.forEach((prod) => {
@@ -306,14 +331,14 @@ export const actions = {
         // console.log(cartProducts);
         // if (cartProducts.length >= 1) {
         // }
-        commit('updateCartProducts', cartProducts);            
-        // console.log(state.cartProducts);
+        commit('updateCartProducts', cartProducts);
+        console.log(state.cartProducts);
     },
     getWishProducts({ commit, dispatch, state }) {
         // dispatch('getProducts');
         let wishProducts = [];
         // state.wishItems.forEach((wishItem) => {
-            // console.log(state.wishItems);
+        // console.log(state.wishItems);
         state.products.forEach((prod) => {
             if (state.wishItems.includes(prod.productId)) {
                 //   this.products.push(product);
@@ -480,10 +505,12 @@ export const actions = {
             //   this.isAdmin = true;
         }
         commit('setUser', user);
+        console.log(state.user);
         let cartList = [];
         state.user.cart.forEach((cartItem) => {
             cartList.push(cartItem);
         });
+        console.log(state.user.cart);
         if (localStorage.getItem("cartList")) {
             let list = JSON.parse(localStorage.getItem("cartList"));
             // let cartList;
@@ -509,9 +536,10 @@ export const actions = {
         }
         // console.log(wishList);
         // console.log(cartList);
+        console.log(cartList);
         commit('updateCart', cartList);
         commit('updateWishlist', wishList);
-        // dispatch('getCartProducts');
+        dispatch('getCartProducts');
         // dispatch('getWishProducts');
     },
     async authUser({ commit, dispatch, state }) {

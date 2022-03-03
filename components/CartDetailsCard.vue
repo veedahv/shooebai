@@ -28,7 +28,16 @@
                   class="text-sm md:text-base font-medium capitalize"
                 >
                   <option
-                    class="colors h-7 w-7 m-1 inline-block text-sm md:text-base capitalize"
+                    class="
+                      colors
+                      h-7
+                      w-7
+                      m-1
+                      inline-block
+                      text-sm
+                      md:text-base
+                      capitalize
+                    "
                     v-for="color in product.colors"
                     :key="color"
                     :value="color"
@@ -67,20 +76,23 @@
     <td class="font- align-middle py-3.5 pr-5 border-b border-gray-600">
       <div class="" v-if="product.discount == 0">
         <p class="product-price text-sm md:text-base font-medium">
-          <span>{{ currencySymbol }}</span
-          >{{ productPrice }}
+          <!-- <span>{{ currencySymbol }}</span> -->
+          <span v-html="currencySymbol"></span>
+          {{ productPrice }}
         </p>
       </div>
       <div class="" v-else>
         <del>
           <p class="product-price text-sm md:text-base font-medium">
-            <span>{{ currencySymbol }}</span
-            >{{ productPrice }}
+            <span v-html="currencySymbol"></span>
+            <!-- <span>{{ currencySymbol }}</span> -->
+            {{ productPrice }}
           </p>
         </del>
         <p class="product-price text-sm md:text-base font-medium">
-          <span>{{ currencySymbol }}</span
-          >{{ discount }}
+          <span v-html="currencySymbol"></span>
+          <!-- <span>{{ currencySymbol }}</span> -->
+          {{ discount }}
         </p>
       </div>
     </td>
@@ -97,7 +109,12 @@
           </button>
           <input
             type="text"
-            class="w-8 text-center outline-none border-t-2 border-b-2 border-gray-600"
+            class="
+              w-8
+              text-center
+              outline-none
+              border-t-2 border-b-2 border-gray-600
+            "
             v-model="qty"
             readonly
           />
@@ -115,8 +132,9 @@
     <td class="font- align-middle py-3.5 pr-5 border-b border-gray-600">
       <div class="" v-if="product.discount == 0">
         <p class="product-price text-sm md:text-base font-medium">
-          <span>{{ currencySymbol }}</span
-          >{{ productPrice * qty }}
+          <span v-html="currencySymbol"></span>
+          <!-- <span>{{ currencySymbol }}</span> -->
+          {{ productPrice * qty }}
         </p>
         <!-- <p class="product-price font-medium">
               <span>{{ currencySymbol }}</span
@@ -126,20 +144,30 @@
       <div class="" v-else>
         <del>
           <p class="product-price text-sm md:text-base font-medium">
-            <span>{{ currencySymbol }}</span
-            >{{ productPrice * qty }}
+          <span v-html="currencySymbol"></span>
+            <!-- <span>{{ currencySymbol }}</span> -->
+            {{ productPrice * qty }}
           </p>
         </del>
         <p class="product-price text-sm md:text-base font-medium">
-          <span>{{ currencySymbol }}</span
-          >{{ discount * qty }}
+          <span v-html="currencySymbol"></span>
+          <!-- <span>{{ currencySymbol }}</span> -->
+          {{ discount * qty }}
         </p>
       </div>
     </td>
     <td class="font- align-middle py-3.5 border-b border-gray-600">
       <!-- class="product-btn uppercase text-xs sm:text-sm px-2 py-1.5 bg-tertiary color-primary" -->
       <button
-        class="product-btn uppercase text-xs sm:text-sm px-2.5 py-1 border-2 border-gray-600"
+        class="
+          product-btn
+          uppercase
+          text-xs
+          sm:text-sm
+          px-2.5
+          py-1
+          border-2 border-gray-600
+        "
         @click="updateCart()"
       >
         <i class="fas fa-times text-base"></i>
@@ -215,7 +243,7 @@ export default {
       this.updateCartProducts(newItem);
     },
     updateQty(operand) {
-      operand === 'plus' ? this.qty++ : this.qty--;
+      operand === "plus" ? this.qty++ : this.qty--;
       const newItem = {
         id: this.cartItem.id,
         colorSet: this.colorSet,
@@ -224,7 +252,7 @@ export default {
       };
       // console.log(newItem);
       this.updateCartItems(newItem);
-      // this.qty = this.qty 
+      // this.qty = this.qty
     },
     toggleWishlist() {
       if (this.favList.includes(this.cartItem.id)) {
