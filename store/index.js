@@ -135,10 +135,11 @@ export const actions = {
         console.log(location.flag);
         console.log(currencySymbol.symbol(location.name));
         // console.log(response);
-        let returnCurrency = await this.$http.$get(
-            `/api/currency/${location.currency}`
-        );
-        let currencyValue = returnCurrency.id;
+        // let returnCurrency = await this.$http.$get(
+        //     `/api/currency/${location.currency}`
+        // );
+        // let currencyValue = returnCurrency.id;
+        let currencyValue = 1;
         commit('currencyVal', currencyValue)
         // console.log(result);
         // console.log(location);
