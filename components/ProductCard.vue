@@ -35,18 +35,27 @@
           </nuxt-link>
           <div class="" v-if="product.discount == 0">
             <!-- <p class="product-price font-medium"><span>{{ currencySymbol }}</span>{{ productPrice }}</p> -->
-            <p class="product-price font-medium"><span>{{ getCurrencySymbol }}</span>{{ productPrice }}</p>
+            <p class="product-price font-medium">
+              <!-- <span>{{ getCurrencySymbol }}</span> -->
+                <span v-html="getCurrencySymbol"></span>
+              {{ productPrice }}
+              </p>
             <!-- <p class="product-price font-medium"><span>{{ getCurrencySymbol }}</span>{{ getCurrencyRate }}</p> -->
           </div>
           <div class="" v-else>
             <del>
               <p class="product-price font-medium">
-                <span>{{ getCurrencySymbol }}</span>
+                <span v-html="getCurrencySymbol"></span>
+                <!-- <span>{{ getCurrencySymbol }}</span> -->
                 <!-- <span>{{ currencySymbol }}</span> -->
                 {{ productPrice }}
               </p>
             </del>
-            <p class="product-price font-medium"><span>{{ getCurrencySymbol }}</span>{{ discount }}</p>
+            <p class="product-price font-medium">
+                <span v-html="getCurrencySymbol"></span>
+              <!-- <span>{{ getCurrencySymbol }}</span> -->
+              {{ discount }}
+              </p>
             <!-- <p class="product-price font-medium"><span>{{ currencySymbol }}</span>{{ discount }}</p> -->
           </div>
           <!-- <nuxt-link

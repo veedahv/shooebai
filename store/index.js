@@ -3,6 +3,7 @@
 // import router from '../router'
 // import f/
 // import { getAuth, onAuthStateChanged } from "firebase/auth";
+import currencySymbol from 'currency-symbol';
 
 
 export const state = () => ({
@@ -22,23 +23,31 @@ export const state = () => ({
     isLoggedIn: false,
     isAdmin: false,
     userId: null,
+    loading: false,
     user: {}
-    // loading: false,
 })
 
 export const mutations = {
-    // loading(state, isLoading) {
-    // state.loading = isLoading
-    // },
+    loading(state, isLoading) {
+        state.loading = isLoading
+    },
     country(state, country) {
+        console.log(country);
         state.country = country
+        console.log(state.country);
+        // state.countryFlag = country.flag.toLowerCase()
+        state.countryFlag = country.iso_code.toLowerCase()
+        console.log(state.countryFlag);
         state.countryIsocode = country.iso_code
         state.countryName = country.name
+        // state.currencySymbol = document.createElement('span').innerHTML toHtml(currencySymbol.symbol(country.name));
+        state.currencySymbol = currencySymbol.symbol(country.name);
+        console.log(state.currencySymbol);
     },
     currency(state, country) {
         state.currency = Object.keys(country.currencies)[0]
-        state.currencySymbol = country.currencies[`${Object.keys(country.currencies)[0]}`].symbol
-        state.countryFlag = country.flags[0]
+        // state.currencySymbol = country.currencies[`${Object.keys(country.currencies)[0]}`].symbol
+        // state.countryFlag = country.flags[0]
     },
     currencyVal(state, currencyValue) {
         state.currencyRate = currencyValue
@@ -60,12 +69,14 @@ export const mutations = {
     },
     updateCart(state, cartItems) {
         state.cartItems = cartItems
+        console.log(state.cartItems);
     },
     updateCartProducts(state, cartItems) {
         state.cartProducts = cartItems
     },
     updateProducts(state, products) {
         state.products = products
+        state.loading = false
     },
     updateProductsPage(state, visibleProducts) {
         state.visibleProductArr = visibleProducts
@@ -87,8 +98,9 @@ export const actions = {
         //   const ip = await this.$http.$get('https://icanhazip.com')
         // console.log('returnValue');
         // console.log(state.countryName);
-        const returnValue = await this.$http.$get(`/api/getCountryInfo/${state.countryIsocode}`);
-        // console.log(returnValue);
+        // const returnValue = await this.$http.$get(`/api/getCountryInfo/${state.countryIsocode}`);
+        const returnValue = await this.$http.$get(`https://restcountries.com/v3/alpha/${state.countryIsocode}?fields=name,capital,currencies,flags`);
+        console.log(returnValue);
         // console.log(returnValue.name.common);
         // console.log(returnValue.currencies);
         // console.log(Object.keys(returnValue.currencies));
@@ -101,7 +113,7 @@ export const actions = {
         );
         let currencyValue = returnCurrency.id;
         // alert(currencyValue);
-        // console.log(currencyValue);
+        console.log(currencyValue);
         commit('currency', returnValue)
         commit('currencyVal', currencyValue)
     },
@@ -112,9 +124,22 @@ export const actions = {
         let response = await this.$http.$get(
             "https://api.geoapify.com/v1/ipinfo?&apiKey=2a1bb31c0a134533b5261eae06c6d2e6"
         );
+        console.log(response);
+
+        // console.log(currencySymbol.all());
+        // This will return all curriencies symbol
+
         // let result = await response.data;
         let location = response.country;
+        console.log(location);
+        console.log(location.flag);
+        console.log(currencySymbol.symbol(location.name));
         // console.log(response);
+        let returnCurrency = await this.$http.$get(
+            `/api/currency/${location.currency}`
+        );
+        let currencyValue = returnCurrency.id;
+        commit('currencyVal', currencyValue)
         // console.log(result);
         // console.log(location);
         // const returnValue = await this.$http.$get("/api/getLocation");
@@ -122,10 +147,11 @@ export const actions = {
         // alert(JSON.stringify(returnValue))
         // commit('country', returnValue);
         commit('country', location);
+        console.log(state.countryFlag);
         // alert(state.countryName);
         // console.log(returnValue.name);
         // console.log(returnValue);
-        await dispatch('getCountryInfo')
+        // await dispatch('getCountryInfo')
     },
     logout({ commit, dispatch, state }) {
         this.$fire.auth
@@ -134,13 +160,49 @@ export const actions = {
                 // Sign-out successful.
                 // this.isLoggedIn = false;
 
-                commit('logoutState', false)
+                commit('logoutState', false);
+                let cartList = [];
+                let wishList = [];
+                localStorage.removeItem("cartList");
+                localStorage.removeItem("favList");
+                // console.log(wishList);
+                // console.log(cartList);
+                commit('updateCart', cartList);
+                commit('updateWishlist', wishList);
             })
             .catch((error) => {
                 // An error happened.
             });
     },
+    startLoading({ commit }) {
+        // if (process.browser) {
+        //     console.log(window.$nuxt);
+        //     console.log(window.$nuxt.$root);
+        //     console.log(window.$nuxt.$root.$root);
+        //     console.log(window.$nuxt.$loading);
+        //     console.log(window.$nuxt.$root.$loading.start);
+        //     // window.$nuxt.$root.$loading.start;
+        //     // window.$nuxt.$root.$loading.start();
+        //     // window.$nuxt.$root.$loading.manual = true;
+        //     console.log(window.$nuxt.$root.$loading);
+        //     // window.$root.$loading.start();
+        // }
+        commit('loading', true);
+    },
+    finishLoading({ commit }) {
+        // if (process.browser) {
+        //     // window.$nuxt.$root.$loading.finish();
+        //     console.log(window.$nuxt.$root.$loading);
+        //     // window.$nuxt.$root.$loading.manual = false;
+        //     console.log(window.$nuxt.$root.$loading);
+        // }
+        commit('loading', false);
+    },
     async getProducts({ commit, dispatch, state }) {
+        // console.log('saii');
+        commit('loading', true);
+        // window.$nuxt.$root.$loading.start();
+        // dispatch('startLoading');
         const ref = this.$fire.firestore.collection("products").doc("product");
         let snap;
         try {
@@ -150,8 +212,13 @@ export const actions = {
             console.error(e);
         }
         let allProducts = snap.data().products;
-        commit('updateProducts', allProducts);
+        // console.log(allProducts);
+        await commit('updateProducts', allProducts);
+        // console.log('sayaa');
         dispatch('getPageProducts', 0);
+        commit('loading', false);
+        // dispatch('getCartProducts');
+        // dispatch('getWishProducts');
         //   state.cartItems.forEach((cartItem) => {
         //     this.products.forEach((prod) => {
         //       if (prod.productId === cartItem.id) {
@@ -176,70 +243,82 @@ export const actions = {
         // console.log(visibleProductArr);
         commit('updateProductsPage', visibleProductArr);
     },
-    getLocalCartList({ commit, dispatch, state }) {
+    // getLocalCartList({ commit, dispatch, state }) {
+    //     // dispatch('getProducts');
+
+    //     if (localStorage.getItem("favList")) {
+    //         let list = JSON.parse(localStorage.getItem("favList"));
+    //         let favList;
+    //         list.forEach((element) => {
+    //             favList.push(element);
+    //         });
+    //         localStorage.setItem("favList", JSON.stringify(favList));
+    //     }
+    //     if (localStorage.getItem("cartList")) {
+    //         let list = JSON.parse(localStorage.getItem("cartList"));
+    //         let cartList;
+    //         list.forEach((element) => {
+    //             cartList.push(element);
+    //         });
+    //         localStorage.setItem("cartList", JSON.stringify(cartList));
+    //     }
+    //     let cartList = [];
+    //     state.user.cart.forEach((cartItem) => {
+    //         cartList.push(cartItem);
+    //     });
+    //     let wishList = [];
+    //     // console.log(state.user.fav);
+    //     state.user.fav.forEach((listItem) => {
+    //         wishList.push(listItem);
+    //     });
+    //     // console.log(wishList);
+    //     // console.log(cartList);
+    //     commit('updateCart', cartList);
+    //     commit('updateWishlist', wishList);
+    //     dispatch('getCartProducts');
+    //     dispatch('getWishProducts');
+    //     // let cartProducts = [];
+    //     // state.cartItems.forEach((cartItem) => {
+    //     //     state.products.forEach((prod) => {
+    //     //         if (prod.productId === cartItem.id) {
+    //     //             // let product = prod;
+    //     //             // product.sizeSet = cartItem.sizeSet;
+    //     //             // product.colorSet = cartItem.colorSet;
+    //     //             // product.qty = cartItem.qty;
+    //     //             prod.sizeSet = cartItem.sizeSet;
+    //     //             prod.colorSet = cartItem.colorSet;
+    //     //             prod.qty = cartItem.qty;
+    //     //             cartProducts.push(prod);
+    //     //             // console.log(prod);
+    //     //             // console.log(product);
+    //     //         }
+    //     //     });
+    //     // });
+    //     // console.log(cartProducts);
+    //     // commit('updateCartProducts', cartProducts);
+    // },
+    async getCartProducts({ commit, dispatch, state }) {
         // dispatch('getProducts');
-        
-        if (localStorage.getItem("favList")) {
-            let list = JSON.parse(localStorage.getItem("favList"));
-            let favList;
-            list.forEach((element) => {
-                favList.push(element);
-            });
-            localStorage.setItem("favList", JSON.stringify(favList));
-        }
-        if (localStorage.getItem("cartList")) {
-            let list = JSON.parse(localStorage.getItem("cartList"));
-            let cartList;
-            list.forEach((element) => {
-                cartList.push(element);
-            });
-            localStorage.setItem("cartList", JSON.stringify(cartList));
-        }
-        let cartList = [];
-        state.user.cart.forEach((cartItem) => {
-            cartList.push(cartItem);
-        });
-        let wishList = [];
-        // console.log(state.user.fav);
-        state.user.fav.forEach((listItem) => {
-            wishList.push(listItem);
-        });
-        // console.log(wishList);
-        // console.log(cartList);
-        commit('updateCart', cartList);
-        commit('updateWishlist', wishList);
-        dispatch('getCartProducts');
-        dispatch('getWishProducts');
-        // let cartProducts = [];
-        // state.cartItems.forEach((cartItem) => {
-        //     state.products.forEach((prod) => {
-        //         if (prod.productId === cartItem.id) {
-        //             // let product = prod;
-        //             // product.sizeSet = cartItem.sizeSet;
-        //             // product.colorSet = cartItem.colorSet;
-        //             // product.qty = cartItem.qty;
-        //             prod.sizeSet = cartItem.sizeSet;
-        //             prod.colorSet = cartItem.colorSet;
-        //             prod.qty = cartItem.qty;
-        //             cartProducts.push(prod);
-        //             // console.log(prod);
-        //             // console.log(product);
-        //         }
-        //     });
-        // });
-        // console.log(cartProducts);
-        // commit('updateCartProducts', cartProducts);
-    },
-    getCartProducts({ commit, dispatch, state }) {
-        // dispatch('getProducts');
+        // console.log(state.cartItems);
+        // console.log(state.products);
+        // if (state.products.length <= 0) {
+        //     // console.log('say ahh');
+        //     await dispatch('getProducts');
+        // } else {
+        //     console.log('say na nahh');
+        // }
         let cartProducts = [];
+        console.log(state.cartItems);
         state.cartItems.forEach((cartItem) => {
+            // console.log(cartItem.id);
             state.products.forEach((prod) => {
+                // console.log(prod.productId );
                 if (prod.productId === cartItem.id) {
                     // let product = prod;
                     // product.sizeSet = cartItem.sizeSet;
                     // product.colorSet = cartItem.colorSet;
                     // product.qty = cartItem.qty;
+                    // console.log(prod.productId );
                     prod.sizeSet = cartItem.sizeSet;
                     prod.colorSet = cartItem.colorSet;
                     prod.qty = cartItem.qty;
@@ -250,12 +329,16 @@ export const actions = {
             });
         });
         // console.log(cartProducts);
+        // if (cartProducts.length >= 1) {
+        // }
         commit('updateCartProducts', cartProducts);
+        console.log(state.cartProducts);
     },
     getWishProducts({ commit, dispatch, state }) {
         // dispatch('getProducts');
         let wishProducts = [];
         // state.wishItems.forEach((wishItem) => {
+        // console.log(state.wishItems);
         state.products.forEach((prod) => {
             if (state.wishItems.includes(prod.productId)) {
                 //   this.products.push(product);
@@ -288,16 +371,22 @@ export const actions = {
             favList.push(productId);
             //   console.log(favList);
         }
-        const editUser = {
-            userId: state.user.userId,
-            displayName: state.user.displayName,
-            email: state.user.email,
-            country: state.user.country,
-            cart: state.user.cart,
-            fav: favList,
-        };
-        // fav: [],
-        dispatch('updateUser', editUser);
+        if (state.logoutState) {
+            const editUser = {
+                userId: state.user.userId,
+                displayName: state.user.displayName,
+                email: state.user.email,
+                country: state.user.country,
+                cart: state.user.cart,
+                fav: favList,
+            };
+            // fav: [],
+            dispatch('updateUser', editUser);
+        } else {
+            localStorage.setItem("favList", JSON.stringify(favList));
+            commit('updateWishlist', favList);
+            dispatch('getWishProducts');
+        }
     },
     updateCartProducts({ commit, dispatch, state }, newItem) {
         let cartList = [];
@@ -335,6 +424,8 @@ export const actions = {
             dispatch('updateUser', editUser);
         } else {
             localStorage.setItem("cartList", JSON.stringify(cartList));
+            commit('updateCart', cartList);
+            dispatch('getCartProducts');
         }
     },
     updateCartItems({ commit, dispatch, state }, newItem) {
@@ -355,13 +446,13 @@ export const actions = {
                 // cartItem.sizeSet = newItem.sizeSet;
                 // cartItem.colorSet = newItem.colorSet;
                 // cartItem.qty = newItem.qty;
-                console.log(newItem);
-                console.log(cartItem);
+                // console.log(newItem);
+                // console.log(cartItem);
             }
         });
         if (isFound) {
             cartList.splice(found, 1, newItem);
-            console.log(cartList);
+            // console.log(cartList);
         }
         // if (isFound) {
         //     cartList.splice(found, 1);
@@ -370,16 +461,22 @@ export const actions = {
         //     cartList.push(newItem);
         //     //   console.log(cartList);
         // }
-        const editUser = {
-            userId: state.user.userId,
-            displayName: state.user.displayName,
-            role: state.user.role,
-            email: state.user.email,
-            country: state.user.country,
-            cart: cartList,
-            fav: state.user.fav,
-        };
-        dispatch('updateUser', editUser);
+        if (state.logoutState) {
+            const editUser = {
+                userId: state.user.userId,
+                displayName: state.user.displayName,
+                role: state.user.role,
+                email: state.user.email,
+                country: state.user.country,
+                cart: cartList,
+                fav: state.user.fav,
+            };
+            dispatch('updateUser', editUser);
+        } else {
+            localStorage.setItem("cartList", JSON.stringify(cartList));
+            commit('updateCart', cartList);
+            dispatch('getCartProducts');
+        }
     },
     updateUser({ commit, dispatch, state }, newUser) {
         const ref = this.$fire.firestore.collection("users").doc(state.userId);
@@ -408,10 +505,12 @@ export const actions = {
             //   this.isAdmin = true;
         }
         commit('setUser', user);
+        console.log(state.user);
         let cartList = [];
         state.user.cart.forEach((cartItem) => {
             cartList.push(cartItem);
         });
+        console.log(state.user.cart);
         if (localStorage.getItem("cartList")) {
             let list = JSON.parse(localStorage.getItem("cartList"));
             // let cartList;
@@ -437,13 +536,15 @@ export const actions = {
         }
         // console.log(wishList);
         // console.log(cartList);
+        console.log(cartList);
         commit('updateCart', cartList);
         commit('updateWishlist', wishList);
         dispatch('getCartProducts');
-        dispatch('getWishProducts');
+        // dispatch('getWishProducts');
     },
     async authUser({ commit, dispatch, state }) {
         dispatch('getProducts');
+        // console.log(state.products);
         // let response = await this.$http.$get(
         //     'http://localhost:3001/users'
         // );
@@ -477,6 +578,8 @@ export const actions = {
                         favList.push(element);
                     });
                     localStorage.setItem("favList", JSON.stringify(favList));
+                    // dispatch('getProducts');
+                    // console.log(state.products);
                     commit('updateWishlist', favList);
                     dispatch('getWishProducts');
                 }
@@ -487,6 +590,8 @@ export const actions = {
                         cartList.push(element);
                     });
                     localStorage.setItem("cartList", JSON.stringify(cartList));
+                    // dispatch('getProducts');
+                    // console.log(state.products);
                     commit('updateCart', cartList);
                     dispatch('getCartProducts');
                 }

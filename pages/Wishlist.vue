@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
+      <div class="container wish-container lg:max-w-5xl py-10 px-4 mx-auto">
         <div class="">
           <!-- <div class="">
             <div class="sub-heading-box text-center py-5 relative">
@@ -14,6 +14,12 @@
             </div>
           </div> -->
           <div class="" v-if="wishItemsArray.length >= 1">
+            <div class="text-center">
+            <h2 class="font-bold text-xl md:text-2xl mb-3">
+              Your Wishlist
+            </h2>
+            <p class="text-base mb-5">Here are your saved items</p>
+          </div>
             <div class="">
               <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 <!-- lllll -->
@@ -96,4 +102,10 @@ export default {
 .empty-container {
   min-height: 80vh;
 }
+@media (min-width: 999px) {  
+  .wish-container {
+    min-height: 500px;
+  }
+}
+
 </style>

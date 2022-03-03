@@ -70,7 +70,8 @@
                       >
                         <small class="text-sm font-medium">Discount</small>
                         <div class="value text-md font-semibold">
-                          {{ currencySymbol }} 0
+                          <span v-html="currencySymbol"></span>
+                           0
                           <!-- {{ currencySymbol }} {{ totalPrice }} -->
                         </div>
                       </div>
@@ -79,7 +80,8 @@
                       >
                         <small class="text-sm font-medium">Subtotal</small>
                         <div class="value text-md font-semibold">
-                          {{ currencySymbol }} {{ totalPrice }}
+                          <span v-html="currencySymbol"></span>
+                           {{ totalPrice }}
                         </div>
                       </div>
                       <div
@@ -87,7 +89,8 @@
                       >
                         <small class="text-sm font-medium">Total</small>
                         <div class="value text-md font-semibold">
-                          {{ currencySymbol }} {{ totalPrice }}
+                          <span v-html="currencySymbol"></span>
+                           {{ totalPrice }}
                         </div>
                       </div>
                       <!-- <div
@@ -216,6 +219,7 @@
                     <button
                       type="button"
                       class="color-dark bg-primary w-full capitalize font-medium px-4 py-2"
+                      @click="cancelCheckout()"
                     >
                       Cancel
                     </button>
@@ -293,6 +297,9 @@ export default {
     checkout() {
       console.log("checkout");
     },
+    cancelCheckout() {
+      this.$emit('cancelCheckout');
+    }
   },
   created() {
     this.getCartProducts();

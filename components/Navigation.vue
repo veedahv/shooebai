@@ -181,11 +181,15 @@
                   </li>
                   <!-- <li class=""> -->
                   <li class="flex justify-start px-3 py-2 w-full items-center">
-                    <img
+                    <!-- <img
                       class="w-1/5"
                       :src="countryFlag"
                       :alt="countryName + ' flag'"
-                    />
+                    /> -->
+                    <!-- <span class="fi fi-gr"></span> -->
+                    <!-- <span class="fi" :class="'fi-' + country.flag"></span> -->
+                    <span class="fi" :class="'fi-' + countryFlag"></span>
+                    <!-- {{ countryFlag }} -->
                     <!-- <img
                       class="w-1/5"
                       :src="countryObj.countryFlag"
@@ -235,13 +239,13 @@ export default {
       viewSearch: true,
       viewSignInUp: false,
       viewUserBox: true,
-      country: null,
+      // country: null,
       countryObj: {},
     };
   },
   computed: {
     // ...mapState(["countryName", "countryFlag"]),
-    ...mapState(["countryName", "countryFlag", "currencyRate", "isAdmin", "user", "isLoggedIn"]),
+    ...mapState(["countryName", "countryFlag", "currencyRate", "isAdmin", "user", "isLoggedIn", "country"]),
     // ...mapState(['country', 'countryName', 'countryFlag', 'currency', 'currencyRate', 'currencySymbol']),
   },
   methods: {
@@ -322,6 +326,7 @@ export default {
     this.getLocation();
     // alert('after')
     this.authUser();
+    // console.log(this.country);
     // console.log(this.isLoggedIn);
     // console.log(this.isAdmin);
     // console.log(this.user);
