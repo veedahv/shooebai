@@ -117,43 +117,63 @@ export const actions = {
         commit('currency', returnValue)
         commit('currencyVal', currencyValue)
     },
+    // async getLocation({ commit, dispatch }) {
+    //     // alert('get location')
+    //     // alert(state.countryName);
+    //     // let response = await axios.get(
+    //     let response = await this.$http.$get(
+    //         "https://api.geoapify.com/v1/ipinfo?&apiKey=2a1bb31c0a134533b5261eae06c6d2e6"
+    //     );
+    //     console.log(response);
+
+    //     // console.log(currencySymbol.all());
+    //     // This will return all curriencies symbol
+
+    //     // let result = await response.data;
+    //     let location = response.country;
+    //     console.log(location);
+    //     console.log(location.flag);
+    //     console.log(currencySymbol.symbol(location.name));
+    //     // console.log(response);
+    //     // let returnCurrency = await this.$http.$get(
+    //     //     `/api/currency/${location.currency}`
+    //     // );
+    //     // let currencyValue = returnCurrency.id;
+    //     let currencyValue = 1;
+    //     commit('currencyVal', currencyValue)
+    //     // console.log(result);
+    //     // console.log(location);
+    //     // const returnValue = await this.$http.$get("/api/getLocation");
+    //     // alert(state.countryName);
+    //     // alert(JSON.stringify(returnValue))
+    //     // commit('country', returnValue);
+    //     commit('country', location);
+    //     console.log(state.countryFlag);
+    //     // alert(state.countryName);
+    //     // console.log(returnValue.name);
+    //     // console.log(returnValue);
+    //     // await dispatch('getCountryInfo')
+    // },
     async getLocation({ commit, dispatch }) {
-        // alert('get location')
-        // alert(state.countryName);
-        // let response = await axios.get(
         let response = await this.$http.$get(
             "https://api.geoapify.com/v1/ipinfo?&apiKey=2a1bb31c0a134533b5261eae06c6d2e6"
         );
-        console.log(response);
-
-        // console.log(currencySymbol.all());
-        // This will return all curriencies symbol
-
-        // let result = await response.data;
         let location = response.country;
-        console.log(location);
-        console.log(location.flag);
-        console.log(currencySymbol.symbol(location.name));
-        // console.log(response);
-        // let returnCurrency = await this.$http.$get(
-        //     `/api/currency/${location.currency}`
-        // );
-        // let currencyValue = returnCurrency.id;
-        let currencyValue = 1;
-        commit('currencyVal', currencyValue)
-        // console.log(result);
-        // console.log(location);
-        // const returnValue = await this.$http.$get("/api/getLocation");
-        // alert(state.countryName);
-        // alert(JSON.stringify(returnValue))
-        // commit('country', returnValue);
+        const ref = this.$fire.firestore.collection("ExchangeRates").doc("AllRates");
+        let snap;
+        try {
+            snap = await ref.get();
+        } catch (e) {
+            // TODO: error handling
+            console.error(e);
+        }
+        let allRates = snap.data().currencyRates.rates;
+        console.log(ref);
+        console.log(allRates);
+        let currencyValue = (allRates.NGN) / (allRates[`${location.currency}`]);
+        commit('currencyVal', currencyValue);
         commit('country', location);
-        console.log(state.countryFlag);
-        // alert(state.countryName);
-        // console.log(returnValue.name);
-        // console.log(returnValue);
-        // await dispatch('getCountryInfo')
-    },
+        },
     logout({ commit, dispatch, state }) {
         this.$fire.auth
             .signOut()
