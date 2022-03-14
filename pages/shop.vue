@@ -38,12 +38,7 @@
                 :key="product.id"
               >
                 <ProductCard class="h-full" :product="product"></ProductCard>
-                <!-- // :country="country" -->
-                <!-- :currencyValue="currencyValue" -->
               </div>
-              <!-- <div class="h-full" v-for="product in products" :key="product.id">
-                <ProductCard class="h-full" :product="product"></ProductCard>
-              </div> -->
             </div>
           </div>
           <div class="my-4">
@@ -74,31 +69,41 @@ export default {
       currentPage: 0,
       perPage: 15,
       currencyValue: null,
+      query: ''
     };
   },
   computed: {
     ...mapGetters(["getCurrencyRate", "getCurrencySymbol"]),
-    ...mapState(["products", "visibleProductArr"]),
+    ...mapState(["products", "visibleProductArr", "filterProducts"]),
   },
   methods: {
     ...mapActions(["getProducts", "getPageProducts"]),
     updatePage(pageNumber) {
       this.currentPage = pageNumber;
       this.getPageProducts(this.currentPage);
+    // this.getPageProducts({page: this.currentPage, query: this.query});
       // this.visibleProduct();
     },
   },
   created() {
-    this.getProducts();
+    // this.getProducts();
     this.getPageProducts(this.currentPage);
+    // if (this.$route.query.name) {
+    // //   this.edit = true;
+    // console.log(this.$route.query.name);
+    // this.query = this.$route.query.name;
+    // }
+    // this.getPageProducts({page: this.currentPage, query: this.query});
+    // console.log(this.filterProducts);
+    // console.log(this.visibleProductArr);
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.$nuxt.$loading.start()
-      console.log(this.$nuxt.$loading);
-      setTimeout(() => this.$nuxt.$loading.finish(), 5000)
-    })
-  },
+  // mounted() {
+    // this.$nextTick(() => {
+    //   this.$nuxt.$loading.start()
+    //   // console.log(this.$nuxt.$loading);
+    //   setTimeout(() => this.$nuxt.$loading.finish(), 5000)
+    // })
+  // },
 };
 </script>
 

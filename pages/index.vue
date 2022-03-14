@@ -1,47 +1,44 @@
 <template>
   <div>
-    <!-- <Navigation></Navigation> -->
     <Carousel></Carousel>
     <section>
       <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
         <div class="">
           <div class="sub-heading-box text-center py-5 relative">
-            <!-- class="border-0 bg-black w-full h-px inset-y-1/2 left-0 absolute" -->
             <hr
               class="border-0 bg-white w-full h-px inset-y-1/2 left-0 absolute"
             />
-            <h2 class="sub-heading bg-white font-medium text-lg mx-auto py-2 px-1.5 w-max relative">
+            <h2
+              class="
+                sub-heading
+                bg-white
+                font-medium
+                text-lg
+                mx-auto
+                py-2
+                px-1.5
+                w-max
+                relative
+              "
+            >
               Trending Sale
             </h2>
           </div>
           <div class="">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            <!-- <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"> -->
-              <div class="h-full" v-for="product in newProducts" :key="product.id">
-                <ProductCard :product="product" :country="country"></ProductCard>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section>
-      <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
-        <div class="">
-          <div class="sub-heading-box text-center py-5 relative">
-            <!-- class="border-0 bg-black w-full h-px inset-y-1/2 left-0 absolute" -->
-            <hr
-              class="border-0 bg-white w-full h-px inset-y-1/2 left-0 absolute"
-            />
-            <h2 class="sub-heading bg-white font-medium text-lg mx-auto py-2 px-1.5 mx-auto py-2 px-1 w-max relative">
-              Flash Sale
-            </h2>
-          </div>
-          <div class="">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            <!-- <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"> -->
-              <div class="h-full" v-for="product in saleProducts" :key="product.id">
-                <!-- <ProductCard :product="product" :country="country"></ProductCard> -->
+            <div
+              class="
+                grid grid-cols-1
+                sm:grid-cols-2
+                md:grid-cols-3
+                lg:grid-cols-4
+                gap-4
+              "
+            >
+              <div
+                class="h-full"
+                v-for="product in newProducts"
+                :key="product.id"
+              >
                 <ProductCard :product="product"></ProductCard>
               </div>
             </div>
@@ -49,102 +46,86 @@
         </div>
       </div>
     </section>
-    <!-- <section>
-      <div class="container py-25 mx-auto">
-        <Signin></Signin>
+    <section>
+      <div class="container lg:max-w-5xl py-10 px-4 mx-auto">
+        <div class="">
+          <div class="sub-heading-box text-center py-5 relative">
+            <hr
+              class="border-0 bg-white w-full h-px inset-y-1/2 left-0 absolute"
+            />
+            <h2
+              class="
+                sub-heading
+                bg-white
+                font-medium
+                text-lg
+                mx-auto
+                py-2
+                px-1.5
+                mx-auto
+                py-2
+                px-1
+                w-max
+                relative
+              "
+            >
+              Flash Sale
+            </h2>
+          </div>
+          <div class="">
+            <div
+              class="
+                grid grid-cols-1
+                sm:grid-cols-2
+                md:grid-cols-3
+                lg:grid-cols-4
+                gap-4
+              "
+            >
+              <div
+                class="h-full"
+                v-for="product in saleProducts"
+                :key="product.id"
+              >
+                <ProductCard :product="product"></ProductCard>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </section> -->
-    <!-- <section>
-      <div class="container py-25 mx-auto">
-        <Signup></Signup>
-      </div>
-    </section> -->
+    </section>
   </div>
 </template>
 
 <script>
-// import Signin from "../components/signin";
-// import Signup from "../components/signup";
 import ProductCard from "../components/ProductCard";
-// import Navigation from '../components/Navigation';
 import Carousel from "../components/Carousel";
-// import axios from '@nuxtjs/axios'
+import { mapState } from "vuex";
 export default {
   components: {
-    // Signin,
-    // Signup,
     ProductCard,
-    // Navigation,
     Carousel,
   },
-  data() {
-    return {
-    country: null,
-      products: [],
-      newProducts: [],
-      saleProducts: [],
-      ip: "",
-    };
-  },
-  methods: {
-    // async getLocation() {
-    //   const response = await this.$axios.$get("https://api.geoapify.com/v1/ipinfo?&apiKey=2a1bb31c0a134533b5261eae06c6d2e6");
-    //   const result = await response.country.name;
-    //   console.log(response);
-    //   console.log(result);
-    // },
-    async readFromFirestore() {
-      const ref = this.$fire.firestore.collection("products").doc("product");
-      let snap;
-      try {
-        snap = await ref.get();
-      } catch (e) {
-        // TODO: error handling
-        console.error(e);
-      }
-      this.products = snap.data().products;
-      this.products.forEach(product => {
+  computed: {
+    ...mapState(["products", "visibleProductArr"]),
+    newProducts() {
+      let allNewProducts = [];
+      this.products.forEach((product) => {
         if (product.newProduct) {
-          this.newProducts.push(product);
-        }
-        if (product.discount !== 0) {
-          this.saleProducts.push(product);
+          allNewProducts.push(product);
         }
       });
-      console.log(this.products);
+      return allNewProducts;
     },
-    // signIn() {
-    //   this.$fire
-    //     .auth
-    //     .signOut()
-    //     .then(() => {
-    //       // Signed in
-    //       // var user = userCredential.user;
-    //       // ...
-    //       // console.log(user);
-    //         // Sign-out successful.
-    //     })
-    //     .catch((error) => {
-    //       var errorCode = error.code;
-    //       var errorMessage = error.message;
-    //       // ..
-    //     });
-    // },
-    //     firebase.auth().signOut().then(() => {
-    //   // Sign-out successful.
-    // }).catch((error) => {
-    //   // An error happened.
-    // });
-  },
-  // mounted() {
-  //   this.readFromFirestore();
-  // },
-  // created() {
-  async created() {
-    // this.getLocation();
-    // this.country = await this.$country();
-    this.readFromFirestore();
-    // this.getLocation();
+    saleProducts() {
+      let allSaleProducts = [];
+      this.products.forEach((product) => {
+        if (product.discount !== 0) {
+          allSaleProducts.push(product);
+        }
+      });
+      return allSaleProducts;
+    },
   },
 };
 </script>

@@ -3,7 +3,7 @@
     <section v-if="!viewCheckout">
       <div class="container wish-container lg:max-w-5xl py-10 px-4 mx-auto">
         <!-- {{ cartProducts }} -->
-        <div class="" v-if="cartProducts.length >= 1">
+        <div class="" v-if="cartItems.length >= 1">
           <div class="">
             <h2 class="font-bold text-xl md:text-2xl mb-4">
               Your Shopping Bag
@@ -129,7 +129,7 @@
                     >
                       <small class="text-sm font-medium">Discount</small>
                       <div class="value text-md font-semibold">
-                        <span v-html="currencySymbol"></span>
+                        <span>{{ currencySymbol }}</span>
                          0
                         <!-- {{ currencySymbol }} {{ totalPrice }} -->
                       </div>
@@ -146,7 +146,7 @@
                     >
                       <small class="text-sm font-medium">Subtotal</small>
                       <div class="value text-md font-semibold">
-                        <span v-html="currencySymbol"></span>
+                        <span>{{ currencySymbol }}</span>
                          {{ totalPrice }}
                       </div>
                     </div>
@@ -162,7 +162,7 @@
                     >
                       <small class="text-sm font-medium">Total</small>
                       <div class="value text-md font-semibold">
-                        <span v-html="currencySymbol"></span>
+                        <span>{{ currencySymbol }}</span>
                          {{ totalPrice }}
                       </div>
                     </div>
@@ -286,12 +286,13 @@ export default {
             initialPrice - (product.discount * initialPrice) / 100;
           let productPrice = Math.ceil(discountVal * product.qty * 100) / 100;
           this.totalPrice += productPrice;
+          this.totalPrice = Math.ceil(this.totalPrice * 100) / 100;
         });
       },
     },
     loading: {
       handler: function (newValue) {
-        console.log(newValue);
+        // console.log(newValue);
         // newValue ? this.$nuxt.$loading.start() : this.$nuxt.$loading.finish();
         // this.$nextTick(() => {
       },
@@ -329,7 +330,7 @@ export default {
   created() {
     this.getCartProducts();
     // this.loading ? this.$nuxt.$loading.start() : this.$nuxt.$loading.finish();
-    console.log(this.loading);
+    // console.log(this.loading);
   },
 };
 </script>

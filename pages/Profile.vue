@@ -157,98 +157,20 @@ export default {
     ...mapGetters(["getUser"]),
   },
   created() {
-        // const returnValue = await this.$http.$get(`/api/getAllCountries`);
-        
-    // console.log(this.getUser);
-    // const user = this.$fire.auth.currentUser;
-    // console.log(user);
-    // if (user) {
-    // }
-    // this.$fire.auth.onAuthStateChanged((user) => {
-    //   if (user) {
-    //     // if (uid === "jl0JqEJTJrbWgY0zxO9voeHxJBS2") {
-    //     //   this.isAdmin = true;
-    //     // }
-    //     // User is signed in, see docs for a list of available properties
-    //     // https://firebase.google.com/docs/reference/js/firebase.User
-    //     const userId = user.uid;
-    //     // this.user = user;
-    //     //   this.isUser = true;
-    //     // console.log(userId);
-    //     // this.getUser(userId)
-    //     console.log("signed in");
-    //   } else {
-    //     // User is signed out
-    //     // ...
-    //     console.log("signed out");
-    //   }
-    // });
-    //   this.getUser()
+    this.$fire.auth.onAuthStateChanged((user) => {
+      if (!user) {
+      this.$nuxt.$options.router.push('/');
+      }
+    });
   },
   methods: {
-    // async getUser(userId) {
-    //   // console.log(userId);
-    //   const ref = this.$fire.firestore.collection("users").doc(userId);
-    //   // console.log(ref);
-    //   let snap;
-    //   try {
-    //     snap = await ref.get();
-    //   } catch (e) {
-    //     // TODO: error handling
-    //     console.error(e);
-    //   }
-    //   this.user = snap.data().user;
-    //   console.log(this.user);
-    //   // const newUser = {
-    //   //   userId: userId,
-    //   //   displayName: this.displayName,
-    //   //   email: this.email,
-    //   //   password: this.password,
-    //   //   country: this.country
-    //   // };
-    //   // const document = {
-    //   //   user: newUser,
-    //   // };
-    //   // ref.set(document);
-    // },
-    // signIn() {
-    //   console.log(this.password);
-    //   this.$fire.auth
-    //     .signInWithEmailAndPassword(this.email, this.password)
-    //     .then((userCredential) => {
-    //       // Signed in
-    //       var user = userCredential.user;
-    //       // ...
-    //       console.log(user);
-    //       this.updateSignInOut();
-    //     })
-    //     .catch((error) => {
-    //       var errorCode = error.code;
-    //       var errorMessage = error.message;
-    //       // ..
-    //     });
-    // },
     editProfile() {
-      // const ref = this.$fire.firestore.collection("users").doc(userId);
-      // console.log(ref);
-      // const newUser = {
-      // userId: userId,
       this.displayName = this.user.displayName;
       // this.email = this.user.email;
       this.isEdit = true;
-      //   country: this.country,
-      //   cart: this.cart,
-      //   fav: this.fav
-      // };
-      // const document = {
-      //   user: newUser,
-      // };
-      // ref.set(document);
-      console.log(this.user);
+      // console.log(this.user);
     },
     saveProfile() {
-      // const ref = this.$fire.firestore.collection("users").doc(userId);
-      // console.log(ref);
       const saveUser = {
         userId: this.user.userId,
         displayName: this.displayName,
@@ -258,14 +180,10 @@ export default {
         fav: this.user.fav,
       };
       console.log(saveUser);
-      // const document = {
-      //   user: newUser,
-      // };
-      // ref.set(document);
       this.isEdit = false;
-      console.log(this.displayName);
-      console.log(this.email);
-      console.log(this.user);
+      // console.log(this.displayName);
+      // console.log(this.email);
+      // console.log(this.user);
     },
     storeUser(userId) {
       const ref = this.$fire.firestore.collection("users").doc(userId);

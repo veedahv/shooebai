@@ -22,14 +22,17 @@
         <div
           class="menu py-0 md:py-2 bg-white overflow-hidden flex flex-col md:flex-row gap-x-5 gap-y-10 items-center absolute top-full left-0 right-0 md:relative"
         >
-          <!-- <nuxt-link class="font-medium text-lg nav-link color-tertiary" to="/">
-            Home
-          </nuxt-link> -->
           <a
             class="font-medium text-lg nav-link color-tertiary cursor-pointer"
             @click="navigate('/')"
           >
             Home
+          </a>
+          <a
+            class="font-medium text-lg nav-link color-tertiary cursor-pointer"
+            @click="navigate('/shop')"
+          >
+            Shop
           </a>
           <a
             class="font-medium text-lg nav-link color-tertiary cursor-pointer"
@@ -43,42 +46,16 @@
           >
             Wishlist
           </a>
-          <a
-            class="font-medium text-lg nav-link color-tertiary cursor-pointer"
-            @click="navigate('/shop')"
-          >
-            Shop
-          </a>
-          <!-- <nuxt-link class="font-medium text-lg nav-link color-tertiary" to="/Admin/Products">Admin</nuxt-link>  -->
-          <!-- <nuxt-link
-            class="font-medium text-lg nav-link color-tertiary"
-            to="/Cart"
-            >Cart</nuxt-link
-          >
-          <nuxt-link
-            class="font-medium text-lg nav-link color-tertiary"
-            to="/Wishlist"
-            >Wishlist</nuxt-link
-          >
-          <nuxt-link
-            class="font-medium text-lg nav-link color-tertiary"
-            to="/shop"
-            >Shop</nuxt-link
-          > -->
-          <!-- <button @click="signOut" v-if="isLoggedIn">logout</button>
-          <button @click="signIn" v-else>login</button> -->
         </div>
         <!-- <div class="flex justify-between w-8 items-center"> -->
         <div class="flex justify- items-center">
           <div class="relative">
-            <!-- class="relative border search-label inline-block w-9 h-9 p-1.5 rounded-full" -->
             <label
               class="relative border border-gray-400 bg-gray-400 search-label flex justify-center items-center w-9 h-9 p-1.5 rounded-full"
               for="search"
               aria-label="search bar"
               @click="viewSearch = false"
             >
-              <!-- :class="{ activate: !viewSearch }" -->
               <i class="fas fa-search"></i>
             </label>
             <input
@@ -86,14 +63,10 @@
               class="hidden activate"
               :checked="!viewSearch"
             />
-            <!-- class="input-btn-box transition-all absolute z-50 flex justify-between items-center hidden bg-black w-0 inset-y-0 right-0" -->
-            <div
+           <div
               class="input-btn-box p-1 border border-gray-400 bg-gray-100 opacity-0 rounded-full absolute z-50 items-center w-0 inset-y-0 right-0"
               :hidden="viewSearch"
             >
-              <!-- v-model="searchTag" -->
-              <!-- list="searchTags" -->
-              <!-- type="search" -->
               <input
                 type="text"
                 class="w-full px-2 search-input bg-transparent"
@@ -113,9 +86,6 @@
               <option value="mnbsqr"></option>
               <option value="asshjt"></option>
             </datalist>
-            <!-- <div class="flex justify-between py-2 absolute left-0 w-full top items-center"> -->
-            <!-- <div class="py-2 absolute left-0 top-0">
-      </div> -->
           </div>
           <div class="relative">
             <div>
@@ -123,7 +93,7 @@
                 class="ml-2 border border-gray-400 bg-gray-400 flex justify-center items-center w-9 h-9 rounded-full"
                 @click="viewUserBox = !viewUserBox"
               >
-                <span v-if="isAdmin">
+                <span v-if="isAdmin && isLoggedIn">
                   <!-- <span v-if="adminState"> -->
                   <i class="fas fa-user-cog"></i>
                 </span>
@@ -147,7 +117,7 @@
                 :hidden="viewUserBox"
               >
                 <ul class="w-full">
-                  <li v-if="isAdmin">
+                  <li v-if="isAdmin && isLoggedIn">
                     <!-- <li v-if="adminState"> -->
                     <nuxt-link
                       class="px-3 inline-block py-2 w-full"
@@ -207,13 +177,10 @@
         </div>
       </div>
     </div>
-    <!-- <Signin v-on:signInUp="signInUp" v-if="viewSignInUp"></Signin> -->
-    <!-- <Signin v-on:signInUp="viewSignInUp = !viewSignInUp" v-if="viewSignInUp"></Signin> -->
     <SignInOut
       v-on:signInUp="viewSignInUp = !viewSignInUp"
       v-if="viewSignInUp"
     ></SignInOut>
-    <!-- <Signup v-on:update="viewSignInUp" v-if="viewSignInUp"></Signup> -->
   </div>
 </template>
 
@@ -233,20 +200,14 @@ export default {
   data() {
     return {
       searchTag: "",
-      // isLoggedIn: false,
-      // menuShow: false,
-      // isAdmin: false,
       viewSearch: true,
       viewSignInUp: false,
       viewUserBox: true,
-      // country: null,
       countryObj: {},
     };
   },
   computed: {
-    // ...mapState(["countryName", "countryFlag"]),
     ...mapState(["countryName", "countryFlag", "currencyRate", "isAdmin", "user", "isLoggedIn", "country"]),
-    // ...mapState(['country', 'countryName', 'countryFlag', 'currency', 'currencyRate', 'currencySymbol']),
   },
   methods: {
     // toggleMenu() {
@@ -254,13 +215,8 @@ export default {
     // 	show.value = !show.value
     // },
     navigate(link) {
-      // toggleMenu()
-      // this.$route.push(link);
       this.$refs['menuShow'].checked = false;
       this.$nuxt.$options.router.push(link);
-      // this.menuShow = false;
-      // console.log(this.menuShow);
-      // this.$router.push({path: this.localePath('search'), query: {q: this.q}});
     },
     ...mapActions(["getLocation", "logout", "authUser"]),
     signInUp() {
@@ -268,39 +224,6 @@ export default {
     },
     signOut() {
       this.logout();
-      // this.$fire.auth
-      //   .signOut()
-      //   .then(() => {
-      //     // Sign-out successful.
-      //     this.isLoggedIn = false;
-      //   })
-      //   .catch((error) => {
-      //     // An error happened.
-      //   });
-      // this.$fire
-      //   .auth
-      //   .signOut()
-      //   .then(() => {
-      //     // Signed in
-      //     // var user = userCredential.user;
-      //     // ...
-      //     // console.log(user);
-      //       // Sign-out successful.
-      //   })
-      //   .catch((error) => {
-      //     var errorCode = error.code;
-      //     var errorMessage = error.message;
-      //     // ..
-      //   });
-      // const user = this.$fire.auth.currentUser;
-
-      // if (user) {
-      //   // User is signed in, see docs for a list of available properties
-      //   // https://firebase.google.com/docs/reference/js/firebase.User
-      //   // ...
-      // } else {
-      //   // No user is signed in.
-      // }
     },
     signIn() {
       // console.log("unknown");
@@ -311,82 +234,10 @@ export default {
       this.viewSearch = true;
     },
   },
-  // mounted() {
-  // created() {
-  // async fetch ({ store }) {
-  //   // this.getLocation
-  //       // this.$store.dispatch('getLocation');
-  //       await store.dispatch('getLocation');
-  //     console.log(this.$store.state.countryName);
-  //   // this.getLocation();
-  // },
-  // async created() {
   created() {
-    // alert('before')
     this.getLocation();
-    // alert('after')
     this.authUser();
-    // console.log(this.country);
-    // console.log(this.isLoggedIn);
-    // console.log(this.isAdmin);
-    // console.log(this.user);
-    // console.log(this.currencyRate);
-    // this.$store.dispatch('getLocation');
-    // this.getLocation();
-    // this.country = await this.$country();
-    // this.countryObj.countryName = this.country.name;
-    // this.countryObj.countryFlag = this.country.flag;
-    // console.log(this.country);
-    // console.log(this.countryObj);
-    // this.readFromFirestore();
-    // },
-    // const user = this.$fire.auth.currentUser;
-
-    // if (user) {
-    //   // User is signed in, see docs for a list of available properties
-    //   // https://firebase.google.com/docs/reference/js/firebase.User
-    //   // ...
-    // } else {
-    //   // No user is signed in.
-    // }
-    // this.$fire.auth.onAuthStateChanged((user) => {
-    //   if (user) {
-    //     // User is signed in, see docs for a list of available properties
-    //     // https://firebase.google.com/docs/reference/js/firebase.User
-    //     let uid = user.uid;
-    //     // ...
-    //     console.log(uid);
-    //     this.isLoggedIn = true;
-    //     if (uid === "EGb3fizva6OhlFQETY78HPykmpz2") {
-    //       this.isAdmin = true;
-    //     }
-    //   } else {
-    //     // User is signed out
-    //     // ...
-    //     console.log("signed out");
-    //   }
-    // });
-    // this.readFromFirestore();
   },
-  // created() {
-  // this.readFromFirestore();
-  // const user = this.$fire.auth.currentUser;
-
-  // if (user) {
-  //   // User is signed in, see docs for a list of available properties
-  //   // https://firebase.google.com/docs/reference/js/firebase.User
-  //   this.uid = user.uid;
-  //   console.log(this.uid);
-  //   // ...
-  //   if (this.uid !== "jl0JqEJTJrbWgY0zxO9voeHxJBS2") {
-  //     console.log(this.uid);
-  //     this.$router.push({ path: "/" });
-  //   }
-  // } else {
-  //   this.$router.push({ path: "/" });
-  //   // No user is signed in.
-  // }
-  // },
 };
 </script>
 
@@ -394,12 +245,6 @@ export default {
 input::-webkit-calendar-picker-inicator {
   display: none;
 }
-/* .search-label:hover ~ .input-btn-box {
-  width: 200px;
-} */
-/* .active-input-btn-box.input-btn-box {
-  width: 200px;
-} */
 .activate:checked ~ .input-btn-box {
   width: 200px;
   display: flex;

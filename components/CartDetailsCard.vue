@@ -76,22 +76,22 @@
     <td class="font- align-middle py-3.5 pr-5 border-b border-gray-600">
       <div class="" v-if="product.discount == 0">
         <p class="product-price text-sm md:text-base font-medium">
-          <!-- <span>{{ currencySymbol }}</span> -->
-          <span v-html="currencySymbol"></span>
+          <span>{{ currencySymbol }}</span>
+          <!-- <span v-html="currencySymbol"></span> -->
           {{ productPrice }}
         </p>
       </div>
       <div class="" v-else>
         <del>
           <p class="product-price text-sm md:text-base font-medium">
-            <span v-html="currencySymbol"></span>
-            <!-- <span>{{ currencySymbol }}</span> -->
+            <!-- <span v-html="currencySymbol"></span> -->
+            <span>{{ currencySymbol }}</span>
             {{ productPrice }}
           </p>
         </del>
         <p class="product-price text-sm md:text-base font-medium">
-          <span v-html="currencySymbol"></span>
-          <!-- <span>{{ currencySymbol }}</span> -->
+          <!-- <span v-html="currencySymbol"></span> -->
+          <span>{{ currencySymbol }}</span>
           {{ discount }}
         </p>
       </div>
@@ -132,8 +132,8 @@
     <td class="font- align-middle py-3.5 pr-5 border-b border-gray-600">
       <div class="" v-if="product.discount == 0">
         <p class="product-price text-sm md:text-base font-medium">
-          <span v-html="currencySymbol"></span>
-          <!-- <span>{{ currencySymbol }}</span> -->
+          <!-- <span v-html="currencySymbol"></span> -->
+          <span>{{ currencySymbol }}</span>
           {{ productPrice * qty }}
         </p>
         <!-- <p class="product-price font-medium">
@@ -144,14 +144,14 @@
       <div class="" v-else>
         <del>
           <p class="product-price text-sm md:text-base font-medium">
-          <span v-html="currencySymbol"></span>
-            <!-- <span>{{ currencySymbol }}</span> -->
+          <!-- <span v-html="currencySymbol"></span> -->
+            <span>{{ currencySymbol }}</span>
             {{ productPrice * qty }}
           </p>
         </del>
         <p class="product-price text-sm md:text-base font-medium">
-          <span v-html="currencySymbol"></span>
-          <!-- <span>{{ currencySymbol }}</span> -->
+          <!-- <span v-html="currencySymbol"></span> -->
+          <span>{{ currencySymbol }}</span>
           {{ discount * qty }}
         </p>
       </div>

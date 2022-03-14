@@ -34,65 +34,32 @@
             <p class="product-name text-lg font-bold">{{ product.productName }}</p>
           </nuxt-link>
           <div class="" v-if="product.discount == 0">
-            <!-- <p class="product-price font-medium"><span>{{ currencySymbol }}</span>{{ productPrice }}</p> -->
-            <p class="product-price font-medium">
-              <!-- <span>{{ getCurrencySymbol }}</span> -->
-                <span v-html="getCurrencySymbol"></span>
-              {{ productPrice }}
+            <p class="product-price font-medium flex items-center">
+            <span>{{ getCurrencySymbol }}</span>
+                <span>{{ productPrice }}</span>
               </p>
-            <!-- <p class="product-price font-medium"><span>{{ getCurrencySymbol }}</span>{{ getCurrencyRate }}</p> -->
-          </div>
+            </div>
           <div class="" v-else>
             <del>
-              <p class="product-price font-medium">
-                <span v-html="getCurrencySymbol"></span>
-                <!-- <span>{{ getCurrencySymbol }}</span> -->
-                <!-- <span>{{ currencySymbol }}</span> -->
-                {{ productPrice }}
+              <p class="product-price font-medium flex items-center">
+                <span>{{ getCurrencySymbol }}</span>
+                <span>{{ productPrice }}</span>
               </p>
             </del>
-            <p class="product-price font-medium">
-                <span v-html="getCurrencySymbol"></span>
-              <!-- <span>{{ getCurrencySymbol }}</span> -->
-              {{ discount }}
+            <p class="product-price font-medium flex items-center">
+                <span>{{ getCurrencySymbol }}</span>
+                <span>{{ discount }}</span>
               </p>
-            <!-- <p class="product-price font-medium"><span>{{ currencySymbol }}</span>{{ discount }}</p> -->
           </div>
-          <!-- <nuxt-link
-            :to="{ name: 'ProductDetailsCard', params: { id: product.id } }"
-          >
-            Details
-          </nuxt-link> -->
-        </div>
+         </div>
         <div class="product-btn-box">
-          <!-- <button class="product-btn active:shadow-md hover:shadow-lg"> -->
           <button
             class="product-btn transform active:scale-90 hover:scale-110"
             @click="updateWishProducts(product.productId)"
           >
-            <!-- @click="toggleWishlist" -->
-            <!-- <button class="product-btn"> -->
-            <!-- <i class="fas fa-shopping-bag"></i> -->
-            <!-- <i class="fas fa-5x text-5xl fa-bookmark"></i> -->
-            <!-- <i class="fas fa-3x fa-bookmark"></i> -->
             <i class="fas text-3xl fa-bookmark" v-if="inFav"></i>
             <i class="far text-3xl fa-bookmark" v-else></i>
-            <!-- <span v-if="product.fav">
-              <i class="fa fa-heart" aria-hidden="true"></i>
-            </span>
-            <span v-else>
-              <i class="fa fa-heart-o" aria-hidden="true"></i>
-            </span> -->
           </button>
-          <!-- <button class="product-btn">
-            <span class="in" v-if="product.inShop">
-              <i class="fa fa-cart-plus" aria-hidden="true"></i>
-            </span>
-            <span class="minus" v-else>
-              <span class="minus">-</span>
-              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-            </span>
-          </button> -->
         </div>
       </div>
     </div>

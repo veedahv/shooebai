@@ -132,22 +132,22 @@
             </p>
             <div class="my-1.5" v-if="product.discount == 0">
               <p class="product-price text-xl font-semibold">
-                <!-- <span>{{ currencySymbol }}</span> -->
-                <span v-html="currencySymbol"></span>
+                <span>{{ currencySymbol }}</span>
+                <!-- <span v-html="currencySymbol"></span> -->
                 {{ productPrice }}
               </p>
             </div>
             <div class="my-1.5 flex gap-2 items-center" v-else>
               <!-- <p class="product-price font-semibold"><span>{{ getCurrencySymbol }}</span>{{ discount }}</p> -->
               <p class="product-price text-xl font-semibold">
-                <span v-html="currencySymbol"></span>
-                <!-- <span>{{ currencySymbol }}</span> -->
+                <!-- <span v-html="currencySymbol"></span> -->
+                <span>{{ currencySymbol }}</span>
                 {{ discount }}
               </p>
               <del class="text-gray-600">
                 <p class="product-price text-xs text-gray-600 font-medium">
-                  <!-- <span>{{ getCurrencySymbol }}</span> -->
-                <span v-html="currencySymbol"></span>
+                  <span>{{ getCurrencySymbol }}</span>
+                <!-- <span v-html="currencySymbol"></span> -->
                   <!-- <span>{{ currencySymbol }}</span> -->
                   {{ productPrice }}
                 </p>
